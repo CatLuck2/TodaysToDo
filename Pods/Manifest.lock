@@ -1,0 +1,30 @@
+PODS:
+  - Realm (5.4.7):
+    - Realm/Headers (= 5.4.7)
+  - Realm/Headers (5.4.7)
+  - RealmSwift (5.4.7):
+    - Realm (= 5.4.7)
+  - SwiftFormat/CLI (0.46.3)
+  - SwiftLint (0.40.3)
+
+DEPENDENCIES:
+  - RealmSwift
+  - SwiftFormat/CLI
+  - SwiftLint
+
+SPEC REPOS:
+  trunk:
+    - Realm
+    - RealmSwift
+    - SwiftFormat
+    - SwiftLint
+
+SPEC CHECKSUMS:
+  Realm: 4bfc08e376b2e30c84ec3200ebe715574da05cc0
+  RealmSwift: ed40f371b62e8677141939e05b44a0c1a0a2d965
+  SwiftFormat: b639417da9e024b9e782f917bc9a080cf75bcb37
+  SwiftLint: dfd554ff0dff17288ee574814ccdd5cea85d76f7
+
+PODFILE CHECKSUM: 35f865933618e1b8efbff19eaf2e664556c1e3a9
+
+COCOAPODS: 1.9.3
