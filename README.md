@@ -29,9 +29,9 @@ https://drive.google.com/file/d/1lXRyTEmOhXcmnV8cMVx_a8y_vvwR48fe/view?usp=shari
 - RxSwiftを実験的に実装
 
 ## 締め切り
-１：10/31
-２：11/30
-３：12/31
+１：10/31  
+２：11/30  
+3:12/31
 
 ## 全体開発フロー
 
@@ -45,9 +45,9 @@ https://drive.google.com/file/d/1lXRyTEmOhXcmnV8cMVx_a8y_vvwR48fe/view?usp=shari
 
 ## Git開発フロー
 
-１、developからfeatureを分岐し、新機能を開発
-２、エラーや問題が起きたら、devleopからbugを分岐し、解決
-３、リリース可能状態になったら、developをmasterにマージ
+１、developからfeatureを分岐し、新機能を開発  
+２、エラーや問題が起きたら、devleopからbugを分岐し、解決  
+３、リリース可能状態になったら、developをmasterにマージ  
 
 プルリクをマージしたら？
 →マージ元のブランチを削除
