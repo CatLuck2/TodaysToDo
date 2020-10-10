@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		03A6D7A16D07D3DB5EEAC9F7 /* Pods_TodaysToDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C3CA8D41BD3C1B89E36B39F /* Pods_TodaysToDo.framework */; };
 		4F34D27BE3B4EEF8D4F787E1 /* Pods_TodaysToDo_TodaysToDoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E9C368D81AE206ED0C48296 /* Pods_TodaysToDo_TodaysToDoUITests.framework */; };
+		61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */; };
+		61AF3ADC2531F772001BE560 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */; };
+		61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF3AE02531FCB5001BE560 /* MainViewController.swift */; };
 		61C9C90B252D45CD00CA32A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C90A252D45CD00CA32A4 /* AppDelegate.swift */; };
 		61C9C90D252D45CD00CA32A4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C90C252D45CD00CA32A4 /* SceneDelegate.swift */; };
 		61C9C90F252D45CD00CA32A4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C90E252D45CD00CA32A4 /* ViewController.swift */; };
@@ -42,6 +45,9 @@
 		0F69A3BB75BD9D1AD2994D3A /* Pods-TodaysToDoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDoTests.debug.xcconfig"; path = "Target Support Files/Pods-TodaysToDoTests/Pods-TodaysToDoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1FF9829023E5387CA1D779EF /* Pods-TodaysToDo-TodaysToDoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDo-TodaysToDoUITests.debug.xcconfig"; path = "Target Support Files/Pods-TodaysToDo-TodaysToDoUITests/Pods-TodaysToDo-TodaysToDoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		35A00438DFB34DA31FAEEC26 /* Pods-TodaysToDo-TodaysToDoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDo-TodaysToDoUITests.release.xcconfig"; path = "Target Support Files/Pods-TodaysToDo-TodaysToDoUITests/Pods-TodaysToDo-TodaysToDoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
+		61AF3AE02531FCB5001BE560 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		61C9C907252D45CD00CA32A4 /* TodaysToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaysToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C9C90A252D45CD00CA32A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61C9C90C252D45CD00CA32A4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +110,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		61AF3AE52531FCD1001BE560 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		61C9C8FE252D45CD00CA32A4 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +142,7 @@
 		61C9C909252D45CD00CA32A4 /* TodaysToDo */ = {
 			isa = PBXGroup;
 			children = (
+				61AF3AE52531FCD1001BE560 /* New Group */,
 				61C9C90A252D45CD00CA32A4 /* AppDelegate.swift */,
 				61C9C90C252D45CD00CA32A4 /* SceneDelegate.swift */,
 				61C9C90E252D45CD00CA32A4 /* ViewController.swift */,
@@ -136,6 +150,9 @@
 				61C9C913252D45CE00CA32A4 /* Assets.xcassets */,
 				61C9C915252D45CE00CA32A4 /* LaunchScreen.storyboard */,
 				61C9C918252D45CE00CA32A4 /* Info.plist */,
+				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
+				61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */,
+				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
 			);
 			path = TodaysToDo;
 			sourceTree = "<group>";
@@ -444,7 +461,10 @@
 			files = (
 				61C9C90F252D45CD00CA32A4 /* ViewController.swift in Sources */,
 				61C9C90B252D45CD00CA32A4 /* AppDelegate.swift in Sources */,
+				61AF3ADC2531F772001BE560 /* AnalyticsViewController.swift in Sources */,
+				61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */,
 				61C9C90D252D45CD00CA32A4 /* SceneDelegate.swift in Sources */,
+				61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
