@@ -110,11 +110,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		61AF3AE52531FCD1001BE560 /* New Group */ = {
+		61AF3AE72531FD27001BE560 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
+				61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */,
+				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
 			);
-			path = "New Group";
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		61C9C8FE252D45CD00CA32A4 = {
@@ -142,7 +145,7 @@
 		61C9C909252D45CD00CA32A4 /* TodaysToDo */ = {
 			isa = PBXGroup;
 			children = (
-				61AF3AE52531FCD1001BE560 /* New Group */,
+				61AF3AE72531FD27001BE560 /* Controller */,
 				61C9C90A252D45CD00CA32A4 /* AppDelegate.swift */,
 				61C9C90C252D45CD00CA32A4 /* SceneDelegate.swift */,
 				61C9C90E252D45CD00CA32A4 /* ViewController.swift */,
@@ -150,9 +153,6 @@
 				61C9C913252D45CE00CA32A4 /* Assets.xcassets */,
 				61C9C915252D45CE00CA32A4 /* LaunchScreen.storyboard */,
 				61C9C918252D45CE00CA32A4 /* Info.plist */,
-				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
-				61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */,
-				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
 			);
 			path = TodaysToDo;
 			sourceTree = "<group>";
