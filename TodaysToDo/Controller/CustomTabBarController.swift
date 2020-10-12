@@ -11,31 +11,27 @@ class CustomTabBarController: UITabBarController {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        let names = ["Main", "Analytics", "Settings"]
 
+        // 各StoryBoardの名前
+        let names = ["Main", "Analytics", "Settings"]
         var viewControllers = [UIViewController]()
+        // TabBarItemを設定したViewControllerをfor文で追加
         for name in names {
             let storyboard = UIStoryboard(name: name, bundle: nil)
-            if let viewController = storyboard.instantiateInitialViewController() {
-                switch name {
-                case "Main":
-                    viewController.tabBarItem = UITabBarItem(title: "メイン", image: UIImage(systemName: "checkmark"), tag: 0)
-                case "Analytics":
-                    viewController.tabBarItem = UITabBarItem(title: "統計", image: UIImage(systemName: "checkmark"), tag: 1)
-                case "Settings":
-                    viewController.tabBarItem = UITabBarItem(title: "設定", image: UIImage(systemName: "checkmark"), tag: 2)
-                default:
-                    break
-                }
-                viewControllers.append(viewController)
+            guard let viewController = storyboard.instantiateInitialViewController() else { return }
+            switch name {
+            case "Main":
+                viewController.tabBarItem = UITabBarItem(title: "メイン", image: UIImage(systemName: "note"), tag: 0)
+            case "Analytics":
+                viewController.tabBarItem = UITabBarItem(title: "統計", image: UIImage(systemName: "list.dash"), tag: 1)
+            case "Settings":
+                viewController.tabBarItem = UITabBarItem(title: "設定", image: UIImage(systemName: "gearshape"), tag: 2)
+            default:
+                break
             }
+            viewControllers.append(viewController)
         }
         setViewControllers(viewControllers, animated: false)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
     }
 
 }
