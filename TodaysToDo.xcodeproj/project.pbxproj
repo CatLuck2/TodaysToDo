@@ -21,6 +21,7 @@
 		61C9C917252D45CE00CA32A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61C9C915252D45CE00CA32A4 /* LaunchScreen.storyboard */; };
 		61C9C922252D45CF00CA32A4 /* TodaysToDoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C921252D45CF00CA32A4 /* TodaysToDoTests.swift */; };
 		61C9C92D252D45CF00CA32A4 /* TodaysToDoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C92C252D45CF00CA32A4 /* TodaysToDoUITests.swift */; };
+		61E6E12D2534875200052F14 /* CustomTabBarController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */; };
 		8D4E909C2602C16EBD796327 /* Pods_TodaysToDoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE00F32E15A940491DF79C59 /* Pods_TodaysToDoTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		61C9C928252D45CF00CA32A4 /* TodaysToDoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodaysToDoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C9C92C252D45CF00CA32A4 /* TodaysToDoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysToDoUITests.swift; sourceTree = "<group>"; };
 		61C9C92E252D45CF00CA32A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomTabBarController.storyboard; sourceTree = "<group>"; };
 		8413FA90D288BC76062B11D6 /* Pods-TodaysToDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDo.release.xcconfig"; path = "Target Support Files/Pods-TodaysToDo/Pods-TodaysToDo.release.xcconfig"; sourceTree = "<group>"; };
 		8E9C368D81AE206ED0C48296 /* Pods_TodaysToDo_TodaysToDoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodaysToDo_TodaysToDoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BD556FA0BDF600EE22ABC67 /* Pods-TodaysToDoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDoTests.release.xcconfig"; path = "Target Support Files/Pods-TodaysToDoTests/Pods-TodaysToDoTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				61C9C910252D45CD00CA32A4 /* Main.storyboard */,
 				61AF3AF4253297AD001BE560 /* Analytics.storyboard */,
 				61AF3AF9253297B7001BE560 /* Settings.storyboard */,
+				61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				61C9C912252D45CD00CA32A4 /* Main.storyboard in Resources */,
 				61AF3AF5253297AD001BE560 /* Analytics.storyboard in Resources */,
 				61AF3AFA253297B7001BE560 /* Settings.storyboard in Resources */,
+				61E6E12D2534875200052F14 /* CustomTabBarController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
