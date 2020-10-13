@@ -6,6 +6,9 @@
 ## 機能一覧
 https://drive.google.com/file/d/1lXRyTEmOhXcmnV8cMVx_a8y_vvwR48fe/view?usp=sharing
 
+## 画面モック
+https://drive.google.com/drive/folders/1ZiOScdaVKNbnzg-GxjZqJb76NDpCMygK?usp=sharing
+
 ## 使用したい技術
 - RxSwift
 - アーキテクチャ(MVC,MVPなど)
@@ -31,10 +34,9 @@ https://drive.google.com/file/d/1lXRyTEmOhXcmnV8cMVx_a8y_vvwR48fe/view?usp=shari
 ## 締め切り
 １：10/31  
 ２：11/30  
-3：12/31
+３：12/31
 
 ## 全体開発フロー
-
 - issueを立てる
 - ブランチを切る
 - 開発
