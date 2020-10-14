@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListView: UIStackView!
     @IBOutlet private weak var parentViewOfStack: UIView!
+
+    private let realm = try! Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
