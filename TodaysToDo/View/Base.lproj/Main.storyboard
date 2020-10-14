@@ -15,12 +15,66 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1C7-21-gUQ">
+                                <rect key="frame" x="87" y="384" width="240" height="128"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="88a-s2-nlb">
+                                        <rect key="frame" x="16" y="15.5" width="208" height="97.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYQ-mQ-Ezq">
+                                                <rect key="frame" x="0.0" y="0.0" width="208" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="487-z8-OQs">
+                                                <rect key="frame" x="0.0" y="38.5" width="208" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IjY-i5-cKX">
+                                                <rect key="frame" x="0.0" y="77" width="208" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="Y4v-IO-QPv" appends="YES" id="6sr-jJ-VJ1"/>
+                                        </connections>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerX" secondItem="1C7-21-gUQ" secondAttribute="centerX" id="ezD-Zh-Toe"/>
+                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerY" secondItem="1C7-21-gUQ" secondAttribute="centerY" id="xcV-0p-vlC"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="1C7-21-gUQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="JpR-de-kcQ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1C7-21-gUQ" secondAttribute="trailing" constant="87" id="My1-06-uJL"/>
+                            <constraint firstItem="1C7-21-gUQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="340" id="bZf-i3-5Za"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1C7-21-gUQ" secondAttribute="bottom" constant="301" id="mYX-sy-iMe"/>
+                        </constraints>
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="parentViewOfStack" destination="1C7-21-gUQ" id="upH-Z4-V1O"/>
+                        <outlet property="todoListView" destination="88a-s2-nlb" id="c24-xY-0wf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Y4v-IO-QPv">
+                    <connections>
+                        <action selector="todoListViewTapGesture:" destination="BYZ-38-t0r" id="Kfq-GH-Dmi"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="138" y="104"/>
         </scene>
