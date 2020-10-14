@@ -17,6 +17,9 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func todoListViewTapGesture(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            /// Realmに保存
+        }
     }
 
 }
