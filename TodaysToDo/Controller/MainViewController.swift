@@ -13,7 +13,8 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        todoListView.layer.borderWidth = 0.5
+        todoListView.layer.cornerRadius = 15
     }
 
     @IBAction func todoListViewTapGesture(_ sender: UITapGestureRecognizer) {
