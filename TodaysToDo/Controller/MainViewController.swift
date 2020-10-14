@@ -9,8 +9,8 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    @IBOutlet weak var todoListView: UIStackView!
-    @IBOutlet weak var parentViewOfStack: UIView!
+    @IBOutlet private weak var todoListView: UIStackView!
+    @IBOutlet private weak var parentViewOfStack: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,9 +18,9 @@ class MainViewController: UIViewController {
         parentViewOfStack.layer.cornerRadius = 15
     }
 
-    @IBAction func todoListViewTapGesture(_ sender: UITapGestureRecognizer) {
+    @IBAction private func todoListViewTapGesture(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
-            /// Realmに保存
+            // Realmに保存
         }
     }
 
