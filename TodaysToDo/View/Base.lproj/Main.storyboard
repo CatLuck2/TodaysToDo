@@ -65,6 +65,7 @@
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="parentViewOfStack" destination="1C7-21-gUQ" id="upH-Z4-V1O"/>
                         <outlet property="todoListView" destination="88a-s2-nlb" id="c24-xY-0wf"/>
                     </connections>
                 </viewController>
