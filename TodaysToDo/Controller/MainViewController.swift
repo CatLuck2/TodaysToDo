@@ -9,6 +9,8 @@ import UIKit
 
 class MainViewController: UIViewController {
 
+    @IBOutlet weak var todoListView: UIStackView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
