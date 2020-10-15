@@ -22,8 +22,13 @@ class MainViewController: UIViewController {
     }
 
     @IBAction private func todoListViewTapGesture(_ sender: UITapGestureRecognizer) {
+        let todoListModel = ToDoModel()
+        todoListModel.toDoList = ["test", "test"]
         if sender.state == .ended {
             // Realmに保存
+            try! realm.write({ () -> Void in
+                realm.add(todoListModel)
+            })
         }
     }
 
