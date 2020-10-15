@@ -14,10 +14,11 @@ class MainViewController: UIViewController {
     @IBOutlet private weak var parentViewOfStack: UIView!
 
     private let realm = try! Realm()
+    var results: Results<ToDoModel>!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let results = realm.objects(ToDoModel.self)
+        results = realm.objects(ToDoModel.self)
     }
 
     override func viewDidLoad() {
@@ -32,7 +33,7 @@ class MainViewController: UIViewController {
         let toDoModel = ToDoModel(value: dictionary)
         // Realmに保存
         try! realm.write {
-            realm.create(ToDoModel.self, value: toDoModel, update: .modified)
+            realm.add(toDoModel, update: .modified)
         }
         performSegue(withIdentifier: "toEdit", sender: nil)
     }
