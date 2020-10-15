@@ -81,7 +81,13 @@
                         <viewLayoutGuide key="safeArea" id="j14-PG-pmj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="タスク編集" id="hlf-wH-Frz"/>
+                    <navigationItem key="navigationItem" title="タスク編集" id="hlf-wH-Frz">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="SzK-ek-QJh">
+                            <connections>
+                                <action selector="cancelButton:" destination="NA3-HU-lyz" id="bmg-rB-DW3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hs9-zb-Evb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
