@@ -34,6 +34,9 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    }
+
+    @IBAction func updateTodoItemButton(_ sender: UIBarButtonItem) {
 
     }
 
