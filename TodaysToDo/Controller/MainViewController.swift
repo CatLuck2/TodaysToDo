@@ -34,5 +34,6 @@ class MainViewController: UIViewController {
         try! realm.write {
             realm.add(toDoModel)
         }
+        performSegue(withIdentifier: "toEdit", sender: nil)
     }
 }
