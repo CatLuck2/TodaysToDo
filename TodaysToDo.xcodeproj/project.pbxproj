@@ -23,6 +23,7 @@
 		61E6E12D2534875200052F14 /* CustomTabBarController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */; };
 		61E6E132253487F700052F14 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6E131253487F700052F14 /* CustomTabBarController.swift */; };
 		61E6E1452537BB4700052F14 /* ToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6E1442537BB4700052F14 /* ToDoModel.swift */; };
+		61E6E1BB25381D3800052F14 /* ToDoListEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */; };
 		ACD2E621948747EFD216907E /* Pods_TodaysToDoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA21F627E5B2A3BAAFA52F9 /* Pods_TodaysToDoTests.framework */; };
 		CE9F207A9DAFD1877F5BC691 /* Pods_TodaysToDo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DA0A811A92E5DF236FC7DD /* Pods_TodaysToDo.framework */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 		61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomTabBarController.storyboard; sourceTree = "<group>"; };
 		61E6E131253487F700052F14 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		61E6E1442537BB4700052F14 /* ToDoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoModel.swift; sourceTree = "<group>"; };
+		61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListEditViewController.swift; sourceTree = "<group>"; };
 		669FF29315A26079A076EDD9 /* Pods-TodaysToDo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDo.debug.xcconfig"; path = "Target Support Files/Pods-TodaysToDo/Pods-TodaysToDo.debug.xcconfig"; sourceTree = "<group>"; };
 		74DA0A811A92E5DF236FC7DD /* Pods_TodaysToDo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodaysToDo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E699E53BC002C45855FBEC8 /* Pods_TodaysToDo_TodaysToDoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodaysToDo_TodaysToDoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +127,7 @@
 				61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */,
 				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
 				61E6E131253487F700052F14 /* CustomTabBarController.swift */,
+				61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				61C9C90B252D45CD00CA32A4 /* AppDelegate.swift in Sources */,
 				61AF3ADC2531F772001BE560 /* AnalyticsViewController.swift in Sources */,
 				61E6E132253487F700052F14 /* CustomTabBarController.swift in Sources */,
+				61E6E1BB25381D3800052F14 /* ToDoListEditViewController.swift in Sources */,
 				61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */,
 				61C9C90D252D45CD00CA32A4 /* SceneDelegate.swift in Sources */,
 				61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */,
