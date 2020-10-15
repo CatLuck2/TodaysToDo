@@ -42,9 +42,6 @@
                                             </label>
                                         </subviews>
                                         <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="Y4v-IO-QPv" appends="YES" id="6sr-jJ-VJ1"/>
-                                        </connections>
                                     </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -70,11 +67,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Y4v-IO-QPv">
-                    <connections>
-                        <action selector="todoListViewTapGesture:" destination="BYZ-38-t0r" id="Kfq-GH-Dmi"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="138" y="104"/>
         </scene>
