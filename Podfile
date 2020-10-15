@@ -6,7 +6,7 @@ target 'TodaysToDo' do
   use_frameworks!
 
   # Pods for TodaysToDo
-  pod 'RealmSwift'
+  pod 'RealmSwift','<= 5.4.0'
   pod 'SwiftLint'
   pod 'SwiftFormat/CLI'
 
