@@ -17,19 +17,17 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        todoListView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
         parentViewOfStack.layer.borderWidth = 0.5
         parentViewOfStack.layer.cornerRadius = 15
     }
 
-    @IBAction private func todoListViewTapGesture(_ sender: UITapGestureRecognizer) {
-        let todoListModel = ToDoModel()
-        todoListModel.toDoList = ["test", "test"]
-        if sender.state == .ended {
-            // Realmに保存
-            try! realm.write({ () -> Void in
-                realm.add(todoListModel)
-            })
+    @objc private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
+        let dictionary: [String: Any] = ["toDoList": ["test", "test"]]
+        let toDoModel = ToDoModel(value: dictionary)
+        // Realmに保存
+        try! realm.write {
+            realm.add(toDoModel)
         }
     }
-
 }

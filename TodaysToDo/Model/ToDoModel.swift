@@ -9,5 +9,5 @@ import UIKit
 import RealmSwift
 
 class ToDoModel: Object {
-    @objc dynamic var toDoList: [String]!
+    let toDoList = List<String>()
 }
