@@ -6,7 +6,8 @@
 //
 
 import UIKit
+import RealmSwift
 
-class ToDoModel: NSObject {
+class ToDoModel: Object {
     @objc dynamic var toDoList: [String]!
 }
