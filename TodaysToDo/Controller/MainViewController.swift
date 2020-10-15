@@ -32,7 +32,7 @@ class MainViewController: UIViewController {
         let toDoModel = ToDoModel(value: dictionary)
         // Realmに保存
         try! realm.write {
-            realm.add(toDoModel)
+            realm.create(ToDoModel.self, value: toDoModel, update: .modified)
         }
         performSegue(withIdentifier: "toEdit", sender: nil)
     }
