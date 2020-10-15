@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var todoListTableView: UITableView!
+
+    var todoList: Results<ToDoModel>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
