@@ -19,15 +19,15 @@
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="タスク１" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FNg-tx-xc1">
                         <rect key="frame" x="11" y="38" width="299" height="34"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="FNg-tx-xc1" secondAttribute="height" multiplier="299:34" id="RIL-EM-tbx"/>
+                            <constraint firstAttribute="width" secondItem="FNg-tx-xc1" secondAttribute="height" multiplier="299:34" id="bI9-uB-1Nz"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タスク１" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SWM-83-AFi">
-                        <rect key="frame" x="118" y="9" width="70" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タスク１" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SWM-83-AFi">
+                        <rect key="frame" x="125" y="9" width="70" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="SWM-83-AFi" secondAttribute="height" multiplier="10:3" id="kmi-9S-cS8"/>
+                            <constraint firstAttribute="width" secondItem="SWM-83-AFi" secondAttribute="height" multiplier="10:3" id="4aT-bK-qoo"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -35,12 +35,14 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="SWM-83-AFi" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="39Q-71-mAk"/>
-                    <constraint firstItem="FNg-tx-xc1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="11" id="FGK-Ce-HKn"/>
-                    <constraint firstItem="SWM-83-AFi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="118" id="MKM-ld-K1O"/>
-                    <constraint firstAttribute="trailing" secondItem="FNg-tx-xc1" secondAttribute="trailing" constant="10" id="NTh-oX-JZE"/>
-                    <constraint firstItem="FNg-tx-xc1" firstAttribute="top" secondItem="SWM-83-AFi" secondAttribute="bottom" constant="8" symbolic="YES" id="Uq2-AP-02e"/>
-                    <constraint firstAttribute="trailing" secondItem="SWM-83-AFi" secondAttribute="trailing" constant="132" id="wRK-GN-TjC"/>
+                    <constraint firstItem="SWM-83-AFi" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="ItR-oK-dgR"/>
+                    <constraint firstItem="SWM-83-AFi" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Lse-f2-h98"/>
+                    <constraint firstItem="FNg-tx-xc1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="11" id="Ohd-dl-Et0"/>
+                    <constraint firstItem="SWM-83-AFi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="125" id="PIa-Lo-5lC"/>
+                    <constraint firstAttribute="trailing" secondItem="SWM-83-AFi" secondAttribute="trailing" constant="125" id="aZb-Lh-lZI"/>
+                    <constraint firstAttribute="trailing" secondItem="FNg-tx-xc1" secondAttribute="trailing" constant="10" id="bjM-e3-LG3"/>
+                    <constraint firstAttribute="bottom" secondItem="FNg-tx-xc1" secondAttribute="bottom" constant="12" id="lep-2P-gn2"/>
+                    <constraint firstItem="FNg-tx-xc1" firstAttribute="top" secondItem="SWM-83-AFi" secondAttribute="bottom" constant="8" symbolic="YES" id="uMj-hT-dOr"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
