@@ -16,6 +16,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
 
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
+        todoListTableView.tableFooterView = UIView()
         todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: "toDoItemCell")
     }
 
