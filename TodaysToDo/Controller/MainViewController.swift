@@ -15,6 +15,11 @@ class MainViewController: UIViewController {
 
     private let realm = try! Realm()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let results = realm.objects(ToDoModel.self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         todoListView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
