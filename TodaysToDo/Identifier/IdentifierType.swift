@@ -7,6 +7,6 @@
 
 import UIKit
 
-class IdentifierType: NSObject {
-
+enum IdentifierType {
+    case <#case#>
 }
