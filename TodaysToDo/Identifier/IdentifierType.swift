@@ -8,5 +8,7 @@
 import UIKit
 
 enum IdentifierType {
-    case <#case#>
+    static let cellID = "toDoItemCell"
+    static let segueToEditFromMain = "toEdit"
+    static let realmModelID = "toDoList"
 }
