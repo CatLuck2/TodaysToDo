@@ -127,13 +127,10 @@
 		61AF3AE72531FD27001BE560 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
-				61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */,
-				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
-				61E6E131253487F700052F14 /* CustomTabBarController.swift */,
-				61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */,
-				61E6E1C92538384700052F14 /* ToDoItemCell.swift */,
-				61E6E1CA2538384700052F14 /* ToDoItemCell.xib */,
+				61E6E1D42539C03400052F14 /* Main */,
+				61E6E1D52539C03900052F14 /* Analytics */,
+				61E6E1D62539C03F00052F14 /* Settings */,
+				61E6E1D72539C05C00052F14 /* CustomTabBar */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -210,6 +207,41 @@
 				61E6E1442537BB4700052F14 /* ToDoModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		61E6E1D42539C03400052F14 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
+				61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */,
+				61E6E1C92538384700052F14 /* ToDoItemCell.swift */,
+				61E6E1CA2538384700052F14 /* ToDoItemCell.xib */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		61E6E1D52539C03900052F14 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		61E6E1D62539C03F00052F14 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		61E6E1D72539C05C00052F14 /* CustomTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				61E6E131253487F700052F14 /* CustomTabBarController.swift */,
+			);
+			path = CustomTabBar;
 			sourceTree = "<group>";
 		};
 		9B1170DE63CA80EBD60120C8 /* Frameworks */ = {
