@@ -34,6 +34,13 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let realm = try! Realm()
+            try! realm.write {
+                todoList[0].toDoList.remove(at: indexPath.row)
+            }
+            todoListTableView.reloadData()
+        }
     }
 
     @IBAction func updateTodoItemButton(_ sender: UIBarButtonItem) {
