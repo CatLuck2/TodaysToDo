@@ -37,7 +37,11 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     @IBAction func updateTodoItemButton(_ sender: UIBarButtonItem) {
-
+        let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
+        for row in 0..<numberOfCells {
+            let index = IndexPath(row: row, section: 0)
+            let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCell
+        }
     }
 
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
