@@ -46,6 +46,10 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="todoItemLabel" destination="SWM-83-AFi" id="auL-xv-oVF"/>
+                <outlet property="todoItemTextField" destination="FNg-tx-xc1" id="PDe-A9-GQ0"/>
+            </connections>
             <point key="canvasLocation" x="140.57971014492756" y="108.48214285714285"/>
         </tableViewCell>
     </objects>

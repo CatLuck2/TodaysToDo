@@ -9,6 +9,9 @@ import UIKit
 
 class ToDoItemCell: UITableViewCell {
 
+    @IBOutlet weak var todoItemLabel: UILabel!
+    @IBOutlet weak var todoItemTextField: UITextField!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -18,6 +21,10 @@ class ToDoItemCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+
+    func setTodoItemCell(name: String) {
+        todoItemTextField.text = name
     }
 
 }

@@ -93,14 +93,22 @@
                             <constraint firstItem="E6n-3z-iPQ" firstAttribute="trailing" secondItem="j14-PG-pmj" secondAttribute="trailing" id="hwz-Y9-gyW"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="WyN-In-XJq"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="タスク編集" id="hlf-wH-Frz">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="SzK-ek-QJh">
                             <connections>
                                 <action selector="cancelButton:" destination="NA3-HU-lyz" id="bmg-rB-DW3"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="uHZ-Zi-e6d">
+                            <connections>
+                                <action selector="updateTodoItemButton:" destination="NA3-HU-lyz" id="gsl-9W-IGx"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="todoListTableView" destination="E6n-3z-iPQ" id="Vtd-wd-j2p"/>
                     </connections>
