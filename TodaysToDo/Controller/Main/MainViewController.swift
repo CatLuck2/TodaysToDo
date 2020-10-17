@@ -11,7 +11,6 @@ import RealmSwift
 class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListView: UIStackView!
-    @IBOutlet private weak var parentViewOfStack: UIView!
 
     private let realm = try! Realm()
     var results: Results<ToDoModel>!
@@ -19,13 +18,35 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         results = realm.objects(ToDoModel.self)
+        setTodoList(numberOfItems: results[0].toDoList.count)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         todoListView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
-        parentViewOfStack.layer.borderWidth = 0.5
-        parentViewOfStack.layer.cornerRadius = 15
+    }
+
+    private func setTodoList(numberOfItems: Int) {
+        for n in 0..<numberOfItems {
+            let myView = UIView()
+            let label = UILabel()
+            myView.backgroundColor = .cyan
+            myView.heightAnchor.constraint(equalToConstant: 59).isActive = true
+            myView.translatesAutoresizingMaskIntoConstraints = false
+
+            label.text = results[0].toDoList[n]
+            label.textAlignment = .center
+            myView.addSubview(label)
+
+            label.backgroundColor = .yellow
+            label.topAnchor.constraint(equalTo: myView.topAnchor, constant: 8).isActive = true
+            myView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
+            label.leftAnchor.constraint(equalTo: myView.leftAnchor, constant: 8).isActive = true
+            myView.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 8).isActive = true
+            label.translatesAutoresizingMaskIntoConstraints = false
+
+            todoListView.addArrangedSubview(myView)
+        }
     }
 
     @objc private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
