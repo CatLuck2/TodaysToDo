@@ -23,6 +23,8 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        todoListView.layer.borderWidth = 1
+        todoListView.layer.cornerRadius = 5
         todoListView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
     }
 
@@ -30,7 +32,6 @@ class MainViewController: UIViewController {
         for n in 0..<numberOfItems {
             let myView = UIView()
             let label = UILabel()
-            myView.backgroundColor = .cyan
             myView.heightAnchor.constraint(equalToConstant: 59).isActive = true
             myView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -38,7 +39,6 @@ class MainViewController: UIViewController {
             label.textAlignment = .center
             myView.addSubview(label)
 
-            label.backgroundColor = .yellow
             label.topAnchor.constraint(equalTo: myView.topAnchor, constant: 8).isActive = true
             myView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
             label.leftAnchor.constraint(equalTo: myView.leftAnchor, constant: 8).isActive = true
