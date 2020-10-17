@@ -29,6 +29,10 @@ class MainViewController: UIViewController {
     }
 
     private func setTodoList(numberOfItems: Int) {
+        var subviews = todoListView.subviews
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
         for n in 0..<numberOfItems {
             let myView = UIView()
             let label = UILabel()
