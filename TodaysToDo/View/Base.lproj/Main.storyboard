@@ -19,7 +19,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1C7-21-gUQ">
                                 <rect key="frame" x="87" y="384" width="240" height="128"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="88a-s2-nlb">
+                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="88a-s2-nlb">
                                         <rect key="frame" x="16" y="15.5" width="208" height="97.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYQ-mQ-Ezq">
@@ -46,18 +46,16 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerX" secondItem="1C7-21-gUQ" secondAttribute="centerX" id="ezD-Zh-Toe"/>
-                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerY" secondItem="1C7-21-gUQ" secondAttribute="centerY" id="xcV-0p-vlC"/>
+                                    <constraint firstAttribute="width" secondItem="1C7-21-gUQ" secondAttribute="height" multiplier="15:8" id="34C-if-O1D"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1C7-21-gUQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="JpR-de-kcQ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1C7-21-gUQ" secondAttribute="trailing" constant="87" id="My1-06-uJL"/>
-                            <constraint firstItem="1C7-21-gUQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="340" id="bZf-i3-5Za"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1C7-21-gUQ" secondAttribute="bottom" constant="301" id="mYX-sy-iMe"/>
+                            <constraint firstItem="1C7-21-gUQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="J1B-S8-pGe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1C7-21-gUQ" secondAttribute="trailing" constant="87" id="bky-nz-QEd"/>
+                            <constraint firstItem="1C7-21-gUQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="m4c-qI-6TJ"/>
                         </constraints>
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
