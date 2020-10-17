@@ -16,60 +16,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1C7-21-gUQ">
-                                <rect key="frame" x="87" y="384" width="240" height="128"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="88a-s2-nlb">
+                                <rect key="frame" x="52" y="418.5" width="310" height="59"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="88a-s2-nlb">
-                                        <rect key="frame" x="16" y="15.5" width="208" height="97.5"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1DZ-Rz-Gtb">
+                                        <rect key="frame" x="0.0" y="0.0" width="310" height="59"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYQ-mQ-Ezq">
-                                                <rect key="frame" x="0.0" y="0.0" width="208" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="487-z8-OQs">
-                                                <rect key="frame" x="0.0" y="38.5" width="208" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IjY-i5-cKX">
-                                                <rect key="frame" x="0.0" y="77" width="208" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShB-Lo-jVK">
+                                                <rect key="frame" x="8" y="8" width="294" height="43"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <gestureRecognizers/>
-                                    </stackView>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="ShB-Lo-jVK" secondAttribute="trailing" constant="8" id="1kz-oR-LS0"/>
+                                            <constraint firstItem="ShB-Lo-jVK" firstAttribute="top" secondItem="1DZ-Rz-Gtb" secondAttribute="top" constant="8" id="XOh-xU-v86"/>
+                                            <constraint firstAttribute="bottom" secondItem="ShB-Lo-jVK" secondAttribute="bottom" constant="8" id="nUm-X7-fNE"/>
+                                            <constraint firstItem="ShB-Lo-jVK" firstAttribute="leading" secondItem="1DZ-Rz-Gtb" secondAttribute="leading" constant="8" id="us0-PW-ZUl"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="1C7-21-gUQ" secondAttribute="height" multiplier="15:8" id="34C-if-O1D"/>
-                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerX" secondItem="1C7-21-gUQ" secondAttribute="centerX" id="VKc-Da-SLH"/>
-                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerY" secondItem="1C7-21-gUQ" secondAttribute="centerY" id="zJt-dD-pQ8"/>
-                                </constraints>
-                            </view>
+                                <gestureRecognizers/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1C7-21-gUQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="J1B-S8-pGe"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1C7-21-gUQ" secondAttribute="trailing" constant="87" id="bky-nz-QEd"/>
-                            <constraint firstItem="1C7-21-gUQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="m4c-qI-6TJ"/>
+                            <constraint firstItem="88a-s2-nlb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="52" id="HdV-aX-xC1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="88a-s2-nlb" secondAttribute="trailing" constant="52" id="Ho5-dB-O4P"/>
+                            <constraint firstItem="88a-s2-nlb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="bXU-RP-cHT"/>
                         </constraints>
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="parentViewOfStack" destination="1C7-21-gUQ" id="upH-Z4-V1O"/>
                         <outlet property="todoListView" destination="88a-s2-nlb" id="c24-xY-0wf"/>
                         <segue destination="DIQ-qt-KNS" kind="presentation" identifier="toEdit" modalPresentationStyle="fullScreen" id="oeV-N3-E6W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138" y="104"/>
+            <point key="canvasLocation" x="137.68115942028987" y="103.79464285714285"/>
         </scene>
         <!--タスク編集-->
         <scene sceneID="OkK-W8-947">
