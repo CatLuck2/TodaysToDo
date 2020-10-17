@@ -19,7 +19,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1C7-21-gUQ">
                                 <rect key="frame" x="87" y="384" width="240" height="128"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="88a-s2-nlb">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="88a-s2-nlb">
                                         <rect key="frame" x="16" y="15.5" width="208" height="97.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テストテストテストテスト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sYQ-mQ-Ezq">
@@ -47,6 +47,8 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1C7-21-gUQ" secondAttribute="height" multiplier="15:8" id="34C-if-O1D"/>
+                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerX" secondItem="1C7-21-gUQ" secondAttribute="centerX" id="VKc-Da-SLH"/>
+                                    <constraint firstItem="88a-s2-nlb" firstAttribute="centerY" secondItem="1C7-21-gUQ" secondAttribute="centerY" id="zJt-dD-pQ8"/>
                                 </constraints>
                             </view>
                         </subviews>
