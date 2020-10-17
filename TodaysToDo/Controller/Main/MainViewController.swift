@@ -17,8 +17,11 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        results = realm.objects(ToDoModel.self)
-        setTodoList(numberOfItems: results[0].toDoList.count)
+        if !realm.objects(ToDoModel.self).isEmpty {
+            results = realm.objects(ToDoModel.self)
+            setTodoList(numberOfItems: results[0].toDoList.count)
+        }
+
     }
 
     override func viewDidLoad() {
