@@ -53,6 +53,7 @@
                     <connections>
                         <outlet property="todoListView" destination="88a-s2-nlb" id="c24-xY-0wf"/>
                         <segue destination="DIQ-qt-KNS" kind="presentation" identifier="toEdit" modalPresentationStyle="fullScreen" id="oeV-N3-E6W"/>
+                        <segue destination="Y1B-yh-gG9" kind="presentation" identifier="toAdd" modalPresentationStyle="fullScreen" id="qZW-IH-x5u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
