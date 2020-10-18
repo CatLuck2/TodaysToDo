@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !realm.objects(ToDoModel.self).isEmpty {
+            todoListView.layer.borderWidth = 1
             results = realm.objects(ToDoModel.self)
             setTodoList(numberOfItems: results[0].toDoList.count)
         }
@@ -26,7 +27,6 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        todoListView.layer.borderWidth = 1
         todoListView.layer.cornerRadius = 5
         todoListView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
     }
