@@ -57,13 +57,11 @@ class MainViewController: UIViewController {
     }
 
     @objc private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
-        let dictionary: [String: Any] = [IdentifierType.realmModelID: ["test", "test"]]
-        let toDoModel = ToDoModel(value: dictionary)
-        // Realmに保存
-        try! realm.write {
-            realm.add(toDoModel, update: .modified)
+        if results.isEmpty {
+            performSegue(withIdentifier: "toAdd", sender: nil)
+        } else {
+            performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: results)
         }
-        performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: results)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
