@@ -10,5 +10,6 @@ import UIKit
 enum IdentifierType {
     static let cellID = "toDoItemCell"
     static let segueToEditFromMain = "toEdit"
+    static let segueToAddFromMain = "toAdd"
     static let realmModelID = "toDoList"
 }
