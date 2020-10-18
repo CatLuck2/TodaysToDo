@@ -60,7 +60,7 @@
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="103.79464285714285"/>
         </scene>
-        <!--To Do List Add View Controller-->
+        <!--タスク追加-->
         <scene sceneID="gxY-d7-aLk">
             <objects>
                 <viewController id="8gS-4e-3g5" customClass="ToDoListAddViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
@@ -70,7 +70,18 @@
                         <viewLayoutGuide key="safeArea" id="ZVD-G6-jyO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="4d7-uL-8xP"/>
+                    <navigationItem key="navigationItem" title="タスク追加" id="4d7-uL-8xP">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="2Hv-iq-tv1">
+                            <connections>
+                                <action selector="cancelButton:" destination="8gS-4e-3g5" id="gtA-KU-hgC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="7xg-vs-EMC">
+                            <connections>
+                                <action selector="addTodoItemButton:" destination="8gS-4e-3g5" id="zBP-Te-JW2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxQ-vn-HeV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
