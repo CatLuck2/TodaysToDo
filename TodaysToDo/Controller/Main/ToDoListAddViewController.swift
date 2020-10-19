@@ -10,9 +10,15 @@ import RealmSwift
 
 class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    enum CellType {
+        case input
+        case add
+    }
+
     @IBOutlet weak var todoListTableView: UITableView!
 
-    private var newTodoList: [String] = [""]
+    private var newTodoList: [CellType] = [CellType.input,
+                                           CellType.add]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,13 +46,14 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
+        var newTodoListForRealm: [String] = []
         let realm = try! Realm()
         try! realm.write {
             let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
             for row in 0..<numberOfCells {
                 let index = IndexPath(row: row, section: 0)
                 let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCell
-                newTodoList.append(cell.todoItemTextField.text!)
+                newTodoListForRealm.append(cell.todoItemTextField.text!)
             }
             let newTodoListForRealm: [String: Any] = ["toDoList": newTodoList]
             let todoModel = ToDoModel(value: newTodoListForRealm)
