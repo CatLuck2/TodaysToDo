@@ -8,9 +8,9 @@
 import UIKit
 
 class ToDoListAddViewController: UIViewController {
-    
+
     @IBOutlet weak var todoListTableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,9 +18,11 @@ class ToDoListAddViewController: UIViewController {
     }
 
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 
 }
