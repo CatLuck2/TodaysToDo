@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ToDoListAddViewController: UIViewController {
+class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var todoListTableView: UITableView!
 
@@ -15,6 +15,19 @@ class ToDoListAddViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = todoListTableView.dequeueReusableCell(withIdentifier: "")
+        return cell!
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
     }
 
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
