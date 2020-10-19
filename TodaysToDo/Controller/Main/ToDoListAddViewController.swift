@@ -39,7 +39,11 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
         let realm = try! Realm()
         try! realm.write {
-            
+            let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
+            for row in 0..<numberOfCells {
+                let index = IndexPath(row: row, section: 0)
+                let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCell
+            }
         }
         dismiss(animated: true, completion: nil)
     }
