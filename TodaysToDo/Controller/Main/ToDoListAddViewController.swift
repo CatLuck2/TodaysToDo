@@ -12,6 +12,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var todoListTableView: UITableView!
 
+    private var newTodoList: [String] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
