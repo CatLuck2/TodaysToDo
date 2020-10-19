@@ -37,6 +37,10 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
+        let realm = try! Realm()
+        try! realm.write {
+            
+        }
         dismiss(animated: true, completion: nil)
     }
 
