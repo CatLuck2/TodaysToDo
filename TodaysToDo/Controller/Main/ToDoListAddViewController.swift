@@ -42,7 +42,11 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             for row in 0..<numberOfCells {
                 let index = IndexPath(row: row, section: 0)
                 let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCell
+                newTodoList.append(cell.todoItemTextField.text!)
             }
+            let newTodoListForRealm: [String: Any] = ["toDoList": newTodoList]
+            let todoModel = ToDoModel(value: newTodoListForRealm)
+            realm.add(todoModel)
         }
         dismiss(animated: true, completion: nil)
     }
