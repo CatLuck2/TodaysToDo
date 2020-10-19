@@ -67,8 +67,20 @@
                     <view key="view" contentMode="scaleToFill" id="yDT-8J-9fr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="L5W-NM-XVL">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ZVD-G6-jyO"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="leading" secondItem="ZVD-G6-jyO" secondAttribute="leading" id="IeU-bP-NUv"/>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="top" secondItem="ZVD-G6-jyO" secondAttribute="top" id="Mmv-At-KSk"/>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="bottom" secondItem="ZVD-G6-jyO" secondAttribute="bottom" id="x7l-RW-3f0"/>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="trailing" secondItem="ZVD-G6-jyO" secondAttribute="trailing" id="xPG-ew-UxC"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="タスク追加" id="4d7-uL-8xP">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="2Hv-iq-tv1">
@@ -82,10 +94,14 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="todoListTableView" destination="L5W-NM-XVL" id="4Q6-tk-Zp2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxQ-vn-HeV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1735" y="-212"/>
+            <point key="canvasLocation" x="1734.7826086956522" y="-212.27678571428569"/>
         </scene>
         <!--タスク編集-->
         <scene sceneID="OkK-W8-947">
