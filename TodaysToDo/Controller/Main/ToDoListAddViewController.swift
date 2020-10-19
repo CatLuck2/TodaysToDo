@@ -12,6 +12,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var todoListTableView: UITableView!
 
+    private var newTodoList: [String] = [""]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,7 +24,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        newTodoList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -31,11 +33,13 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-
+        if editingStyle == .delete {
+            newTodoList.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
     }
 
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
-        var newTodoList: [String] = []
         let realm = try! Realm()
         try! realm.write {
             let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
