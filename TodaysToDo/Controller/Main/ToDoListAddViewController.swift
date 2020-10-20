@@ -17,8 +17,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet weak var todoListTableView: UITableView!
 
-    private var newTodoList: [CellType] = [CellType.input,
-                                           CellType.add]
+    private var cellTypeList: [CellType] = [CellType.input,
+                                            CellType.add]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,12 +31,12 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        newTodoList.count
+        cellTypeList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
-        switch newTodoList[indexPath.row] {
+        switch cellTypeList[indexPath.row] {
         case .input:
             cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellID) as! ToDoItemCell
         case .add:
@@ -46,11 +46,11 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if newTodoList[indexPath.row] == .add {
-            if newTodoList.count == 5 {
-                newTodoList[indexPath.row] = .input
+        if cellTypeList[indexPath.row] == .add {
+            if cellTypeList.count == 5 {
+                cellTypeList[indexPath.row] = .input
             } else {
-                newTodoList.insert(.input, at: newTodoList.count - 1)
+                cellTypeList.insert(.input, at: cellTypeList.count - 1)
             }
             todoListTableView.reloadData()
         }
@@ -58,13 +58,13 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if newTodoList == [.input, .add] {
+            if cellTypeList == [.input, .add] {
                 return
             }
-            if newTodoList[indexPath.row] == .input {
-                newTodoList.remove(at: indexPath.row)
-                if !newTodoList.contains(.add) {
-                    newTodoList.append(.add)
+            if cellTypeList[indexPath.row] == .input {
+                cellTypeList.remove(at: indexPath.row)
+                if !cellTypeList.contains(.add) {
+                    cellTypeList.append(.add)
                 }
                 tableView.reloadData()
                 return
@@ -73,14 +73,14 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
-        var newTodoListForRealm: [String] = []
+        var newTodoList: [String] = []
         let realm = try! Realm()
         try! realm.write {
             let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
             for row in 0..<numberOfCells {
                 let index = IndexPath(row: row, section: 0)
                 let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCell
-                newTodoListForRealm.append(cell.todoItemTextField.text!)
+                newTodoList.append(cell.todoItemTextField.text!)
             }
             let newTodoListForRealm: [String: Any] = ["toDoList": newTodoList]
             let todoModel = ToDoModel(value: newTodoListForRealm)
