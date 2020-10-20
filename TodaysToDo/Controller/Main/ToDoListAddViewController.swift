@@ -85,7 +85,6 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
             let newTodoListForRealm: [String: Any] = ["toDoList": newTodoList]
-            print(newTodoListForRealm)
             let todoModel = ToDoModel(value: newTodoListForRealm)
             realm.add(todoModel)
         }
