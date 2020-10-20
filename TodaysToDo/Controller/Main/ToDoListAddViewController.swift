@@ -26,6 +26,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         todoListTableView.tableFooterView = UIView()
+        todoListTableView.register(UINib(nibName: "NewToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.newItemcCellID)
         todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellID)
     }
 
@@ -34,7 +35,13 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellID) as! ToDoItemCell
+        var cell = UITableViewCell()
+        switch newTodoList[indexPath.row] {
+        case .input:
+            cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellID) as! ToDoItemCell
+        case .add:
+            cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.newItemcCellID) as! NewToDoItemCell
+        }
         return cell
     }
 
