@@ -47,7 +47,11 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if newTodoList[indexPath.row] == .add {
-            newTodoList.insert(.input, at: newTodoList.count - 1)
+            if newTodoList.count == 5 {
+                newTodoList[indexPath.row] = .input
+            } else {
+                newTodoList.insert(.input, at: newTodoList.count - 1)
+            }
             todoListTableView.reloadData()
         }
     }
