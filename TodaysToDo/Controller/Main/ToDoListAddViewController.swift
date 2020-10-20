@@ -45,6 +45,13 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if newTodoList[indexPath.row] == .add {
+            newTodoList.insert(.input, at: newTodoList.count - 1)
+            todoListTableView.reloadData()
+        }
+    }
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             newTodoList.remove(at: indexPath.row)
