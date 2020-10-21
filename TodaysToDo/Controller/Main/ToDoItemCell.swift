@@ -7,14 +7,16 @@
 
 import UIKit
 
-class ToDoItemCell: UITableViewCell {
+class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var todoItemLabel: UILabel!
     @IBOutlet weak var todoItemTextField: UITextField!
 
+    var textFieldSender: ((Any) -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        todoItemTextField.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -29,6 +31,10 @@ class ToDoItemCell: UITableViewCell {
 
     func resetTextField() {
         todoItemTextField.text = ""
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.textFieldSender!(textField)
     }
 
 }
