@@ -27,4 +27,8 @@ class ToDoItemCell: UITableViewCell {
         todoItemTextField.text = name
     }
 
+    func resetTextField() {
+        todoItemTextField.text = ""
+    }
+
 }
