@@ -12,7 +12,7 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var todoItemLabel: UILabel!
     @IBOutlet weak var todoItemTextField: UITextField!
 
-    var textFieldSender: ((Any) -> Void)?
+    var textFieldValueSender: ((Any) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,7 +34,7 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.textFieldSender!(textField)
+        self.textFieldValueSender!(textField.text!)
     }
 
 }

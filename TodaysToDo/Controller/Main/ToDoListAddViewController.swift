@@ -36,6 +36,9 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         switch newItemList[indexPath.row].0 {
         case .input:
             let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellID) as! ToDoItemCell
+            inputCell.textFieldValueSender = { sender in
+                self.newItemList[indexPath.row].1 = sender as! String
+            }
             return inputCell
         case .add:
             let addCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.newItemcCellID) as! NewToDoItemCell
