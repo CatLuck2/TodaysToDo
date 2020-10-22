@@ -16,7 +16,7 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        todoItemTextField.delegate = self
+        todoItemTextField.addTarget(self, action: #selector(textFieldDidChange(sender:)), for: .editingChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -33,8 +33,8 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
         todoItemTextField.text = ""
     }
 
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.textFieldValueSender!(textField.text!)
+    @objc func textFieldDidChange(sender: UITextField) {
+        self.textFieldValueSender!(sender.text!)
     }
 
 }

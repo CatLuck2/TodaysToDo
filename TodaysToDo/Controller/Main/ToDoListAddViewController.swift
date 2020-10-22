@@ -39,6 +39,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             inputCell.textFieldValueSender = { sender in
                 self.newItemList[indexPath.row].1 = sender as! String
             }
+            guard let textFieldValue = newItemList[indexPath.row].1 else { return inputCell }
+            inputCell.todoItemTextField.text = textFieldValue
             return inputCell
         case .add:
             let addCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.newItemcCellID) as! NewToDoItemCell
@@ -48,10 +50,11 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if newItemList[indexPath.row].0 == .add {
+            if newItemList.count < 5 {
+                newItemList.insert((.input, ""), at: indexPath.row)
+            }
             if newItemList.count == 5 {
-                newItemList[indexPath.row].0 = .input
-            } else {
-                newItemList.insert((.input, ""), at: newItemList.count - 1)
+                newItemList[indexPath.row] = (CellType.input, "")
             }
             todoListTableView.reloadData()
         }
@@ -68,9 +71,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.resetTextField()
                 newItemList.remove(at: indexPath.row)
                 // 入力したテキストを保存
-                print(newItemList)
                 // .addを含んでいない場合
-                if newItemList.contains(where: { $0 == (CellType.add, nil) }) {
+                if !newItemList.contains(where: { $0 == (CellType.add, nil) }) {
                     newItemList.append((CellType.add, nil))
                 }
                 tableView.reloadData()
