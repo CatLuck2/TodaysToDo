@@ -22,14 +22,13 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1DZ-Rz-Gtb">
                                         <rect key="frame" x="0.0" y="0.0" width="310" height="59"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShB-Lo-jVK">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タスクを追加" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ShB-Lo-jVK">
                                                 <rect key="frame" x="8" y="8" width="294" height="43"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="ShB-Lo-jVK" secondAttribute="trailing" constant="8" id="1kz-oR-LS0"/>
                                             <constraint firstItem="ShB-Lo-jVK" firstAttribute="top" secondItem="1DZ-Rz-Gtb" secondAttribute="top" constant="8" id="XOh-xU-v86"/>
@@ -38,6 +37,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
                                 <gestureRecognizers/>
                             </stackView>
                         </subviews>
@@ -53,11 +53,55 @@
                     <connections>
                         <outlet property="todoListView" destination="88a-s2-nlb" id="c24-xY-0wf"/>
                         <segue destination="DIQ-qt-KNS" kind="presentation" identifier="toEdit" modalPresentationStyle="fullScreen" id="oeV-N3-E6W"/>
+                        <segue destination="Y1B-yh-gG9" kind="presentation" identifier="toAdd" modalPresentationStyle="fullScreen" id="qZW-IH-x5u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="103.79464285714285"/>
+        </scene>
+        <!--タスク追加-->
+        <scene sceneID="gxY-d7-aLk">
+            <objects>
+                <viewController id="8gS-4e-3g5" customClass="ToDoListAddViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yDT-8J-9fr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="L5W-NM-XVL">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZVD-G6-jyO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="leading" secondItem="ZVD-G6-jyO" secondAttribute="leading" id="IeU-bP-NUv"/>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="top" secondItem="ZVD-G6-jyO" secondAttribute="top" id="Mmv-At-KSk"/>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="bottom" secondItem="ZVD-G6-jyO" secondAttribute="bottom" id="x7l-RW-3f0"/>
+                            <constraint firstItem="L5W-NM-XVL" firstAttribute="trailing" secondItem="ZVD-G6-jyO" secondAttribute="trailing" id="xPG-ew-UxC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="タスク追加" id="4d7-uL-8xP">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="2Hv-iq-tv1">
+                            <connections>
+                                <action selector="cancelButton:" destination="8gS-4e-3g5" id="gtA-KU-hgC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="7xg-vs-EMC">
+                            <connections>
+                                <action selector="addTodoItemButton:" destination="8gS-4e-3g5" id="zBP-Te-JW2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="todoListTableView" destination="L5W-NM-XVL" id="4Q6-tk-Zp2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lxQ-vn-HeV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1734.7826086956522" y="-212.27678571428569"/>
         </scene>
         <!--タスク編集-->
         <scene sceneID="OkK-W8-947">
@@ -103,7 +147,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hs9-zb-Evb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1744.9275362318842" y="103.79464285714285"/>
+            <point key="canvasLocation" x="1735" y="458"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EvN-Ry-gIt">
@@ -121,12 +165,33 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aj9-gg-S9r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="942.02898550724649" y="103.79464285714285"/>
+            <point key="canvasLocation" x="932" y="457"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AT3-eI-3HZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Y1B-yh-gG9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6Qj-6V-Gv8">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8gS-4e-3g5" kind="relationship" relationship="rootViewController" id="Qs4-8D-kgt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ROd-YC-rr5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="938" y="-212"/>
         </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

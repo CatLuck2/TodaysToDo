@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !realm.objects(ToDoModel.self).isEmpty {
+            todoListView.layer.borderWidth = 1
             results = realm.objects(ToDoModel.self)
             setTodoList(numberOfItems: results[0].toDoList.count)
         }
@@ -26,7 +27,6 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        todoListView.layer.borderWidth = 1
         todoListView.layer.cornerRadius = 5
         todoListView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
     }
@@ -57,13 +57,11 @@ class MainViewController: UIViewController {
     }
 
     @objc private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
-        let dictionary: [String: Any] = [IdentifierType.realmModelID: ["test", "test"]]
-        let toDoModel = ToDoModel(value: dictionary)
-        // Realmに保存
-        try! realm.write {
-            realm.add(toDoModel, update: .modified)
+        if let _ = results {
+            performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: results)
+        } else {
+            performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
         }
-        performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: results)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
