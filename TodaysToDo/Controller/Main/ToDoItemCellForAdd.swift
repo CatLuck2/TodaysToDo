@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
+class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var todoItemLabel: UILabel!
     @IBOutlet weak var todoItemTextField: UITextField!
@@ -23,10 +23,6 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
-    func setTodoItemCell(name: String) {
-        todoItemTextField.text = name
     }
 
     func resetTextField() {

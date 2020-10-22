@@ -20,7 +20,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         todoListTableView.tableFooterView = UIView()
-        todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellID)
+        todoListTableView.register(UINib(nibName: "ToDoItemCellForEdit", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForEditID)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,7 +28,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellID) as! ToDoItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForEditID) as! ToDoItemCellForEdit
         cell.setTodoItemCell(name: todoList[0].toDoList[indexPath.row])
         return cell
     }
@@ -49,7 +49,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
             let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
             for row in 0..<numberOfCells {
                 let index = IndexPath(row: row, section: 0)
-                let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCell
+                let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCellForEdit
                 todoList[0].toDoList[row] = cell.todoItemTextField.text!
             }
         }
