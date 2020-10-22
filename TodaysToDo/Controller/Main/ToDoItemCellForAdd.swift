@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
+class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var todoItemLabel: UILabel!
     @IBOutlet weak var todoItemTextField: UITextField!
