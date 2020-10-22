@@ -25,7 +25,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         todoListTableView.dataSource = self
         todoListTableView.tableFooterView = UIView()
         todoListTableView.register(UINib(nibName: "NewToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.newItemcCellID)
-        todoListTableView.register(UINib(nibName: "ToDoItemCellForAdd", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellID)
+        todoListTableView.register(UINib(nibName: "ToDoItemCellForAdd", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForAddID)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -35,7 +35,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch newItemList[indexPath.row].0 {
         case .input:
-            let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellID) as! ToDoItemCellForAdd
+            let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForAddID) as! ToDoItemCellForAdd
             inputCell.textFieldValueSender = { sender in
                 self.newItemList[indexPath.row].1 = sender as! String
             }
