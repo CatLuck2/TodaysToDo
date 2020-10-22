@@ -21,5 +21,9 @@ class ToDoItemCellForEdit: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+    func setTodoItemCell(name: String) {
+        todoItemTextField.text = name
+    }
+
 }

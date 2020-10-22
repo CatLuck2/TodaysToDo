@@ -9,6 +9,7 @@ import UIKit
 
 enum IdentifierType {
     static let cellID = "toDoItemCell"
+    static let cellForEditID = "toDoItemCellForEdit"
     static let newItemcCellID = "newAddItemCell"
     static let segueToEditFromMain = "toEdit"
     static let segueToAddFromMain = "toAdd"
