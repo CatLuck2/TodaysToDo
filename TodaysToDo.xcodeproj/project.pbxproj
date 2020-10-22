@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4E46ADB16E61DAC3A1998C8F /* Pods_TodaysToDo_TodaysToDoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E699E53BC002C45855FBEC8 /* Pods_TodaysToDo_TodaysToDoUITests.framework */; };
+		614559972541D1430048D2EC /* ToDoItemCellForEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614559952541D1430048D2EC /* ToDoItemCellForEdit.swift */; };
+		614559982541D1430048D2EC /* ToDoItemCellForEdit.xib in Resources */ = {isa = PBXBuildFile; fileRef = 614559962541D1430048D2EC /* ToDoItemCellForEdit.xib */; };
 		6169D051253BD5C80032DA92 /* ToDoListAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */; };
 		6169D05B253DD9EF0032DA92 /* NewToDoItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */; };
 		6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169D062253E75F70032DA92 /* NewToDoItemCell.swift */; };
@@ -56,6 +58,8 @@
 		08FCA7EA16C7D937BD5FED92 /* Pods-TodaysToDoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDoTests.release.xcconfig"; path = "Target Support Files/Pods-TodaysToDoTests/Pods-TodaysToDoTests.release.xcconfig"; sourceTree = "<group>"; };
 		215F549D927F5D709CF247AC /* Pods-TodaysToDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDo.release.xcconfig"; path = "Target Support Files/Pods-TodaysToDo/Pods-TodaysToDo.release.xcconfig"; sourceTree = "<group>"; };
 		5F0F10C7BCC8812601EB76C9 /* Pods-TodaysToDoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDoTests.debug.xcconfig"; path = "Target Support Files/Pods-TodaysToDoTests/Pods-TodaysToDoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		614559952541D1430048D2EC /* ToDoItemCellForEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemCellForEdit.swift; sourceTree = "<group>"; };
+		614559962541D1430048D2EC /* ToDoItemCellForEdit.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToDoItemCellForEdit.xib; sourceTree = "<group>"; };
 		6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAddViewController.swift; sourceTree = "<group>"; };
 		6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewToDoItemCell.xib; sourceTree = "<group>"; };
 		6169D062253E75F70032DA92 /* NewToDoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoItemCell.swift; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 				61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */,
 				61E6E1C92538384700052F14 /* ToDoItemCell.swift */,
 				61E6E1CA2538384700052F14 /* ToDoItemCell.xib */,
+				614559952541D1430048D2EC /* ToDoItemCellForEdit.swift */,
+				614559962541D1430048D2EC /* ToDoItemCellForEdit.xib */,
 				6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */,
 				6169D062253E75F70032DA92 /* NewToDoItemCell.swift */,
 			);
@@ -391,6 +397,7 @@
 				61C9C912252D45CD00CA32A4 /* Main.storyboard in Resources */,
 				61AF3AF5253297AD001BE560 /* Analytics.storyboard in Resources */,
 				61AF3AFA253297B7001BE560 /* Settings.storyboard in Resources */,
+				614559982541D1430048D2EC /* ToDoItemCellForEdit.xib in Resources */,
 				61E6E12D2534875200052F14 /* CustomTabBarController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -562,6 +569,7 @@
 				61E6E132253487F700052F14 /* CustomTabBarController.swift in Sources */,
 				61E6E1BB25381D3800052F14 /* ToDoListEditViewController.swift in Sources */,
 				61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */,
+				614559972541D1430048D2EC /* ToDoItemCellForEdit.swift in Sources */,
 				61C9C90D252D45CD00CA32A4 /* SceneDelegate.swift in Sources */,
 				61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */,
 				6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */,
