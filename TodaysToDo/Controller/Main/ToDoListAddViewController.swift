@@ -82,14 +82,18 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
+        // newItemListからテキストを取り出す
+        var textFieldValueArray: [String] = []
+        let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
+        for row in 0..<numberOfCell {
+            if let todoItemText = newItemList[row].1 {
+                textFieldValueArray.append(todoItemText)
+            }
+        }
+        // Realmへ保存する
         let realm = try! Realm()
         try! realm.write {
-            var newTodoList: [String] = []
-            let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
-            for row in 0..<numberOfCells {
-                let index = IndexPath(row: row, section: 0)
-            }
-            let newTodoListForRealm: [String: Any] = ["toDoList": newTodoList]
+            let newTodoListForRealm: [String: Any] = ["toDoList": textFieldValueArray]
             let todoModel = ToDoModel(value: newTodoListForRealm)
             realm.add(todoModel)
         }
