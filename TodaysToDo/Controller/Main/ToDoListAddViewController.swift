@@ -74,7 +74,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
                 newItemList.remove(at: indexPath.row)
                 // 入力したテキストを保存
                 // .addを含んでいない場合
-                if !newItemList.contains(where: { $0 == (CellType.add, nil) }) {
+                if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
                     newItemList.append((CellType.add, nil))
                 }
                 tableView.reloadData()

@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if !realm.objects(ToDoModel.self).isEmpty {
+        if realm.objects(ToDoModel.self).isEmpty == false {
             todoListView.layer.borderWidth = 1
             results = realm.objects(ToDoModel.self)
             setTodoList(numberOfItems: results[0].toDoList.count)
