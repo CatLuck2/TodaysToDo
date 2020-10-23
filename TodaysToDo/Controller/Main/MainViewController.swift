@@ -67,9 +67,15 @@ class MainViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == IdentifierType.segueToEditFromMain {
-            guard let nvc = segue.destination as? UINavigationController else { return }
-            guard let todoListEditVC = nvc.viewControllers[0] as? ToDoListEditViewController else { return }
-            guard let results = sender as? Results<ToDoModel> else { return }
+            guard let nvc = segue.destination as? UINavigationController else {
+                return
+            }
+            guard let todoListEditVC = nvc.viewControllers[0] as? ToDoListEditViewController else {
+                return
+            }
+            guard let results = sender as? Results<ToDoModel> else {
+                return
+            }
             todoListEditVC.todoList = results
         }
     }
