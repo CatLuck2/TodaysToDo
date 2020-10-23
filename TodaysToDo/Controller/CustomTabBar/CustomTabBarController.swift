@@ -18,7 +18,9 @@ class CustomTabBarController: UITabBarController {
         // TabBarItemを設定したViewControllerをfor文で追加
         for name in names {
             let storyboard = UIStoryboard(name: name, bundle: nil)
-            guard let viewController = storyboard.instantiateInitialViewController() else { return }
+            guard let viewController = storyboard.instantiateInitialViewController() else {
+                return
+            }
             switch name {
             case "Main":
                 viewController.tabBarItem = UITabBarItem(title: "メイン", image: UIImage(systemName: "note"), tag: 0)

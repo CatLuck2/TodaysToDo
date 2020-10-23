@@ -39,7 +39,9 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             inputCell.textFieldValueSender = { sender in
                 self.newItemList[indexPath.row].1 = sender as! String
             }
-            guard let textFieldValue = newItemList[indexPath.row].1 else { return inputCell }
+            guard let textFieldValue = newItemList[indexPath.row].1 else {
+                return inputCell
+            }
             inputCell.todoItemTextField.text = textFieldValue
             return inputCell
         case .add:
