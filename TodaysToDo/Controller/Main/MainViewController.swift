@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
     @IBOutlet private weak var todoListView: UIStackView!
 
     private let realm = try! Realm()
-    var results: Results<ToDoModel>!
+    private var results: Results<ToDoModel>!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

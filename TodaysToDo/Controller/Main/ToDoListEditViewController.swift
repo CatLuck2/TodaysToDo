@@ -10,7 +10,7 @@ import RealmSwift
 
 class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var todoListTableView: UITableView!
+    @IBOutlet private weak var todoListTableView: UITableView!
 
     var todoList: Results<ToDoModel>!
 
@@ -43,7 +43,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
 
-    @IBAction func updateTodoItemButton(_ sender: UIBarButtonItem) {
+    @IBAction private func updateTodoItemButton(_ sender: UIBarButtonItem) {
         let realm = try! Realm()
         try! realm.write {
             let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
@@ -56,7 +56,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+    @IBAction private func cancelButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
 

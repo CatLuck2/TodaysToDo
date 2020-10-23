@@ -15,7 +15,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         case add
     }
 
-    @IBOutlet weak var todoListTableView: UITableView!
+    @IBOutlet private weak var todoListTableView: UITableView!
     private var newItemList: [(CellType, String?)] = [(CellType.input, ""), (CellType.add, nil)]
 
     override func viewDidLoad() {
@@ -81,7 +81,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
 
-    @IBAction func addTodoItemButton(_ sender: UIBarButtonItem) {
+    @IBAction private func addTodoItemButton(_ sender: UIBarButtonItem) {
         // newItemListからテキストを取り出す
         var textFieldValueArray: [String] = []
         let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
@@ -100,7 +100,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+    @IBAction private func cancelButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
 

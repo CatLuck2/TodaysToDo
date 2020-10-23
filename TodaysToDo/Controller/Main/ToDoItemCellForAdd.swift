@@ -9,7 +9,7 @@ import UIKit
 
 class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
-    @IBOutlet weak var todoItemLabel: UILabel!
+    @IBOutlet private weak var todoItemLabel: UILabel!
     @IBOutlet weak var todoItemTextField: UITextField!
 
     var textFieldValueSender: ((Any) -> Void)?
@@ -29,7 +29,7 @@ class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
         todoItemTextField.text = ""
     }
 
-    @objc func textFieldDidChange(sender: UITextField) {
+    @objc private func textFieldDidChange(sender: UITextField) {
         self.textFieldValueSender!(sender.text!)
     }
 
