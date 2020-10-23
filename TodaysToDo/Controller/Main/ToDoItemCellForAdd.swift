@@ -12,7 +12,7 @@ class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
     @IBOutlet private weak var todoItemLabel: UILabel!
     @IBOutlet weak var todoItemTextField: UITextField!
 
-    var textFieldValueSender: ((Any) -> Void)?
+    var textFieldValueSender: ((Any) -> Void)!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,7 +30,7 @@ class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
     }
 
     @objc private func textFieldDidChange(sender: UITextField) {
-        self.textFieldValueSender!(sender.text!)
+        self.textFieldValueSender(sender.text ?? "")
     }
 
 }

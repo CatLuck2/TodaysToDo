@@ -50,7 +50,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
             for row in 0..<numberOfCells {
                 let index = IndexPath(row: row, section: 0)
                 let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCellForEdit
-                todoList[0].toDoList[row] = cell.todoItemTextField.text!
+                todoList[0].toDoList[row] = cell.todoItemTextField.text ?? ""
             }
         }
         dismiss(animated: true, completion: nil)
