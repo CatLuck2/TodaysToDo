@@ -22,7 +22,6 @@ class MainViewController: UIViewController {
             results = realm.objects(ToDoModel.self)
             setTodoList(numberOfItems: results[0].toDoList.count)
         }
-
     }
 
     override func viewDidLoad() {

@@ -19,12 +19,6 @@ class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
         todoItemTextField.addTarget(self, action: #selector(textFieldDidChange(sender:)), for: .editingChanged)
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     func resetTextField() {
         todoItemTextField.text = ""
     }
