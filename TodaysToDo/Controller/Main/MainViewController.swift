@@ -57,7 +57,7 @@ class MainViewController: UIViewController {
     }
 
     @objc private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
-        if let _ = results {
+        if results != nil {
             performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: results)
         } else {
             performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
