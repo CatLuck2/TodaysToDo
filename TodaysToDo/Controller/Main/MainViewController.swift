@@ -32,7 +32,7 @@ class MainViewController: UIViewController {
     }
 
     private func setTodoList(numberOfItems: Int) {
-        var subviews = todoListView.subviews
+        let subviews = todoListView.subviews
         for subview in subviews {
             subview.removeFromSuperview()
         }
@@ -56,7 +56,8 @@ class MainViewController: UIViewController {
         }
     }
 
-    @objc private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
+    @objc
+    private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
         if results != nil {
             performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: results)
         } else {

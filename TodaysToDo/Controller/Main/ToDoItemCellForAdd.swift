@@ -29,8 +29,10 @@ class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
         todoItemTextField.text = ""
     }
 
-    @objc private func textFieldDidChange(sender: UITextField) {
+    @objc
+    private func textFieldDidChange(sender: UITextField) {
         self.textFieldValueSender(sender.text ?? "")
+
     }
 
 }
