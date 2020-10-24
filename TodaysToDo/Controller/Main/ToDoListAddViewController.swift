@@ -42,10 +42,10 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
                 // as! String以外でWarningを消す方法がわからなかった
                 self.newItemList[indexPath.row].1 = sender as! String
             }
-            guard let textFieldValue = newItemList[indexPath.row].1 else {
+            guard let itemName = newItemList[indexPath.row].1 else {
                 return inputCell
             }
-            inputCell.todoItemTextField.text = textFieldValue
+            inputCell.todoItemTextField.text = itemName
             return inputCell
         case .add:
             let addCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.newItemcCellID) as! NewToDoItemCell
@@ -93,8 +93,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         // newItemListからテキストを取り出す
         var textFieldValueArray: [String] = []
         let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
-        for row in 0..<numberOfCell {
-            if let todoItemText = newItemList[row].1 {
+        for num in 0..<numberOfCell {
+            if let todoItemText = newItemList[num].1 {
                 textFieldValueArray.append(todoItemText)
             }
         }
@@ -102,9 +102,9 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         // Realmへ保存する
         let realm = try! Realm()
         try! realm.write {
-            let newTodoListForRealm: [String: Any] = ["toDoList": textFieldValueArray]
-            let todoModel = ToDoModel(value: newTodoListForRealm)
-            realm.add(todoModel)
+            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
+            let model = ToDoModel(value: newTodoListForRealm)
+            realm.add(model)
         }
         dismiss(animated: true, completion: nil)
     }

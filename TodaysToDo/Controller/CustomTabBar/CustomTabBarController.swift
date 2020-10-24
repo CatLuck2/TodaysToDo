@@ -13,16 +13,16 @@ class CustomTabBarController: UITabBarController {
         super.viewDidLoad()
 
         // 各StoryBoardの名前
-        let names = ["Main", "Analytics", "Settings"]
+        let storyboardNames = ["Main", "Analytics", "Settings"]
         var viewControllers = [UIViewController]()
         // StoryboardReference先のViewControllerにタブバーを設定するため
         // 指定先のViewControllerらをTabBarControllerへ追加
-        for name in names {
-            let storyboard = UIStoryboard(name: name, bundle: nil)
+        for storyboardName in storyboardNames {
+            let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
             guard let viewController = storyboard.instantiateInitialViewController() else {
                 return
             }
-            switch name {
+            switch storyboardName {
             case "Main":
                 viewController.tabBarItem = UITabBarItem(title: "メイン", image: UIImage(systemName: "note"), tag: 0)
             case "Analytics":

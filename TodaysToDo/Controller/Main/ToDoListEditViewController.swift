@@ -13,7 +13,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet private weak var todoListTableView: UITableView!
 
     // MainViewControllerからRealmのデータが渡されるので、privateはなし
-    var todoList: Results<ToDoModel>!
+    var results: Results<ToDoModel>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,12 +25,12 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        todoList[0].toDoList.count
+        results[0].todoList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForEditID) as! ToDoItemCellForEdit
-        cell.setTodoItemCell(name: todoList[0].toDoList[indexPath.row])
+        cell.setTodoItemCell(name: results[0].todoList[indexPath.row])
         return cell
     }
 
@@ -38,7 +38,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         if editingStyle == .delete {
             let realm = try! Realm()
             try! realm.write {
-                todoList[0].toDoList.remove(at: indexPath.row)
+                results[0].todoList.remove(at: indexPath.row)
             }
             todoListTableView.reloadData()
         }
@@ -47,11 +47,11 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction private func updateTodoItemButton(_ sender: UIBarButtonItem) {
         let realm = try! Realm()
         try! realm.write {
-            let numberOfCells = todoListTableView.numberOfRows(inSection: 0)
-            for row in 0..<numberOfCells {
-                let index = IndexPath(row: row, section: 0)
-                let cell = self.todoListTableView.cellForRow(at: index) as! ToDoItemCellForEdit
-                todoList[0].toDoList[row] = cell.todoItemTextField.text ?? ""
+            let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
+            for num in 0..<numberOfCell {
+                let indexPath = IndexPath(row: num, section: 0)
+                let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForEdit
+                results[0].todoList[num] = cell.todoItemTextField.text ?? ""
             }
         }
         dismiss(animated: true, completion: nil)

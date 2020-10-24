@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 class ToDoModel: Object {
-    let toDoList = List<String>()
+    let todoList = List<String>()
     @objc dynamic var id: Int = 1
 
     override class func primaryKey() -> String? {
