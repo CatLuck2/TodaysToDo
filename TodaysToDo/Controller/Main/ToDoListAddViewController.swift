@@ -84,7 +84,6 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
                     newItemList.append((CellType.add, nil))
                 }
                 tableView.reloadData()
-                return
             }
         }
     }

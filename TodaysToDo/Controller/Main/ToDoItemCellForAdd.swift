@@ -10,7 +10,8 @@ import UIKit
 class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet private weak var todoItemLabel: UILabel!
-    @IBOutlet weak var todoItemTextField: UITextField! // ToDoListAddVCから参照されるため、privateはなし
+    // ToDoListAddVCから参照されるため、privateはなし
+    @IBOutlet weak var todoItemTextField: UITextField!
     var textFieldValueSender: ((Any) -> Void)!
 
     override func awakeFromNib() {

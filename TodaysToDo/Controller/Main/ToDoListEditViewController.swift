@@ -11,7 +11,6 @@ import RealmSwift
 class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var todoListTableView: UITableView!
-
     // MainViewControllerからRealmのデータが渡されるので、privateはなし
     var results: Results<ToDoModel>!
 

@@ -11,7 +11,6 @@ class CustomTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // 各StoryBoardの名前
         let storyboardNames = ["Main", "Analytics", "Settings"]
         var viewControllers = [UIViewController]()

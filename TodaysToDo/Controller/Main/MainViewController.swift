@@ -12,13 +12,13 @@ class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
 
-    private let realm = try! Realm()
     private var todoListResults: Results<ToDoModel>!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         // Realmにデータが保存されてるかを確認
+        let realm = try! Realm()
         if realm.objects(ToDoModel.self).isEmpty == false {
             todoListStackView.layer.borderWidth = 1
             todoListResults = realm.objects(ToDoModel.self)
@@ -42,20 +42,20 @@ class MainViewController: UIViewController {
         // 子要素View(>Label)を生成し、AutoLayoutを設定し、todoListViewに組み込む
         for n in 0..<numberOfItems {
             let view = UIView()
-            let label = UILabel()
             view.heightAnchor.constraint(equalToConstant: 59).isActive = true
             view.translatesAutoresizingMaskIntoConstraints = false
 
+            let label = UILabel()
             label.text = todoListResults[0].todoList[n]
             label.textAlignment = .center
             view.addSubview(label)
 
             // AutoLayout
             label.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true
-            view.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
             label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-            view.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 8).isActive = true
             label.translatesAutoresizingMaskIntoConstraints = false
+            view.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
+            view.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 8).isActive = true
 
             todoListStackView.addArrangedSubview(view)
         }
