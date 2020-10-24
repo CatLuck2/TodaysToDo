@@ -9,7 +9,7 @@ import UIKit
 
 class ToDoItemCellForEdit: UITableViewCell {
 
-    @IBOutlet weak var todoItemTextField: UITextField!
+    @IBOutlet weak var todoItemTextField: UITextField!  // ToDoListEditVCから参照されるため、privateはなし
 
     func setTodoItemCell(name: String) {
         todoItemTextField.text = name

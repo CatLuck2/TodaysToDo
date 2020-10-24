@@ -11,11 +11,12 @@ import RealmSwift
 class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     enum CellType {
-        case input
-        case add
+        case input // タスク名を入力するセル
+        case add   // inputのセルを追加するセル
     }
 
     @IBOutlet private weak var todoListTableView: UITableView!
+    // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
     private var newItemList: [(CellType, String?)] = [(CellType.input, ""), (CellType.add, nil)]
 
     override func viewDidLoad() {
@@ -36,7 +37,9 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         switch newItemList[indexPath.row].0 {
         case .input:
             let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForAddID) as! ToDoItemCellForAdd
+            // textFieldの値が変更されるたびに呼ばれる
             inputCell.textFieldValueSender = { sender in
+                // as! String以外でWarningを消す方法がわからなかった
                 self.newItemList[indexPath.row].1 = sender as! String
             }
             guard let textFieldValue = newItemList[indexPath.row].1 else {
@@ -52,6 +55,9 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if newItemList[indexPath.row].0 == .add {
+            // 最大要素数は5つ
+            // inputが3つ以下でinputセルを追加
+            // inputが4つなら、最後尾のinputをaddへ変更
             if newItemList.count < 5 {
                 newItemList.insert((.input, ""), at: indexPath.row)
             }
@@ -70,10 +76,10 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             if newItemList[indexPath.row].0 == .input {
                 let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForAdd
                 // textFieldの初期化
+                // セルの再利用でtextFieldの値が残るのを防ぐため
                 cell.resetTextField()
                 newItemList.remove(at: indexPath.row)
-                // 入力したテキストを保存
-                // .addを含んでいない場合
+                // 削除後、CellType.addのセルがあるか
                 if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
                     newItemList.append((CellType.add, nil))
                 }
@@ -92,6 +98,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
                 textFieldValueArray.append(todoItemText)
             }
         }
+
         // Realmへ保存する
         let realm = try! Realm()
         try! realm.write {

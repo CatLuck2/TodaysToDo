@@ -15,7 +15,8 @@ class CustomTabBarController: UITabBarController {
         // 各StoryBoardの名前
         let names = ["Main", "Analytics", "Settings"]
         var viewControllers = [UIViewController]()
-        // TabBarItemを設定したViewControllerをfor文で追加
+        // StoryboardReference先のViewControllerにタブバーを設定するため
+        // 指定先のViewControllerらをTabBarControllerへ追加
         for name in names {
             let storyboard = UIStoryboard(name: name, bundle: nil)
             guard let viewController = storyboard.instantiateInitialViewController() else {

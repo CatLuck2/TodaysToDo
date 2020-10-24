@@ -10,8 +10,7 @@ import UIKit
 class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet private weak var todoItemLabel: UILabel!
-    @IBOutlet weak var todoItemTextField: UITextField!
-
+    @IBOutlet weak var todoItemTextField: UITextField! // ToDoListAddVCから参照されるため、privateはなし
     var textFieldValueSender: ((Any) -> Void)!
 
     override func awakeFromNib() {
@@ -25,6 +24,7 @@ class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
     @objc
     private func textFieldDidChange(sender: UITextField) {
+        // textFieldへ入力した値がToDoListAddVCへ送られる
         self.textFieldValueSender(sender.text ?? "")
     }
 

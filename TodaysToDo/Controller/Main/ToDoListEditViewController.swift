@@ -12,6 +12,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet private weak var todoListTableView: UITableView!
 
+    // MainViewControllerからRealmのデータが渡されるので、privateはなし
     var todoList: Results<ToDoModel>!
 
     override func viewDidLoad() {
