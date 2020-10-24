@@ -8,10 +8,14 @@
 import UIKit
 
 enum IdentifierType {
-    static let cellForAddID = "toDoItemCellForAdd"
-    static let cellForEditID = "toDoItemCellForEdit"
+    // inputのセルID
+    static let cellForAddID = "todoItemCellForAdd"
+    static let cellForEditID = "todoItemCellForEdit"
+    // addのセルID
     static let newItemcCellID = "newAddItemCell"
+    // segueID
     static let segueToEditFromMain = "toEdit"
     static let segueToAddFromMain = "toAdd"
-    static let realmModelID = "toDoList"
+    // Realmのモデルで使用するID
+    static let realmModelID = "todoList"
 }

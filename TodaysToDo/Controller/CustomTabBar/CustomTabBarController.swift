@@ -11,15 +11,17 @@ class CustomTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // 各StoryBoardの名前
-        let names = ["Main", "Analytics", "Settings"]
+        let storyboardNames = ["Main", "Analytics", "Settings"]
         var viewControllers = [UIViewController]()
-        // TabBarItemを設定したViewControllerをfor文で追加
-        for name in names {
-            let storyboard = UIStoryboard(name: name, bundle: nil)
-            guard let viewController = storyboard.instantiateInitialViewController() else { return }
-            switch name {
+        // StoryboardReference先のViewControllerにタブバーを設定するため
+        // 指定先のViewControllerらをTabBarControllerへ追加
+        for storyboardName in storyboardNames {
+            let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+            guard let viewController = storyboard.instantiateInitialViewController() else {
+                return
+            }
+            switch storyboardName {
             case "Main":
                 viewController.tabBarItem = UITabBarItem(title: "メイン", image: UIImage(systemName: "note"), tag: 0)
             case "Analytics":
