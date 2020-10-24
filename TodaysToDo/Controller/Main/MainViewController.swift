@@ -11,12 +11,10 @@ import RealmSwift
 class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
-
     private var todoListResults: Results<ToDoModel>!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
         if realm.objects(ToDoModel.self).isEmpty == false {

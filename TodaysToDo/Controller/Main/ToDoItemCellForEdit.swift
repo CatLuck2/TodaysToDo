@@ -10,7 +10,7 @@ import UIKit
 class ToDoItemCellForEdit: UITableViewCell {
 
     // ToDoListEditVCから参照されるため、privateはなし
-    @IBOutlet weak var todoItemTextField: UITextField!
+    @IBOutlet private(set) weak var todoItemTextField: UITextField!
 
     func setTodoItemCell(name: String) {
         todoItemTextField.text = name

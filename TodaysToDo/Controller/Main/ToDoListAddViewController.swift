@@ -93,6 +93,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         var textFieldValueArray: [String] = []
         let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
         for num in 0..<numberOfCell {
+            // String?をiflet文でアンラップ
             if let todoItemText = newItemList[num].1 {
                 textFieldValueArray.append(todoItemText)
             }
