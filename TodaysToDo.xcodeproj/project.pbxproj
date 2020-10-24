@@ -136,18 +136,26 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		618EE4E32539C34B0085501C /* Main */ = {
+		613D1A57254469DC00DCCAAB /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
-				6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */,
-				61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */,
 				61E6E1C92538384700052F14 /* ToDoItemCellForAdd.swift */,
 				61E6E1CA2538384700052F14 /* ToDoItemCellForAdd.xib */,
 				614559952541D1430048D2EC /* ToDoItemCellForEdit.swift */,
 				614559962541D1430048D2EC /* ToDoItemCellForEdit.xib */,
 				6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */,
 				6169D062253E75F70032DA92 /* NewToDoItemCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		618EE4E32539C34B0085501C /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
+				6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */,
+				61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */,
+				613D1A57254469DC00DCCAAB /* Cell */,
 			);
 			path = Main;
 			sourceTree = "<group>";
