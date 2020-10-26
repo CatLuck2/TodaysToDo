@@ -71,6 +71,22 @@ class MainViewController: UIViewController {
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
         // タスクリストがあれば追加画面へ、無ければ編集画面へ
         if todoListResults != nil {
+            /// テスト用のNotification
+            let triggerDate = DateComponents(hour: 13, minute: 29)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+            let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+            let content = UNMutableNotificationContent()
+            content.sound = UNNotificationSound.default
+            content.title = "アラート"
+            content.body = "タスク完了日時になりました"
+            request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: testTrigger)
+            center.add(request) { (error: Error?) in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            // Notificationを登録
+            NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
             performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: todoListResults)
         } else {
             performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
@@ -95,21 +111,22 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
+        /// 本番用のNotification
         // UNUserNotificationを登録
-        let triggerDate = DateComponents(hour: 13, minute: 29)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
-        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
-        let content = UNMutableNotificationContent()
-        content.sound = UNNotificationSound.default
-        content.title = "アラート"
-        content.body = "タスク完了日時になりました"
-        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: testTrigger)
-        center.add(request) { (error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-        // Notificationを登録
-        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
+//        let triggerDate = DateComponents(hour: 13, minute: 29)
+//        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+//        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+//        let content = UNMutableNotificationContent()
+//        content.sound = UNNotificationSound.default
+//        content.title = "アラート"
+//        content.body = "タスク完了日時になりました"
+//        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: testTrigger)
+//        center.add(request) { (error: Error?) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            }
+//        }
+//        // Notificationを登録
+//        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
     }
 }
