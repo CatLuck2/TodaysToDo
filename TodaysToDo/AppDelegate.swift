@@ -8,18 +8,16 @@
 import UIKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
         UNUserNotificationCenter.current().requestAuthorization(
-            options: [.alert, .sound, .badge]) {
+            options: [.alert, .sound, .badge]) { [self]
             granted, _ in
             if granted {
                 UNUserNotificationCenter.current().delegate = self
             }
         }
-
         return true
     }
 
@@ -37,4 +35,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // アプリ起動時も通知を行う
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: nil)
+        completionHandler([ .badge, .sound, .alert ])
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: nil)
+        completionHandler()
+    }
 }

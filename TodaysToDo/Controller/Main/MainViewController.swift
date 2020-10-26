@@ -12,6 +12,8 @@ class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
     private var todoListResults: Results<ToDoModel>!
+    var request: UNNotificationRequest!
+    let center = UNUserNotificationCenter.current()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,7 +62,7 @@ class MainViewController: UIViewController {
     }
 
     @objc
-    private func displayPopup() {
+    private func displayPopup(_ notification: Notification) {
         // Notificationを削除
         NotificationCenter.default.removeObserver(self)
     }
@@ -69,8 +71,6 @@ class MainViewController: UIViewController {
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
         // タスクリストがあれば追加画面へ、無ければ編集画面へ
         if todoListResults != nil {
-            // Notificationを発火
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: "通知で〜す")
             performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: todoListResults)
         } else {
             performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
@@ -95,7 +95,20 @@ class MainViewController: UIViewController {
     }
 
     @IBAction func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        let todoListAddVC = unwindSegue.source as! ToDoListAddViewController
+        // UNUserNotificationを登録
+        let triggerDate = DateComponents(hour: 13, minute: 29)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
+        content.title = "アラート"
+        content.body = "タスク完了日時になりました"
+        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: testTrigger)
+        center.add(request) { (error: Error?) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
         // Notificationを登録
         NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
     }
