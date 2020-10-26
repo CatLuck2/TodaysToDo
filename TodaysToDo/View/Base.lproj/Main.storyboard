@@ -54,12 +54,11 @@
                         <outlet property="todoListStackView" destination="88a-s2-nlb" id="vb3-2E-HLf"/>
                         <segue destination="DIQ-qt-KNS" kind="presentation" identifier="toEdit" modalPresentationStyle="fullScreen" id="oeV-N3-E6W"/>
                         <segue destination="Y1B-yh-gG9" kind="presentation" identifier="toAdd" modalPresentationStyle="fullScreen" id="qZW-IH-x5u"/>
-                        <segue destination="5Bj-k2-HPK" kind="show" identifier="segueForPopup" id="dr6-9v-7K6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-667" y="64"/>
+            <point key="canvasLocation" x="180" y="82"/>
         </scene>
         <!--タスク追加-->
         <scene sceneID="gxY-d7-aLk">
@@ -170,65 +169,6 @@
             </objects>
             <point key="canvasLocation" x="932" y="457"/>
         </scene>
-        <!--Popup View Controller-->
-        <scene sceneID="xzd-eJ-ky8">
-            <objects>
-                <viewController modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="5Bj-k2-HPK" customClass="PopupViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="fED-EL-Dgm">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-qf-2aP">
-                                <rect key="frame" x="59" y="268" width="296" height="361"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7jz-fm-uFZ">
-                                        <rect key="frame" x="80" y="280" width="136" height="58"/>
-                                        <color key="backgroundColor" systemColor="linkColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="7jz-fm-uFZ" secondAttribute="height" multiplier="68:29" id="Cds-2e-z9S"/>
-                                        </constraints>
-                                        <state key="normal" title="Done">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="closeButton:" destination="5Bj-k2-HPK" eventType="touchUpInside" id="Ps2-m3-yjn"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="7jz-fm-uFZ" secondAttribute="bottom" constant="23" id="Gan-qO-XZC"/>
-                                    <constraint firstItem="7jz-fm-uFZ" firstAttribute="top" secondItem="XDH-qf-2aP" secondAttribute="top" constant="280" id="UsH-Xg-5Vj"/>
-                                    <constraint firstAttribute="trailing" secondItem="7jz-fm-uFZ" secondAttribute="trailing" constant="80" id="eo5-Vz-7ey"/>
-                                    <constraint firstItem="7jz-fm-uFZ" firstAttribute="leading" secondItem="XDH-qf-2aP" secondAttribute="leading" constant="80" id="hza-IM-qPE"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="j3B-VA-2PC"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="displayP3"/>
-                        <constraints>
-                            <constraint firstItem="XDH-qf-2aP" firstAttribute="top" secondItem="j3B-VA-2PC" secondAttribute="top" constant="224" id="HdH-b2-Wd3"/>
-                            <constraint firstItem="j3B-VA-2PC" firstAttribute="bottom" secondItem="XDH-qf-2aP" secondAttribute="bottom" constant="233" id="Q0F-oe-1We"/>
-                            <constraint firstItem="XDH-qf-2aP" firstAttribute="leading" secondItem="j3B-VA-2PC" secondAttribute="leading" constant="59" id="ZGE-Ml-Uci"/>
-                            <constraint firstItem="j3B-VA-2PC" firstAttribute="trailing" secondItem="XDH-qf-2aP" secondAttribute="trailing" constant="59" id="uL5-UO-grT"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="ub0-WH-vqb"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VUn-ZI-Nfp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="-625.44642857142856"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="AT3-eI-3HZ">
             <objects>
@@ -249,9 +189,6 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
