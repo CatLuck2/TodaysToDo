@@ -106,7 +106,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             let model = ToDoModel(value: newTodoListForRealm)
             realm.add(model)
         }
-        dismiss(animated: true, completion: nil)
+
+        performSegue(withIdentifier: "unwindToMainVCFromAdd", sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIBarButtonItem) {

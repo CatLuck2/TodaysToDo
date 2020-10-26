@@ -60,9 +60,17 @@ class MainViewController: UIViewController {
     }
 
     @objc
+    private func displayPopup() {
+        // Notificationを削除
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
         // タスクリストがあれば追加画面へ、無ければ編集画面へ
         if todoListResults != nil {
+            // Notificationを発火
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: "通知で〜す")
             performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: todoListResults)
         } else {
             performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
@@ -84,5 +92,11 @@ class MainViewController: UIViewController {
             }
             todoListEditVC.results = results
         }
+    }
+
+    @IBAction func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
+        let todoListAddVC = unwindSegue.source as! ToDoListAddViewController
+        // Notificationを登録
+        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
     }
 }
