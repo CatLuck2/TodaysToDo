@@ -63,6 +63,10 @@ class MainViewController: UIViewController {
 
     @objc
     private func displayPopup(_ notification: Notification) {
+        //ポップアップを表示
+        let storyboard = UIStoryboard(name: "Popup", bundle: nil)
+        let popupVC = storyboard.instantiateViewController(withIdentifier: "segueToPopup") as! PopupViewController
+        UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
         // Notificationを削除
         NotificationCenter.default.removeObserver(self)
     }
@@ -113,20 +117,37 @@ class MainViewController: UIViewController {
     @IBAction func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
         /// 本番用のNotification
         // UNUserNotificationを登録
-//        let triggerDate = DateComponents(hour: 13, minute: 29)
-//        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
-//        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
-//        let content = UNMutableNotificationContent()
-//        content.sound = UNNotificationSound.default
-//        content.title = "アラート"
-//        content.body = "タスク完了日時になりました"
-//        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: testTrigger)
-//        center.add(request) { (error: Error?) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }
-//        }
-//        // Notificationを登録
-//        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
+        //        let triggerDate = DateComponents(hour: 13, minute: 29)
+        //        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+        //        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        //        let content = UNMutableNotificationContent()
+        //        content.sound = UNNotificationSound.default
+        //        content.title = "アラート"
+        //        content.body = "タスク完了日時になりました"
+        //        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: testTrigger)
+        //        center.add(request) { (error: Error?) in
+        //            if let error = error {
+        //                print(error.localizedDescription)
+        //            }
+        //        }
+        //        // Notificationを登録
+        //        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
+    }
+}
+
+extension UIApplication {
+    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
     }
 }
