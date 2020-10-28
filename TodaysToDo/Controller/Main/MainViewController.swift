@@ -136,6 +136,10 @@ class MainViewController: UIViewController {
 }
 
 extension UIApplication {
+    // RootViewController -> CustomTabBarController
+    // -> tab.selectedViewController -> MainViewController
+    // -> base?.presentedViewController -> UINavigationController
+    // -> UINavigationController.visibleViewController -> ToDoListEditViewController
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return topViewController(base: nav.visibleViewController)
