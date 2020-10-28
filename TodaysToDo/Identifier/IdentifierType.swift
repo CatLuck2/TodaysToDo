@@ -16,6 +16,7 @@ enum IdentifierType {
     // segueID
     static let segueToEditFromMain = "toEdit"
     static let segueToAddFromMain = "toAdd"
+    static let unwindSegueFromPopupToMain = "unwindSegueFromPopupToMain"
     // Realmのモデルで使用するID
     static let realmModelID = "todoList"
 }

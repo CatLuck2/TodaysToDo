@@ -63,8 +63,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="O7X-86-VbJ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="lWv-2t-UMH" kind="unwind" identifier="unwindSegueFromPopupToMain" unwindAction="unwindToMainVC:" id="Mqi-8y-Mdu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OGG-b5-8fW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="lWv-2t-UMH" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="-625.44642857142856"/>
         </scene>

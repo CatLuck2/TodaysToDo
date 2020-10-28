@@ -16,7 +16,7 @@ class PopupViewController: UIViewController {
         try! realm.write {
             RealmResults.sharedInstance[0].todoList.removeAll()
         }
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
     }
 
 }
