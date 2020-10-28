@@ -19,31 +19,41 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4gT-lC-10k">
                                 <rect key="frame" x="42" y="213" width="331" height="471"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1i-yN-F6g">
-                                        <rect key="frame" x="87" y="406.5" width="157" height="56.5"/>
-                                        <color key="backgroundColor" systemColor="linkColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="z1i-yN-F6g" secondAttribute="height" multiplier="39:14" id="kLa-vk-8jw"/>
-                                        </constraints>
-                                        <state key="normal" title="Done">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="closeButton:" destination="CWP-Q1-mZi" eventType="touchUpInside" id="VI9-Bq-BiB"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="caU-tq-NXl">
+                                        <rect key="frame" x="0.0" y="36" width="331" height="399.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="達成できたタスクをチェックしよう！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNb-Bi-eP8">
+                                                <rect key="frame" x="0.0" y="0.0" width="331" height="19.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JuA-0F-yCd">
+                                                <rect key="frame" x="0.0" y="48.5" width="331" height="292"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </tableView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1i-yN-F6g">
+                                                <rect key="frame" x="0.0" y="369.5" width="331" height="30"/>
+                                                <color key="backgroundColor" systemColor="linkColor"/>
+                                                <state key="normal" title="Done">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="closeButton:" destination="CWP-Q1-mZi" eventType="touchUpInside" id="R83-Ha-9RC"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="z1i-yN-F6g" secondAttribute="bottom" constant="8" id="Kfv-Br-364"/>
-                                    <constraint firstItem="z1i-yN-F6g" firstAttribute="leading" secondItem="4gT-lC-10k" secondAttribute="leading" constant="87" id="MUd-Oi-Qcg"/>
-                                    <constraint firstAttribute="bottom" secondItem="z1i-yN-F6g" secondAttribute="bottom" constant="8" id="ULH-0T-vd4"/>
-                                    <constraint firstItem="z1i-yN-F6g" firstAttribute="centerX" secondItem="4gT-lC-10k" secondAttribute="centerX" id="dyR-En-hr8"/>
+                                    <constraint firstItem="caU-tq-NXl" firstAttribute="centerY" secondItem="4gT-lC-10k" secondAttribute="centerY" id="Tjv-GP-ADX"/>
+                                    <constraint firstItem="caU-tq-NXl" firstAttribute="centerX" secondItem="4gT-lC-10k" secondAttribute="centerX" id="XIJ-D9-ikt"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -64,6 +74,8 @@
                     <navigationItem key="navigationItem" id="O7X-86-VbJ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="popupStackView" destination="caU-tq-NXl" id="WKW-Hd-jSo"/>
+                        <outlet property="popupTableView" destination="JuA-0F-yCd" id="SiQ-pK-4qM"/>
                         <segue destination="lWv-2t-UMH" kind="unwind" identifier="unwindSegueFromPopupToMain" unwindAction="unwindToMainVC:" id="Mqi-8y-Mdu"/>
                     </connections>
                 </viewController>

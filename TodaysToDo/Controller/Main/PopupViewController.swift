@@ -10,6 +10,8 @@ import RealmSwift
 
 class PopupViewController: UIViewController {
 
+    @IBOutlet weak var popupStackView: UIStackView!
+    @IBOutlet weak var popupTableView: UITableView!
     private let realm = try! Realm()
 
     @IBAction func closeButton(_ sender: UIButton) {
