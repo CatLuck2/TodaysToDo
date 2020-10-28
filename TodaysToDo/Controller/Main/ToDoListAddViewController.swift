@@ -104,7 +104,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         try! realm.write {
             let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
             let model = ToDoModel(value: newTodoListForRealm)
-            realm.add(model)
+            realm.add(model, update: .all)
         }
 
         performSegue(withIdentifier: "unwindToMainVCFromAdd", sender: nil)

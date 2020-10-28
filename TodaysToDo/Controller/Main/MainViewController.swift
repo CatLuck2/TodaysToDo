@@ -11,7 +11,6 @@ import RealmSwift
 class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
-    private var todoListResults: Results<ToDoModel>!
     var request: UNNotificationRequest!
     let center = UNUserNotificationCenter.current()
 
@@ -19,12 +18,10 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
-        if realm.objects(ToDoModel.self)[0].todoList.isEmpty == false {
+        if RealmResults.sharedInstance[0].todoList.isEmpty == false {
             todoListStackView.layer.borderWidth = 1
-            todoListResults = realm.objects(ToDoModel.self)
             RealmResults.sharedInstance = realm.objects(ToDoModel.self)
-            print(RealmResults.sharedInstance)
-            setTodoList(numberOfItems: todoListResults[0].todoList.count)
+            setTodoList(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
         }
     }
 
@@ -48,7 +45,7 @@ class MainViewController: UIViewController {
             view.translatesAutoresizingMaskIntoConstraints = false
 
             let label = UILabel()
-            label.text = todoListResults[0].todoList[n]
+            label.text = RealmResults.sharedInstance[0].todoList[n]
             label.textAlignment = .center
             view.addSubview(label)
 
@@ -76,7 +73,7 @@ class MainViewController: UIViewController {
     @objc
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
         // タスクリストがあれば追加画面へ、無ければ編集画面へ
-        if todoListResults != nil {
+        if RealmResults.sharedInstance[0].todoList.isEmpty == false {
             /// テスト用のNotification
             let triggerDate = DateComponents(hour: 13, minute: 29)
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
@@ -93,7 +90,7 @@ class MainViewController: UIViewController {
             }
             // Notificationを登録
             NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
-            performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: todoListResults)
+            performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: RealmResults.sharedInstance)
         } else {
             performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
         }

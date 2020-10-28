@@ -24,12 +24,12 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        results[0].todoList.count
+        RealmResults.sharedInstance[0].todoList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForEditID) as! ToDoItemCellForEdit
-        cell.setTodoItemCell(name: results[0].todoList[indexPath.row])
+        cell.setTodoItemCell(name: RealmResults.sharedInstance[0].todoList[indexPath.row])
         return cell
     }
 
@@ -37,7 +37,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         if editingStyle == .delete {
             let realm = try! Realm()
             try! realm.write {
-                results[0].todoList.remove(at: indexPath.row)
+                RealmResults.sharedInstance[0].todoList.remove(at: indexPath.row)
             }
             todoListTableView.reloadData()
         }
@@ -50,7 +50,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
             for num in 0..<numberOfCell {
                 let indexPath = IndexPath(row: num, section: 0)
                 let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForEdit
-                results[0].todoList[num] = cell.todoItemTextField.text ?? ""
+                RealmResults.sharedInstance[0].todoList[num] = cell.todoItemTextField.text ?? ""
             }
         }
         dismiss(animated: true, completion: nil)
