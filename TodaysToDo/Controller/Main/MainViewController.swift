@@ -19,9 +19,11 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
-        if realm.objects(ToDoModel.self).isEmpty == false {
+        if realm.objects(ToDoModel.self)[0].todoList.isEmpty == false {
             todoListStackView.layer.borderWidth = 1
             todoListResults = realm.objects(ToDoModel.self)
+            RealmResults.sharedInstance = realm.objects(ToDoModel.self)
+            print(RealmResults.sharedInstance)
             setTodoList(numberOfItems: todoListResults[0].todoList.count)
         }
     }

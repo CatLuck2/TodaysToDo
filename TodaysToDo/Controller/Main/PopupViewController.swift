@@ -6,10 +6,16 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PopupViewController: UIViewController {
 
+    private let realm = try! Realm()
+
     @IBAction func closeButton(_ sender: UIButton) {
+        try! realm.write {
+            RealmResults.sharedInstance[0].todoList.removeAll()
+        }
         dismiss(animated: true, completion: nil)
     }
 
