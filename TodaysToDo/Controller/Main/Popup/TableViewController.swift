@@ -19,11 +19,15 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!
 
+    private var isChecked = [false, false]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
+        todoListTableView.allowsMultipleSelection = true
+        todoListTableView.tableFooterView = UIView()
     }
 
     override func viewDidLayoutSubviews() {
@@ -41,7 +45,25 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.celllForPopup, for: indexPath)
         cell.textLabel!.text = RealmResults.sharedInstance[0].todoList[indexPath.row]
+        if !isChecked[indexPath.row] {
+            cell.accessoryType = .none
+        } else if isChecked[indexPath.row] {
+            cell.accessoryType = .checkmark
+        }
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if cell.accessoryType == .checkmark {
+                cell.accessoryType = .none
+                isChecked[indexPath.row] = false
+            } else {
+                cell.accessoryType = .checkmark
+                isChecked[indexPath.row] = true
+            }
+        }
     }
 
 }
