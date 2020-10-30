@@ -11,6 +11,7 @@ enum IdentifierType {
     // inputのセルID
     static let cellForAddID = "todoItemCellForAdd"
     static let cellForEditID = "todoItemCellForEdit"
+    static let cellForSettingsID = "cellForSettingsID"
     // セルID
     static let newItemcCellID = "newAddItemCell"
     static let celllForPopup = "cell"
