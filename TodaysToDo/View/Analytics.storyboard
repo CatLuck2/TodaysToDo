@@ -32,7 +32,7 @@
                                             <segment title="今月"/>
                                         </segments>
                                         <connections>
-                                            <action selector="graphSegment:" destination="Lrq-VJ-8Xq" eventType="valueChanged" id="qjE-aM-ZR0"/>
+                                            <action selector="graphSegment:" destination="Lrq-VJ-8Xq" eventType="valueChanged" id="Sdu-cj-U91"/>
                                         </connections>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qcu-C1-npH">
@@ -100,7 +100,10 @@
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="graphSegment" destination="fUX-Fr-VNG" id="pCm-YV-rbg"/>
+                        <outlet property="graphSegment" destination="fUX-Fr-VNG" id="YZ5-Pi-iIS"/>
+                        <outlet property="graphView" destination="Qcu-C1-npH" id="GnE-ug-Uz6"/>
+                        <outlet property="rateCompletedTaskLabel" destination="Xjs-VI-QKl" id="G7f-ej-i3J"/>
+                        <outlet property="totalCompletedTaskLabel" destination="XC9-AQ-54N" id="VrV-0O-DFY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Kq-G7-QR3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
