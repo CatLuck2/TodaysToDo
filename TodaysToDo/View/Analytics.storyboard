@@ -16,41 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="QjY-8w-UDq">
-                                <rect key="frame" x="0.0" y="94" width="414" height="424.5"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タスク達成数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWb-y8-Zz1">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fUX-Fr-VNG">
-                                        <rect key="frame" x="0.0" y="35.5" width="414" height="32"/>
-                                        <segments>
-                                            <segment title="今週"/>
-                                            <segment title="今月"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="graphSegment:" destination="Lrq-VJ-8Xq" eventType="valueChanged" id="Sdu-cj-U91"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qcu-C1-npH">
-                                        <rect key="frame" x="0.0" y="81.5" width="414" height="343"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" priority="750" constant="343" id="hSV-ad-sG5"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="pmc-3G-9kn">
-                                <rect key="frame" x="63" y="614" width="288" height="87"/>
+                                <rect key="frame" x="63" y="619" width="288" height="87"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="J9u-ov-uSE">
                                         <rect key="frame" x="0.0" y="0.0" width="104" height="87"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XC9-AQ-54N">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100個" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XC9-AQ-54N">
                                                 <rect key="frame" x="0.0" y="0.0" width="104" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <nil key="textColor"/>
@@ -69,7 +41,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jJB-dl-6YJ">
                                         <rect key="frame" x="184" y="0.0" width="104" height="87"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjs-VI-QKl">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="83%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjs-VI-QKl">
                                                 <rect key="frame" x="0.0" y="0.0" width="104" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <nil key="textColor"/>
@@ -87,21 +59,68 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="QjY-8w-UDq">
+                                <rect key="frame" x="0.0" y="138" width="414" height="393.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タスク達成数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWb-y8-Zz1">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fUX-Fr-VNG">
+                                        <rect key="frame" x="0.0" y="35.5" width="414" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="31" id="iJo-10-8ja"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="今週"/>
+                                            <segment title="今月"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="graphSegment:" destination="Lrq-VJ-8Xq" eventType="valueChanged" id="Sdu-cj-U91"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vqz-ML-iPV">
+                                        <rect key="frame" x="0.0" y="81.5" width="414" height="312"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mFl-de-6jn">
+                                                <rect key="frame" x="0.0" y="0.0" width="586" height="312"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="312" id="JT6-hR-jfq"/>
+                                                    <constraint firstAttribute="width" priority="999" constant="586" id="tfj-3W-z6Z"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="mFl-de-6jn" firstAttribute="leading" secondItem="Vqz-ML-iPV" secondAttribute="leading" id="KeN-AZ-5rQ"/>
+                                            <constraint firstItem="mFl-de-6jn" firstAttribute="top" secondItem="Vqz-ML-iPV" secondAttribute="top" id="dua-rK-uLy"/>
+                                            <constraint firstAttribute="bottom" secondItem="mFl-de-6jn" secondAttribute="bottom" id="eAi-Oj-TBG"/>
+                                            <constraint firstAttribute="trailing" secondItem="mFl-de-6jn" secondAttribute="trailing" id="kxm-eU-MWh"/>
+                                            <constraint firstItem="mFl-de-6jn" firstAttribute="height" secondItem="Vqz-ML-iPV" secondAttribute="height" id="vl0-pF-AkV"/>
+                                        </constraints>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="Kvw-e1-1Pd"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="tGH-qs-2wa"/>
+                                    </scrollView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="spp-q1-WKv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="pmc-3G-9kn" firstAttribute="top" secondItem="QjY-8w-UDq" secondAttribute="bottom" constant="95.5" id="2TU-3P-bHl"/>
-                            <constraint firstItem="QjY-8w-UDq" firstAttribute="leading" secondItem="spp-q1-WKv" secondAttribute="leading" id="44C-cm-apv"/>
-                            <constraint firstItem="pmc-3G-9kn" firstAttribute="centerX" secondItem="kP5-pT-gX7" secondAttribute="centerX" id="Bdg-ey-9VI"/>
-                            <constraint firstItem="QjY-8w-UDq" firstAttribute="top" secondItem="spp-q1-WKv" secondAttribute="top" constant="50" id="Id6-U1-sSV"/>
-                            <constraint firstItem="QjY-8w-UDq" firstAttribute="trailing" secondItem="spp-q1-WKv" secondAttribute="trailing" id="wCl-ba-K61"/>
+                            <constraint firstItem="pmc-3G-9kn" firstAttribute="centerX" secondItem="kP5-pT-gX7" secondAttribute="centerX" id="BIo-9c-o3k"/>
+                            <constraint firstItem="QjY-8w-UDq" firstAttribute="trailing" secondItem="spp-q1-WKv" secondAttribute="trailing" id="Le0-OP-3N0"/>
+                            <constraint firstItem="QjY-8w-UDq" firstAttribute="leading" secondItem="spp-q1-WKv" secondAttribute="leading" id="cVf-cA-bKa"/>
+                            <constraint firstItem="QjY-8w-UDq" firstAttribute="top" secondItem="spp-q1-WKv" secondAttribute="top" constant="94" id="gRi-0X-U0J"/>
+                            <constraint firstItem="pmc-3G-9kn" firstAttribute="top" secondItem="QjY-8w-UDq" secondAttribute="bottom" constant="87.5" id="sPx-XR-fRR"/>
                         </constraints>
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="graphContentView" destination="mFl-de-6jn" id="eAl-9v-hP6"/>
+                        <outlet property="graphScrollView" destination="Vqz-ML-iPV" id="3mz-3I-MeA"/>
                         <outlet property="graphSegment" destination="fUX-Fr-VNG" id="YZ5-Pi-iIS"/>
-                        <outlet property="graphView" destination="Qcu-C1-npH" id="GnE-ug-Uz6"/>
                         <outlet property="rateCompletedTaskLabel" destination="Xjs-VI-QKl" id="G7f-ej-i3J"/>
                         <outlet property="totalCompletedTaskLabel" destination="XC9-AQ-54N" id="VrV-0O-DFY"/>
                     </connections>

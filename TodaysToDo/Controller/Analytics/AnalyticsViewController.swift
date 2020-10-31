@@ -10,15 +10,17 @@ import UIKit
 class AnalyticsViewController: UIViewController {
 
     @IBOutlet weak var graphSegment: UISegmentedControl!
-    @IBOutlet weak var graphView: UIView!
+    @IBOutlet weak var graphScrollView: UIScrollView!
+    @IBOutlet weak var graphContentView: UIView!
     @IBOutlet weak var totalCompletedTaskLabel: UILabel!
     @IBOutlet weak var rateCompletedTaskLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let graphView = GraphView() //グラフを表示するクラス
-        self.graphView.addSubview(graphView) //グラフをスクロールビューに配置
-        graphView.drawLineGraph() //グラフ描画開始
+        let graphView = GraphView()
+        graphContentView.addSubview(graphView)
+        graphView.drawLineGraph()
+        graphScrollView.contentSize = graphContentView.frame.size
     }
 
     @IBAction func graphSegment(_ sender: UISegmentedControl) {
