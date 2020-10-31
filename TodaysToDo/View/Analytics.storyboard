@@ -17,6 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="QjY-8w-UDq">
+                                <rect key="frame" x="0.0" y="94" width="414" height="424.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タスク達成数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWb-y8-Zz1">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
@@ -30,6 +31,9 @@
                                             <segment title="今週"/>
                                             <segment title="今月"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="graphSegment:" destination="Lrq-VJ-8Xq" eventType="valueChanged" id="qjE-aM-ZR0"/>
+                                        </connections>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qcu-C1-npH">
                                         <rect key="frame" x="0.0" y="81.5" width="414" height="343"/>
@@ -54,7 +58,8 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TC5-a1-QNM">
                                                 <rect key="frame" x="0.0" y="46" width="104" height="41"/>
-                                                <string key="text">タスク達成数（全期間）</string>
+                                                <string key="text">タスク達成数
+（全期間）</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -72,7 +77,8 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7L-bu-7cv">
                                                 <rect key="frame" x="0.0" y="46" width="104" height="41"/>
-                                                <string key="text">タスク達成率</string>
+                                                <string key="text">タスク達成率
+</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -93,6 +99,9 @@
                         </constraints>
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="graphSegment" destination="fUX-Fr-VNG" id="pCm-YV-rbg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Kq-G7-QR3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
