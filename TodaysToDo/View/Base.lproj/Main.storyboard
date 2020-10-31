@@ -58,7 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="103.79464285714285"/>
+            <point key="canvasLocation" x="180" y="82"/>
         </scene>
         <!--タスク追加-->
         <scene sceneID="gxY-d7-aLk">
@@ -97,9 +97,11 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="todoListTableView" destination="L5W-NM-XVL" id="4Q6-tk-Zp2"/>
+                        <segue destination="LBR-0W-WWR" kind="unwind" identifier="unwindToMainVCFromAdd" unwindAction="unwindToMainVC:" id="du4-0z-lWL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxQ-vn-HeV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="LBR-0W-WWR" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1734.7826086956522" y="-212.27678571428569"/>
         </scene>

@@ -54,6 +54,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         if newItemList[indexPath.row].0 == .add {
             // 最大要素数は5つ
             // inputが3つ以下でinputセルを追加
@@ -104,9 +105,10 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         try! realm.write {
             let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
             let model = ToDoModel(value: newTodoListForRealm)
-            realm.add(model)
+            realm.add(model, update: .all)
         }
-        dismiss(animated: true, completion: nil)
+
+        performSegue(withIdentifier: "unwindToMainVCFromAdd", sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIBarButtonItem) {
