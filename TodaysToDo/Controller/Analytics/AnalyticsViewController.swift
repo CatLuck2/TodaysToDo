@@ -15,14 +15,19 @@ class AnalyticsViewController: UIViewController {
     @IBOutlet weak var totalCompletedTaskLabel: UILabel!
     @IBOutlet weak var rateCompletedTaskLabel: UILabel!
 
-    @IBOutlet weak var graphContentViewWidthAnchor: NSLayoutConstraint!
+    @IBOutlet weak var graphContentViewWidth: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // グラフを作成
         let graphView = GraphView()
+        // graphContentViewに載せる
         graphContentView.addSubview(graphView)
-        graphContentViewWidthAnchor.constant = graphView.checkWidth()
+        // グラフを描画
         graphView.drawLineGraph()
+        // graphContentViewをグラフの横幅に合わせる
+        graphContentViewWidth.constant = graphView.checkWidth() + 20
+        // スクロール領域をgraphContentViewに調整
         graphScrollView.contentSize = graphContentView.frame.size
     }
 
