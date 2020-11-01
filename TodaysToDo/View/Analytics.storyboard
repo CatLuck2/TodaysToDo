@@ -119,6 +119,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="graphContentView" destination="mFl-de-6jn" id="eAl-9v-hP6"/>
+                        <outlet property="graphContentViewWidthAnchor" destination="tfj-3W-z6Z" id="ZWm-Nm-NRp"/>
                         <outlet property="graphScrollView" destination="Vqz-ML-iPV" id="3mz-3I-MeA"/>
                         <outlet property="graphSegment" destination="fUX-Fr-VNG" id="YZ5-Pi-iIS"/>
                         <outlet property="rateCompletedTaskLabel" destination="Xjs-VI-QKl" id="G7f-ej-i3J"/>
