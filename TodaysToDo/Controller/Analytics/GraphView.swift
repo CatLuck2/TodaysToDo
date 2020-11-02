@@ -9,13 +9,13 @@ import UIKit
 
 class GraphView: UIView {
 
-    var lineWidth: CGFloat = 3.0 //グラフ線の太さ
-    var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
+    private var lineWidth: CGFloat = 3.0 //グラフ線の太さ
+    private var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
 
-    var memoriMargin: CGFloat = 70 //横目盛の感覚
-    var graphHeight: CGFloat = 300 //グラフの高さ
-    var graphPoints: [String] = [] //グラフの横目盛り
-    var graphDatas: [CGFloat] = [] //グラフの値
+    private var memoriMargin: CGFloat = 70 //横目盛の感覚
+    private var graphHeight: CGFloat = 300 //グラフの高さ
+    private var graphPoints: [String] = [] //グラフの横目盛り
+    private var graphDatas: [CGFloat] = [] //グラフの値
 
     func drawLineGraph() {
         graphPoints = ["2000/2/3", "2000/3/3", "2000/4/3", "2000/5/3", "2000/6/3", "2000/7/3", "2000/8/3"]
@@ -26,13 +26,13 @@ class GraphView: UIView {
     }
 
     //グラフを描画するviewの大きさ
-    func graphFrame() {
+    private func graphFrame() {
         self.backgroundColor = UIColor(red: 0.972, green: 0.973, blue: 0.972, alpha: 1)
         self.frame = CGRect(x: 10, y: 0, width: checkWidth(), height: checkHeight())
     }
 
     //横目盛・グラフを描画する
-    func memoriGraphDraw() {
+    private func memoriGraphDraw() {
 
         var count: CGFloat = 0
         for memori in graphPoints {

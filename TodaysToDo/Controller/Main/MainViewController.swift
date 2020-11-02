@@ -11,8 +11,8 @@ import RealmSwift
 class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
-    var request: UNNotificationRequest!
-    let center = UNUserNotificationCenter.current()
+    private var request: UNNotificationRequest!
+    private let center = UNUserNotificationCenter.current()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

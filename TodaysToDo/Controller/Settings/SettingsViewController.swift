@@ -9,7 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var settingsTableView: UITableView!
+    @IBOutlet private weak var settingsTableView: UITableView!
 
     private var settingsMenu = ["お知らせ", "このアプリを評価する", "ヘルプ", "開発者のTwitter", "プライバシーポリシー"]
 

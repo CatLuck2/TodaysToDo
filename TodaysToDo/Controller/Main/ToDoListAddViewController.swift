@@ -10,7 +10,7 @@ import RealmSwift
 
 class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    enum CellType {
+    private enum CellType {
         case input // タスク名を入力するセル
         case add   // inputのセルを追加するセル
     }
