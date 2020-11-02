@@ -9,7 +9,6 @@ import UIKit
 
 class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
-    @IBOutlet private weak var todoItemLabel: UILabel!
     // ToDoListAddVCから参照されるため、privateはなし
     @IBOutlet private(set) weak var todoItemTextField: UITextField!
     var textFieldValueSender: ((Any) -> Void)!
