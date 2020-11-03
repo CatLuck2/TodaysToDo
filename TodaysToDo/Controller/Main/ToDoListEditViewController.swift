@@ -37,6 +37,14 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
     }
 
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        // タスクの数が1つだけの時
+        if RealmResults.sharedInstance[0].todoList[indexPath.row].count == 1 {
+            return .none
+        }
+        return .delete
+    }
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let realm = try! Realm()

@@ -17,6 +17,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet private weak var todoListTableView: UITableView!
     // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
+    // (0, 1) = (Cell.Type, String?)
     private var newItemList: [(CellType, String?)] = [(CellType.input, ""), (CellType.add, nil)]
 
     override func viewDidLoad() {
@@ -69,23 +70,30 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
 
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        // 対象の要素が.addのとき
+        if newItemList[indexPath.row].0 == .add {
+            return .none
+        }
+        // 要素が[.input, .add]のとき
+        if newItemList.count == 2 {
+            return .none
+        }
+        return .delete
+    }
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if newItemList.count == 2 {
-                return
+            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForAdd
+            // textFieldの初期化
+            // セルの再利用でtextFieldの値が残るのを防ぐため
+            cell.resetTextField()
+            newItemList.remove(at: indexPath.row)
+            // 削除後、CellType.addのセルがあるか
+            if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
+                newItemList.append((CellType.add, nil))
             }
-            if newItemList[indexPath.row].0 == .input {
-                let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForAdd
-                // textFieldの初期化
-                // セルの再利用でtextFieldの値が残るのを防ぐため
-                cell.resetTextField()
-                newItemList.remove(at: indexPath.row)
-                // 削除後、CellType.addのセルがあるか
-                if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
-                    newItemList.append((CellType.add, nil))
-                }
-                tableView.reloadData()
-            }
+            tableView.reloadData()
         }
     }
 
