@@ -11,9 +11,13 @@ import RealmSwift
 class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var todoListTableView: UITableView!
+    // 編集中のタスクリスト (途中で破棄できる)
+    private var uneditingTodoList: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        uneditingTodoList = Array(RealmResults.sharedInstance[0].todoList)
 
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
@@ -22,22 +26,22 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        RealmResults.sharedInstance[0].todoList.count
+        uneditingTodoList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForEditID) as! ToDoItemCellForEdit
-        cell.setTodoItemCell(name: RealmResults.sharedInstance[0].todoList[indexPath.row])
+        cell.textFieldValueSender = { sender in
+            // as! String以外でWarningを消す方法がわからなかった
+            self.uneditingTodoList[indexPath.row] = (sender as! String)
+        }
+        cell.setTodoItemCell(name: uneditingTodoList[indexPath.row])
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
     }
 
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         // セルが1つだけの時
-        if self.todoListTableView.numberOfRows(inSection: 0) == 1 {
+        if uneditingTodoList.count == 1 {
             return .none
         }
         return .delete
@@ -45,10 +49,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let realm = try! Realm()
-            try! realm.write {
-                RealmResults.sharedInstance[0].todoList.remove(at: indexPath.row)
-            }
+            uneditingTodoList.remove(at: indexPath.row)
             todoListTableView.reloadData()
         }
     }
@@ -56,26 +57,19 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction private func updateTodoItemButton(_ sender: UIBarButtonItem) {
 
         // タスク未入力の項目があったらアラート
-        for num in 0..<self.todoListTableView.numberOfRows(inSection: 0) {
-            let indexPath = IndexPath(row: num, section: 0)
-            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForEdit
-            if cell.todoItemTextField.text!.isEmpty {
-                let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
-                return
-            }
+        for num in 0..<uneditingTodoList.count where uneditingTodoList[num].isEmpty {
+            let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
         }
 
         // タスクリストを更新
         let realm = try! Realm()
         try! realm.write {
-            let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
-            for num in 0..<numberOfCell {
-                let indexPath = IndexPath(row: num, section: 0)
-                let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForEdit
-                RealmResults.sharedInstance[0].todoList[num] = cell.todoItemTextField.text ?? ""
-            }
+            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: uneditingTodoList]
+            let model = ToDoModel(value: newTodoListForRealm)
+            realm.add(model, update: .all)
         }
         dismiss(animated: true, completion: nil)
     }
