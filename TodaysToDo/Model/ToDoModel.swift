@@ -5,7 +5,6 @@
 //  Created by Nekokichi on 2020/10/15.
 //
 
-import UIKit
 import RealmSwift
 
 private var realm = try! Realm()
