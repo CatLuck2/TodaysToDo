@@ -12,7 +12,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!
     // チェックマーク状態の配列
-    private var isChecked = [false, false]
+    private var isChecked: [Bool] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +21,11 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         todoListTableView.dataSource = self
         todoListTableView.allowsMultipleSelection = true
         todoListTableView.tableFooterView = UIView()
+
+        // isCheckedにタスクの数だけfalseを追加
+        for _ in 0..<RealmResults.sharedInstance[0].todoList.count {
+            isChecked.append(false)
+        }
     }
 
     override func viewDidLayoutSubviews() {
