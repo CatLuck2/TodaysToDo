@@ -25,7 +25,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellForSettingsID", for: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellForSettingsID", for: indexPath)
         cell.textLabel?.text = settingsMenu[indexPath.row]
         return cell
     }

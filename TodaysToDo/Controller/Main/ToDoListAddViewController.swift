@@ -40,7 +40,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             // textFieldの値が変更されるたびに呼ばれる
             inputCell.textFieldValueSender = { sender in
                 // as! String以外でWarningを消す方法がわからなかった
-                self.newItemList[indexPath.row].1 = sender as! String
+                self.newItemList[indexPath.row].1 = (sender as! String)
             }
             guard let itemName = newItemList[indexPath.row].1 else {
                 return inputCell

@@ -103,8 +103,6 @@ class MainViewController: UIViewController {
         // タスクリストがあれば追加画面へ、無ければ編集画面へ
         if RealmResults.sharedInstance[0].todoList.isEmpty == false {
             /// テスト用のNotification
-            let triggerDate = DateComponents(hour: 13, minute: 29)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
             let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
             let content = UNMutableNotificationContent()
             content.sound = UNNotificationSound.default
@@ -141,7 +139,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    @IBAction func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
+    @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
         /// 本番用のNotification
         // UNUserNotificationを登録
         //        let triggerDate = DateComponents(hour: 13, minute: 29)
@@ -167,7 +165,7 @@ extension UIApplication {
     // -> tab.selectedViewController -> MainViewController
     // -> base?.presentedViewController -> UINavigationController
     // -> UINavigationController.visibleViewController -> ToDoListEditViewController
-    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    class func topViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return topViewController(base: nav.visibleViewController)
         }

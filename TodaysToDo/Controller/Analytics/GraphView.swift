@@ -67,7 +67,7 @@ class GraphView: UIView {
 
     // graphDatasの最大値-最低値
     var yAxisMax: CGFloat {
-        graphDatas.max()!-graphDatas.min()!
+        (graphDatas.max() ?? 0) - (graphDatas.min() ?? 0)
     }
 
     //グラフ横幅を算出
@@ -100,20 +100,19 @@ class GraphView: UIView {
                 nextY = graphDatas[Int(count + 1)]/yAxisMax * (graphHeight)
                 //グラフの高さー nextY
                 nextY = graphHeight - nextY
-                if graphDatas.min()!<0 {
-                    nextY = (graphDatas[Int(count + 1)] - graphDatas.min()!) / yAxisMax * (graphHeight)
+                if (graphDatas.min() ?? 0) < 0 {
+                    nextY = (graphDatas[Int(count + 1)] - (graphDatas.min() ?? 0)) / yAxisMax * (graphHeight)
                     nextY = graphHeight - nextY
                 }
 
                 //最初の開始地点を指定（1回目のループ）
                 //count==0の時、count>0はnowYを採用？
-                var circlePoint = CGPoint()
                 //始点(値 / （最大値ー最小値）* (グラフの高さー点の半径))
                 var nowY: CGFloat = datapoint / yAxisMax * (graphHeight)
                 nowY = graphHeight - nowY
                 //graphDatasの最小値がマイナスの場合
-                if graphDatas.min()!<0 {
-                    nowY = (datapoint - graphDatas.min()!) / yAxisMax * (graphHeight)
+                if (graphDatas.min() ?? 0) < 0 {
+                    nowY = (datapoint - (graphDatas.min() ?? 0)) / yAxisMax * (graphHeight)
                     nowY = graphHeight - nowY
                 }
                 //最初のループ時にのみ発動
