@@ -98,6 +98,19 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     @IBAction private func addTodoItemButton(_ sender: UIBarButtonItem) {
+        // タスク未入力の項目があったらアラート
+        // newItemListの末尾は必ず.addなので、.addを除いた要素を確認するため、newItemList.count-1
+        for num in 0..<newItemList.count - 1 {
+            let indexPath = IndexPath(row: num, section: 0)
+            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForAdd
+            if cell.todoItemTextField.text!.isEmpty {
+                let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return
+            }
+        }
+
         // newItemListからテキストを取り出す
         var textFieldValueArray: [String] = []
         let numberOfCell = todoListTableView.numberOfRows(inSection: 0)

@@ -38,8 +38,8 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        // タスクの数が1つだけの時
-        if RealmResults.sharedInstance[0].todoList[indexPath.row].count == 1 {
+        // セルが1つだけの時
+        if self.todoListTableView.numberOfRows(inSection: 0) == 1 {
             return .none
         }
         return .delete
@@ -56,6 +56,20 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     @IBAction private func updateTodoItemButton(_ sender: UIBarButtonItem) {
+
+        // タスク未入力の項目があったらアラート
+        for num in 0..<self.todoListTableView.numberOfRows(inSection: 0) {
+            let indexPath = IndexPath(row: num, section: 0)
+            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForEdit
+            if cell.todoItemTextField.text!.isEmpty {
+                let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return
+            }
+        }
+
+        // タスクリストを更新
         let realm = try! Realm()
         try! realm.write {
             let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
