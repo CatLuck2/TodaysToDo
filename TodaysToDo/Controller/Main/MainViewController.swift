@@ -122,23 +122,6 @@ class MainViewController: UIViewController {
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == IdentifierType.segueToEditFromMain {
-            // 安全にアンラップするためにguard-let文を使用
-            // クラッシュを避けるため、returnを使用
-            guard let nvc = segue.destination as? UINavigationController else {
-                return
-            }
-            guard let todoListEditVC = nvc.viewControllers[0] as? ToDoListEditViewController else {
-                return
-            }
-            guard let results = sender as? Results<ToDoModel> else {
-                return
-            }
-            todoListEditVC.results = results
-        }
-    }
-
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
         /// 本番用のNotification
         // UNUserNotificationを登録
