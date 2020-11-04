@@ -1,21 +1,25 @@
 //
-//  ToDoItemCellForEdit.swift
+//  ToDoItemCell.swift
 //  TodaysToDo
 //
-//  Created by Nekokichi on 2020/10/22.
+//  Created by Nekokichi on 2020/10/15.
 //
 
 import UIKit
 
-class ToDoItemCellForEdit: UITableViewCell, UITextFieldDelegate {
+class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
 
-    // ToDoListEditVCから参照されるため、privateはなし
-    @IBOutlet private(set) weak var todoItemTextField: UITextField!
+    // ToDoListAddVCから参照されるため、privateはなし-> Void)!
+    @IBOutlet weak var todoItemTextField: UITextField!
     var textFieldValueSender: ((Any) -> Void)!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         todoItemTextField.addTarget(self, action: #selector(textFieldDidChange(sender:)), for: .editingChanged)
+    }
+
+    func resetTextField() {
+        todoItemTextField.text = ""
     }
 
     func setTodoItemCell(name: String) {

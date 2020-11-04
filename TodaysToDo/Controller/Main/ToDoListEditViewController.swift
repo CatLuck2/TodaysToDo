@@ -22,7 +22,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         todoListTableView.tableFooterView = UIView()
-        todoListTableView.register(UINib(nibName: "ToDoItemCellForEdit", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForEditID)
+        todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForTodoItemID)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -30,7 +30,7 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForEditID) as! ToDoItemCellForEdit
+        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForTodoItemID) as! ToDoItemCell
         cell.textFieldValueSender = { sender in
             // as! String以外でWarningを消す方法がわからなかった
             self.uneditingTodoList[indexPath.row] = (sender as! String)
