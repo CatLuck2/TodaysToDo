@@ -5,12 +5,9 @@
 //  Created by Nekokichi on 2020/10/16.
 //
 
-import UIKit
-
 enum IdentifierType {
     // inputのセルID
-    static let cellForAddID = "todoItemCellForAdd"
-    static let cellForEditID = "todoItemCellForEdit"
+    static let cellForTodoItemID = "todoItemCell"
     static let cellForSettingsID = "cellForSettingsID"
     // セルID
     static let newItemcCellID = "newAddItemCell"

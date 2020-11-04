@@ -9,13 +9,13 @@ import UIKit
 
 class AnalyticsViewController: UIViewController {
 
-    @IBOutlet weak var graphSegment: UISegmentedControl!
-    @IBOutlet weak var graphScrollView: UIScrollView!
-    @IBOutlet weak var graphContentView: UIView!
-    @IBOutlet weak var totalCompletedTaskLabel: UILabel!
-    @IBOutlet weak var rateCompletedTaskLabel: UILabel!
+    @IBOutlet private weak var graphSegment: UISegmentedControl!
+    @IBOutlet private weak var graphScrollView: UIScrollView!
+    @IBOutlet private weak var graphContentView: UIView!
+    @IBOutlet private weak var totalCompletedTaskLabel: UILabel!
+    @IBOutlet private weak var rateCompletedTaskLabel: UILabel!
 
-    @IBOutlet weak var graphContentViewWidth: NSLayoutConstraint!
+    @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class AnalyticsViewController: UIViewController {
         graphScrollView.contentSize = graphContentView.frame.size
     }
 
-    @IBAction func graphSegment(_ sender: UISegmentedControl) {
+    @IBAction private func graphSegment(_ sender: UISegmentedControl) {
     }
 
 }

@@ -10,6 +10,7 @@ import RealmSwift
 
 class PopupViewController: UIViewController {
 
+    @IBOutlet weak var popupParentView: UIView!
     @IBOutlet private weak var popupStackView: UIStackView!
     private let realm = try! Realm()
 
@@ -18,6 +19,8 @@ class PopupViewController: UIViewController {
         // popupStackViewにtableViewを追加
         let tableViewController = TableViewController()
         addChild(tableViewController)
+        tableViewController.view.layer.borderWidth = 1
+        tableViewController.view.layer.cornerRadius = 5
         popupStackView.addArrangedSubview(tableViewController.view)
         tableViewController.didMove(toParent: self)
 
@@ -28,12 +31,20 @@ class PopupViewController: UIViewController {
         doneButton.layer.cornerRadius = 5
         doneButton.addTarget(self, action: #selector(closePopup), for: .touchUpInside)
         popupStackView.addArrangedSubview(doneButton)
+
+        // popupStackViewにAutoLaytoutを施す
+        popupStackView.translatesAutoresizingMaskIntoConstraints = false
+        popupStackView.leadingAnchor.constraint(equalTo: popupParentView.leadingAnchor, constant: 20.0).isActive = true
+        popupStackView.trailingAnchor.constraint(equalTo: popupParentView.trailingAnchor, constant: -20.0).isActive = true
+        popupStackView.topAnchor.constraint(equalTo: popupParentView.topAnchor, constant: 20.0).isActive = true
+        popupStackView.bottomAnchor.constraint(equalTo: popupParentView.bottomAnchor, constant: -20.0).isActive = true
     }
 
     @objc
     private func closePopup() {
+        let realm = try! Realm()
         try! realm.write {
-            RealmResults.sharedInstance[0].todoList.removeAll()
+            realm.delete(realm.objects(ToDoModel.self))
         }
         performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
     }

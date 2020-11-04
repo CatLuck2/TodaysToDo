@@ -10,13 +10,14 @@ import RealmSwift
 
 class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    enum CellType {
+    private enum CellType {
         case input // タスク名を入力するセル
         case add   // inputのセルを追加するセル
     }
 
     @IBOutlet private weak var todoListTableView: UITableView!
     // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
+    // (0, 1) = (Cell.Type, String?)
     private var newItemList: [(CellType, String?)] = [(CellType.input, ""), (CellType.add, nil)]
 
     override func viewDidLoad() {
@@ -26,7 +27,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         todoListTableView.dataSource = self
         todoListTableView.tableFooterView = UIView()
         todoListTableView.register(UINib(nibName: "NewToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.newItemcCellID)
-        todoListTableView.register(UINib(nibName: "ToDoItemCellForAdd", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForAddID)
+        todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForTodoItemID)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,11 +37,11 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch newItemList[indexPath.row].0 {
         case .input:
-            let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForAddID) as! ToDoItemCellForAdd
+            let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForTodoItemID) as! ToDoItemCell
             // textFieldの値が変更されるたびに呼ばれる
             inputCell.textFieldValueSender = { sender in
                 // as! String以外でWarningを消す方法がわからなかった
-                self.newItemList[indexPath.row].1 = sender as! String
+                self.newItemList[indexPath.row].1 = (sender as! String)
             }
             guard let itemName = newItemList[indexPath.row].1 else {
                 return inputCell
@@ -69,27 +70,47 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
 
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        // 対象の要素が.addのとき
+        if newItemList[indexPath.row].0 == .add {
+            return .none
+        }
+        // 要素が[.input, .add]のとき
+        if newItemList.count == 2 {
+            return .none
+        }
+        return .delete
+    }
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if newItemList.count == 2 {
-                return
+            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
+            // textFieldの初期化
+            // セルの再利用でtextFieldの値が残るのを防ぐため
+            cell.resetTextField()
+            newItemList.remove(at: indexPath.row)
+            // 削除後、CellType.addのセルがあるか
+            if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
+                newItemList.append((CellType.add, nil))
             }
-            if newItemList[indexPath.row].0 == .input {
-                let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCellForAdd
-                // textFieldの初期化
-                // セルの再利用でtextFieldの値が残るのを防ぐため
-                cell.resetTextField()
-                newItemList.remove(at: indexPath.row)
-                // 削除後、CellType.addのセルがあるか
-                if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
-                    newItemList.append((CellType.add, nil))
-                }
-                tableView.reloadData()
-            }
+            tableView.reloadData()
         }
     }
 
     @IBAction private func addTodoItemButton(_ sender: UIBarButtonItem) {
+        // タスク未入力の項目があったらアラート
+        // newItemListの末尾は必ず.addなので、.addを除いた要素を確認するため、newItemList.count-1
+        for num in 0..<newItemList.count - 1 {
+            let indexPath = IndexPath(row: num, section: 0)
+            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
+            if cell.todoItemTextField.text!.isEmpty {
+                let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return
+            }
+        }
+
         // newItemListからテキストを取り出す
         var textFieldValueArray: [String] = []
         let numberOfCell = todoListTableView.numberOfRows(inSection: 0)

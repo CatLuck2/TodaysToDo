@@ -5,7 +5,6 @@
 //  Created by Nekokichi on 2020/10/15.
 //
 
-import UIKit
 import RealmSwift
 
 private var realm = try! Realm()
@@ -21,7 +20,4 @@ class ToDoModel: Object {
 
 class RealmResults {
     static var sharedInstance: Results<ToDoModel> = realm.objects(ToDoModel.self)
-    func removeAll() {
-        RealmResults.sharedInstance[0].todoList.removeAll()
-    }
 }

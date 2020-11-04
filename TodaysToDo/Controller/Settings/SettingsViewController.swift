@@ -9,7 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var settingsTableView: UITableView!
+    @IBOutlet private weak var settingsTableView: UITableView!
 
     private var settingsMenu = ["お知らせ", "このアプリを評価する", "ヘルプ", "開発者のTwitter", "プライバシーポリシー"]
 
@@ -25,7 +25,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellForSettingsID", for: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellForSettingsID", for: indexPath)
         cell.textLabel?.text = settingsMenu[indexPath.row]
         return cell
     }

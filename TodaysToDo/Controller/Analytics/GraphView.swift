@@ -9,13 +9,13 @@ import UIKit
 
 class GraphView: UIView {
 
-    var lineWidth: CGFloat = 3.0 //グラフ線の太さ
-    var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
+    private var lineWidth: CGFloat = 3.0 //グラフ線の太さ
+    private var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
 
-    var memoriMargin: CGFloat = 70 //横目盛の感覚
-    var graphHeight: CGFloat = 300 //グラフの高さ
-    var graphPoints: [String] = [] //グラフの横目盛り
-    var graphDatas: [CGFloat] = [] //グラフの値
+    private var memoriMargin: CGFloat = 70 //横目盛の感覚
+    private var graphHeight: CGFloat = 300 //グラフの高さ
+    private var graphPoints: [String] = [] //グラフの横目盛り
+    private var graphDatas: [CGFloat] = [] //グラフの値
 
     func drawLineGraph() {
         graphPoints = ["2000/2/3", "2000/3/3", "2000/4/3", "2000/5/3", "2000/6/3", "2000/7/3", "2000/8/3"]
@@ -26,13 +26,13 @@ class GraphView: UIView {
     }
 
     //グラフを描画するviewの大きさ
-    func graphFrame() {
+    private func graphFrame() {
         self.backgroundColor = UIColor(red: 0.972, green: 0.973, blue: 0.972, alpha: 1)
         self.frame = CGRect(x: 10, y: 0, width: checkWidth(), height: checkHeight())
     }
 
     //横目盛・グラフを描画する
-    func memoriGraphDraw() {
+    private func memoriGraphDraw() {
 
         var count: CGFloat = 0
         for memori in graphPoints {
@@ -67,7 +67,7 @@ class GraphView: UIView {
 
     // graphDatasの最大値-最低値
     var yAxisMax: CGFloat {
-        graphDatas.max()!-graphDatas.min()!
+        (graphDatas.max() ?? 0) - (graphDatas.min() ?? 0)
     }
 
     //グラフ横幅を算出
@@ -100,20 +100,19 @@ class GraphView: UIView {
                 nextY = graphDatas[Int(count + 1)]/yAxisMax * (graphHeight)
                 //グラフの高さー nextY
                 nextY = graphHeight - nextY
-                if graphDatas.min()!<0 {
-                    nextY = (graphDatas[Int(count + 1)] - graphDatas.min()!) / yAxisMax * (graphHeight)
+                if (graphDatas.min() ?? 0) < 0 {
+                    nextY = (graphDatas[Int(count + 1)] - (graphDatas.min() ?? 0)) / yAxisMax * (graphHeight)
                     nextY = graphHeight - nextY
                 }
 
                 //最初の開始地点を指定（1回目のループ）
                 //count==0の時、count>0はnowYを採用？
-                var circlePoint = CGPoint()
                 //始点(値 / （最大値ー最小値）* (グラフの高さー点の半径))
                 var nowY: CGFloat = datapoint / yAxisMax * (graphHeight)
                 nowY = graphHeight - nowY
                 //graphDatasの最小値がマイナスの場合
-                if graphDatas.min()!<0 {
-                    nowY = (datapoint - graphDatas.min()!) / yAxisMax * (graphHeight)
+                if (graphDatas.min() ?? 0) < 0 {
+                    nowY = (datapoint - (graphDatas.min() ?? 0)) / yAxisMax * (graphHeight)
                     nowY = graphHeight - nowY
                 }
                 //最初のループ時にのみ発動

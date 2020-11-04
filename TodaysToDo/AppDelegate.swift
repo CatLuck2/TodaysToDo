@@ -44,7 +44,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // アプリ起動時も通知を行う
         NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: nil)
-        completionHandler([ .badge, .sound, .alert ])
+        // iOS14以降でリスト表示、それ以前はアラート表示
+        if #available(iOS 14.0, *) {
+            completionHandler([[.banner, .list, .sound]])
+        } else {
+            completionHandler([[.banner, .alert, .sound]])
+        }
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: nil)

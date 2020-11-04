@@ -7,11 +7,10 @@
 
 import UIKit
 
-class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
+class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
 
-    @IBOutlet private weak var todoItemLabel: UILabel!
-    // ToDoListAddVCから参照されるため、privateはなし
-    @IBOutlet private(set) weak var todoItemTextField: UITextField!
+    // ToDoListAddVCから参照されるため、privateはなし-> Void)!
+    @IBOutlet weak var todoItemTextField: UITextField!
     var textFieldValueSender: ((Any) -> Void)!
 
     override func awakeFromNib() {
@@ -21,6 +20,10 @@ class ToDoItemCellForAdd: UITableViewCell, UITextFieldDelegate {
 
     func resetTextField() {
         todoItemTextField.text = ""
+    }
+
+    func setTodoItemCell(name: String) {
+        todoItemTextField.text = name
     }
 
     @objc
