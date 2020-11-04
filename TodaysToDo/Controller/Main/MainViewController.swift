@@ -137,8 +137,8 @@ class MainViewController: UIViewController {
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
-        content.title = "アラート"
-        content.body = "タスク完了日時になりました"
+        content.title = "タスク完了日時になりました"
+        content.body = "達成できたタスクをチェックしましょう"
         request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: trigger)
         center.add(request) { (error: Error?) in
             if let error = error {
