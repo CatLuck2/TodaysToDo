@@ -18,10 +18,12 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
-        if RealmResults.sharedInstance[0].todoList.isEmpty == false {
-            RealmResults.sharedInstance = realm.objects(ToDoModel.self)
+        RealmResults.sharedInstance = realm.objects(ToDoModel.self)
+        if RealmResults.sharedInstance.indices.contains(0) == true {
+            // 既にデータがある
             setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
         } else {
+            // データがない
             setTodoListForAdd()
         }
     }
@@ -91,7 +93,7 @@ class MainViewController: UIViewController {
     @objc
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
         // タスクリストがあれば追加画面へ、無ければ編集画面へ
-        if RealmResults.sharedInstance[0].todoList.isEmpty == false {
+        if RealmResults.sharedInstance.indices.contains(0) == true {
             testNotification()
             performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: RealmResults.sharedInstance)
         } else {

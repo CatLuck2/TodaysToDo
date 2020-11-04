@@ -32,8 +32,9 @@ class PopupViewController: UIViewController {
 
     @objc
     private func closePopup() {
+        let realm = try! Realm()
         try! realm.write {
-            RealmResults.sharedInstance[0].todoList.removeAll()
+            realm.delete(realm.objects(ToDoModel.self))
         }
         performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
     }

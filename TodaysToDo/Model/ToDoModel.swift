@@ -20,7 +20,4 @@ class ToDoModel: Object {
 
 class RealmResults {
     static var sharedInstance: Results<ToDoModel> = realm.objects(ToDoModel.self)
-    func removeAll() {
-        RealmResults.sharedInstance[0].todoList.removeAll()
-    }
 }
