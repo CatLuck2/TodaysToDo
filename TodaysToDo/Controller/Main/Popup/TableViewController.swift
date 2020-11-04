@@ -43,6 +43,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.celllForPopup, for: indexPath)
         cell.textLabel?.text = RealmResults.sharedInstance[0].todoList[indexPath.row]
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
         // チェックマーク状態を読み込む
         if !isChecked[indexPath.row] {
             cell.accessoryType = .none
