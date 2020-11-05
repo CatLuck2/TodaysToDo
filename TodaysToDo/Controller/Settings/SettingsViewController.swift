@@ -11,7 +11,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     @IBOutlet private weak var settingsTableView: UITableView!
 
-    private var settingsMenu = ["お知らせ", "このアプリを評価する", "ヘルプ", "開発者のTwitter", "プライバシーポリシー"]
+    // [[一般],[アラート],[そのほか]]
+    private var settingsMenu = [["お知らせ"], ["サウンド", "バッジ"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellForSettingsID", for: indexPath)
-        cell.textLabel?.text = settingsMenu[indexPath.row]
+        //        cell.textLabel?.text = settingsMenu[indexPath.row]
         return cell
     }
 
