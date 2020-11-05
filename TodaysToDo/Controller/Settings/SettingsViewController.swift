@@ -96,7 +96,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             switch generalType {
             case .information:
-                break
+                performSegue(withIdentifier: IdentifierType.segueToInformation, sender: nil)
             }
         case .notification:
             guard let notificationType = NotificationType(rawValue: indexPath.row) else {
@@ -114,13 +114,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             switch otherType {
             case .help:
-                break
+                performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
             case .share:
                 break
             case .developerAccount:
                 break
             case .contact:
-                break
+                performSegue(withIdentifier: IdentifierType.segueToContact, sender: nil)
             }
         }
     }
