@@ -49,10 +49,10 @@
             </objects>
             <point key="canvasLocation" x="134.78260869565219" y="103.79464285714285"/>
         </scene>
-        <!--View Controller-->
+        <!--Information View Controller-->
         <scene sceneID="UH5-1O-qDl">
             <objects>
-                <viewController id="cI8-5E-Vf3" sceneMemberID="viewController">
+                <viewController id="cI8-5E-Vf3" customClass="InformationViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hFy-Fe-kxh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -64,10 +64,10 @@
             </objects>
             <point key="canvasLocation" x="962" y="104"/>
         </scene>
-        <!--View Controller-->
+        <!--Help View Controller-->
         <scene sceneID="2EY-L4-WYq">
             <objects>
-                <viewController id="50V-Cd-Ksq" sceneMemberID="viewController">
+                <viewController id="50V-Cd-Ksq" customClass="HelpViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="d82-IC-Yqh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -79,10 +79,10 @@
             </objects>
             <point key="canvasLocation" x="1659" y="104"/>
         </scene>
-        <!--View Controller-->
+        <!--Developer Account View Controller-->
         <scene sceneID="OkY-wx-lQk">
             <objects>
-                <viewController id="PWx-bZ-0Wr" sceneMemberID="viewController">
+                <viewController id="PWx-bZ-0Wr" customClass="DeveloperAccountViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hKP-X3-REq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -94,10 +94,10 @@
             </objects>
             <point key="canvasLocation" x="2352" y="104"/>
         </scene>
-        <!--View Controller-->
+        <!--Contact View Controller-->
         <scene sceneID="3KH-SF-XbA">
             <objects>
-                <viewController id="EKS-u0-Vlh" sceneMemberID="viewController">
+                <viewController id="EKS-u0-Vlh" customClass="ContactViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Ce-vz-krR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
