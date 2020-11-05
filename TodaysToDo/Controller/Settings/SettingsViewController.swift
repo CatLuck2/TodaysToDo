@@ -10,17 +10,11 @@ import UIKit
 // セクション用
 private enum SectionType: Int {
     case general //一般
-    case notification //通知・アラート
     case other //その他
 }
 // 一般メニュ-用
 private enum GeneralType: Int {
     case information //お知らせ
-}
-// 通知・アラートメニュー用
-private enum NotificationType: Int {
-    case sound //サウンド
-    case badge //バッジ
 }
 // その他メニュー用
 private enum OtherType: Int {
@@ -36,9 +30,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // セクションタイトル
     // [[一般],[アラート],[そのほか]]
-    private let settingsSectionTitle = ["一般", "通知・アラート", "その他"]
+    private let settingsSectionTitle = ["一般", "その他"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["お知らせ"], ["サウンド", "バッジ"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"]]
+    private let settingsMenuTitle = [["お知らせ"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,10 +52,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         switch sectionType {
         case .general:
             return settingsMenuTitle[0].count
-        case .notification:
-            return settingsMenuTitle[1].count
         case .other:
-            return settingsMenuTitle[2].count
+            return settingsMenuTitle[1].count
         }
     }
 
@@ -77,10 +69,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         switch sectionType {
         case .general:
             cell.textLabel?.text = settingsMenuTitle[0][indexPath.row]
-        case .notification:
-            cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
         case .other:
-            cell.textLabel?.text = settingsMenuTitle[2][indexPath.row]
+            cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
         }
         return cell
     }
@@ -97,16 +87,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             switch generalType {
             case .information:
                 performSegue(withIdentifier: IdentifierType.segueToInformation, sender: nil)
-            }
-        case .notification:
-            guard let notificationType = NotificationType(rawValue: indexPath.row) else {
-                return
-            }
-            switch notificationType {
-            case .sound:
-                break
-            case .badge:
-                break
             }
         case .other:
             guard let otherType = OtherType(rawValue: indexPath.row) else {
