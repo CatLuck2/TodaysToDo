@@ -15,7 +15,7 @@ private enum SectionType: Int {
 }
 // 一般メニュ-用
 private enum GeneralType: Int {
-    case news //お知らせ
+    case information //お知らせ
 }
 // 通知・アラートメニュー用
 private enum NotificationType: Int {
@@ -95,7 +95,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 return
             }
             switch generalType {
-            case .news:
+            case .information:
                 break
             }
         case .notification:
