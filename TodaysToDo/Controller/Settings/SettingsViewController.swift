@@ -11,7 +11,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     @IBOutlet private weak var settingsTableView: UITableView!
 
-    private var settingsMenu = ["お知らせ", "このアプリを評価する", "ヘルプ", "開発者のTwitter", "プライバシーポリシー"]
+    // 一般
+    private var generalMenu = ["お知らせ","ダークモード"]
+    // アラート
+    private var alertMenu = ["サウンド","アイコンにバッジをつける"]
+    // その他
+    private var otherMenu = ["ヘルプ","共有","開発者のTwitter"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
