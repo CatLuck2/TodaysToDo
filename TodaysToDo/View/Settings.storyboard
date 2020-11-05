@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A9Y-zC-cR0">
-                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="749"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellForSettingsID" id="eEU-Lz-vcd">
@@ -34,10 +34,10 @@
                         <viewLayoutGuide key="safeArea" id="yDg-A0-Y3Q"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="yDg-A0-Y3Q" firstAttribute="bottom" secondItem="A9Y-zC-cR0" secondAttribute="bottom" id="Gxd-pC-oeH"/>
-                            <constraint firstItem="A9Y-zC-cR0" firstAttribute="leading" secondItem="yDg-A0-Y3Q" secondAttribute="leading" id="Nit-sT-SQR"/>
-                            <constraint firstItem="yDg-A0-Y3Q" firstAttribute="trailing" secondItem="A9Y-zC-cR0" secondAttribute="trailing" id="Uua-ne-vnd"/>
-                            <constraint firstItem="A9Y-zC-cR0" firstAttribute="top" secondItem="yDg-A0-Y3Q" secondAttribute="top" id="gSB-eS-Lak"/>
+                            <constraint firstItem="A9Y-zC-cR0" firstAttribute="top" secondItem="yDg-A0-Y3Q" secondAttribute="top" constant="20" id="CAg-HD-LRk"/>
+                            <constraint firstItem="A9Y-zC-cR0" firstAttribute="leading" secondItem="yDg-A0-Y3Q" secondAttribute="leading" id="EIl-gO-vhd"/>
+                            <constraint firstItem="yDg-A0-Y3Q" firstAttribute="bottom" secondItem="A9Y-zC-cR0" secondAttribute="bottom" id="G2h-ly-lqz"/>
+                            <constraint firstItem="A9Y-zC-cR0" firstAttribute="trailing" secondItem="yDg-A0-Y3Q" secondAttribute="trailing" id="TIr-FM-kG7"/>
                         </constraints>
                     </view>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -47,7 +47,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1jb-Wl-My6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="135" y="104"/>
+            <point key="canvasLocation" x="134.78260869565219" y="103.79464285714285"/>
         </scene>
     </scenes>
     <resources>
