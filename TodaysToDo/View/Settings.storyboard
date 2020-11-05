@@ -45,7 +45,6 @@
                         <outlet property="settingsTableView" destination="A9Y-zC-cR0" id="zE8-Ih-Pdc"/>
                         <segue destination="ICS-Q5-0O8" kind="presentation" identifier="settingInformation" id="FRx-Ri-nY5"/>
                         <segue destination="0WW-xO-YAb" kind="presentation" identifier="settingHelp" id="QQo-u7-cIt"/>
-                        <segue destination="HtR-Yo-D2y" kind="presentation" identifier="settingDeveloperAccount" id="9bi-XW-VZv"/>
                         <segue destination="0Ux-sg-eqx" kind="presentation" identifier="settingContact" id="4uH-nc-bnO"/>
                     </connections>
                 </viewController>
@@ -53,7 +52,7 @@
             </objects>
             <point key="canvasLocation" x="134.78260869565219" y="103.79464285714285"/>
         </scene>
-        <!--Information View Controller-->
+        <!--お知らせ-->
         <scene sceneID="UH5-1O-qDl">
             <objects>
                 <viewController id="cI8-5E-Vf3" customClass="InformationViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
@@ -63,13 +62,13 @@
                         <viewLayoutGuide key="safeArea" id="jId-tA-xj1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="tPp-WX-JUu"/>
+                    <navigationItem key="navigationItem" title="お知らせ" id="tPp-WX-JUu"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oEU-Lf-JxW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1691" y="104"/>
         </scene>
-        <!--Help View Controller-->
+        <!--ヘルプ-->
         <scene sceneID="2EY-L4-WYq">
             <objects>
                 <viewController id="50V-Cd-Ksq" customClass="HelpViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
@@ -79,29 +78,13 @@
                         <viewLayoutGuide key="safeArea" id="x7u-DR-YG7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="xwD-Vz-3tD"/>
+                    <navigationItem key="navigationItem" title="ヘルプ" id="xwD-Vz-3tD"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6tB-ja-Yrt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1690" y="787"/>
         </scene>
-        <!--Developer Account View Controller-->
-        <scene sceneID="OkY-wx-lQk">
-            <objects>
-                <viewController id="PWx-bZ-0Wr" customClass="DeveloperAccountViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hKP-X3-REq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="63y-ue-BxS"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="xfQ-IY-mnq"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dwc-eS-dv9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1690" y="1452"/>
-        </scene>
-        <!--Contact View Controller-->
+        <!--お問い合わせ-->
         <scene sceneID="3KH-SF-XbA">
             <objects>
                 <viewController id="EKS-u0-Vlh" customClass="ContactViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
@@ -111,11 +94,11 @@
                         <viewLayoutGuide key="safeArea" id="wN7-2u-phc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="3ow-6s-Z0d"/>
+                    <navigationItem key="navigationItem" title="お問い合わせ" id="3ow-6s-Z0d"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFz-g0-qOq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1690" y="2107"/>
+            <point key="canvasLocation" x="1690" y="1507"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="N9k-wP-HKa">
@@ -154,24 +137,6 @@
             <point key="canvasLocation" x="961" y="787"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="ekw-Bv-aki">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HtR-Yo-D2y" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="f1v-zg-8XN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="PWx-bZ-0Wr" kind="relationship" relationship="rootViewController" id="OYf-q5-Ntf"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="y6s-BJ-acX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="961" y="1453"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="WXG-GT-h6L">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0Ux-sg-eqx" sceneMemberID="viewController">
@@ -187,7 +152,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rZo-7M-c5F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="961" y="2107"/>
+            <point key="canvasLocation" x="961" y="1507"/>
         </scene>
     </scenes>
     <resources>
