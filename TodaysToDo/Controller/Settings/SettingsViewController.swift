@@ -7,6 +7,7 @@
 
 import UIKit
 import Accounts
+import SafariServices
 
 // セクション用
 private enum SectionType: Int {
@@ -98,11 +99,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
             case .share:
                 let shareText = "今日のタスクに集中して取り組めるアプリ -¥ TodaysTodo"
-                let shareURL = URL(string: "https://www.apple.com/jp/watch/")
+                let shareURL = URL(string: "https://www.apple.com/jp/watch/")!
                 let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
-                self.present(activityVc, animated: true, completion: nil)
+                present(activityVc, animated: true, completion: nil)
             case .developerAccount:
-                break
+                let webPage = "https://mobile.twitter.com/nekokichi1_yos2"
+                let safariVC = SFSafariViewController(url: (URL(string: webPage)!))
+                present(safariVC, animated: true, completion: nil)
             case .contact:
                 performSegue(withIdentifier: IdentifierType.segueToContact, sender: nil)
             }
