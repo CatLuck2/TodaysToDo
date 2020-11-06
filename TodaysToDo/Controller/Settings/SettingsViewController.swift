@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Accounts
 
 // セクション用
 private enum SectionType: Int {
@@ -96,7 +97,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .help:
                 performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
             case .share:
-                break
+                let shareText = "今日のタスクに集中して取り組めるアプリ -¥ TodaysTodo"
+                let shareURL = URL(string: "https://www.apple.com/jp/watch/")
+                let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
+                self.present(activityVc, animated: true, completion: nil)
             case .developerAccount:
                 break
             case .contact:
