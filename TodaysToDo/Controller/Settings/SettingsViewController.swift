@@ -11,12 +11,15 @@ import SafariServices
 
 // セクション用
 private enum SectionType: Int {
-    case general //一般
+    case task //タスク
     case other //その他
+    case data //データ
 }
-// 一般メニュ-用
-private enum GeneralType: Int {
-    case information //お知らせ
+// タスク用
+private enum TaskType: Int {
+    case endtimeOfTask //終了時刻
+    case numberOfTask //設定数
+    case priorityOfTask //優先順位
 }
 // その他メニュー用
 private enum OtherType: Int {
@@ -25,6 +28,10 @@ private enum OtherType: Int {
     case developerAccount //開発者Twitter
     case contact //お問い合わせ
 }
+// データ関連用
+private enum DataType: Int {
+    case delete //データ削除
+}
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -32,9 +39,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // セクションタイトル
     // [[一般],[アラート],[そのほか]]
-    private let settingsSectionTitle = ["一般", "その他"]
+    private let settingsSectionTitle = ["タスク", "その他", "データ"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["お知らせ"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"]]
+    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["データ削除"]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,10 +59,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return 0
         }
         switch sectionType {
-        case .general:
+        case .task:
             return settingsMenuTitle[0].count
         case .other:
             return settingsMenuTitle[1].count
+        case .data:
+            return settingsMenuTitle[2].count
         }
     }
 
@@ -69,10 +78,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return cell
         }
         switch sectionType {
-        case .general:
+        case .task:
             cell.textLabel?.text = settingsMenuTitle[0][indexPath.row]
         case .other:
             cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
+        case .data:
+            cell.textLabel?.text = settingsMenuTitle[2][indexPath.row]
         }
         return cell
     }
@@ -82,13 +93,17 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return
         }
         switch sectionType {
-        case .general:
-            guard let generalType = GeneralType(rawValue: indexPath.row) else {
+        case .task:
+            guard let taskType = TaskType(rawValue: indexPath.row) else {
                 return
             }
-            switch generalType {
-            case .information:
-                performSegue(withIdentifier: IdentifierType.segueToInformation, sender: nil)
+            switch taskType {
+            case .endtimeOfTask:
+                break
+            case .numberOfTask:
+                break
+            case .priorityOfTask:
+                break
             }
         case .other:
             guard let otherType = OtherType(rawValue: indexPath.row) else {
@@ -109,7 +124,16 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .contact:
                 performSegue(withIdentifier: IdentifierType.segueToContact, sender: nil)
             }
+        case .data:
+            guard let dataType = DataType(rawValue: indexPath.row) else {
+                return
+            }
+            switch dataType {
+            case .delete:
+                break
+            }
         }
+
     }
 
 }

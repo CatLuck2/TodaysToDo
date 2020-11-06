@@ -29,7 +29,6 @@
 		61C9C917252D45CE00CA32A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61C9C915252D45CE00CA32A4 /* LaunchScreen.storyboard */; };
 		61C9C922252D45CF00CA32A4 /* TodaysToDoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C921252D45CF00CA32A4 /* TodaysToDoTests.swift */; };
 		61C9C92D252D45CF00CA32A4 /* TodaysToDoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C92C252D45CF00CA32A4 /* TodaysToDoUITests.swift */; };
-		61E3A28C2553F6DB00258DC5 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E3A28B2553F6DB00258DC5 /* InformationViewController.swift */; };
 		61E3A2912553F6F200258DC5 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E3A2902553F6F200258DC5 /* HelpViewController.swift */; };
 		61E3A29B2553F75400258DC5 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E3A29A2553F75400258DC5 /* ContactViewController.swift */; };
 		61E6E12D2534875200052F14 /* CustomTabBarController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */; };
@@ -92,7 +91,6 @@
 		61C9C928252D45CF00CA32A4 /* TodaysToDoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodaysToDoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C9C92C252D45CF00CA32A4 /* TodaysToDoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysToDoUITests.swift; sourceTree = "<group>"; };
 		61C9C92E252D45CF00CA32A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		61E3A28B2553F6DB00258DC5 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		61E3A2902553F6F200258DC5 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		61E3A29A2553F75400258DC5 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomTabBarController.storyboard; sourceTree = "<group>"; };
@@ -297,7 +295,6 @@
 		61E3A29F2553F79C00258DC5 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				61E3A28B2553F6DB00258DC5 /* InformationViewController.swift */,
 				61E3A2902553F6F200258DC5 /* HelpViewController.swift */,
 				61E3A29A2553F75400258DC5 /* ContactViewController.swift */,
 			);
@@ -620,7 +617,6 @@
 				6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */,
 				617FC6E5254B034B005DC7FF /* TableViewController.swift in Sources */,
 				613D1A66254713EA00DCCAAB /* PopupViewController.swift in Sources */,
-				61E3A28C2553F6DB00258DC5 /* InformationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
