@@ -12,6 +12,7 @@ enum IdentifierType {
     // セルID
     static let newItemcCellID = "newAddItemCell"
     static let celllForPopup = "cell"
+    static let cellForHelp = "cellForHelp"
     // segueID
     static let segueToEditFromMain = "toEdit"
     static let segueToAddFromMain = "toAdd"
