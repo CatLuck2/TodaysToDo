@@ -22,6 +22,8 @@
 		61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF3AE02531FCB5001BE560 /* MainViewController.swift */; };
 		61AF3AF5253297AD001BE560 /* Analytics.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61AF3AF4253297AD001BE560 /* Analytics.storyboard */; };
 		61AF3AFA253297B7001BE560 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61AF3AF9253297B7001BE560 /* Settings.storyboard */; };
+		61B6004C2556727D000168C9 /* SettingsCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B6004A2556727D000168C9 /* SettingsCustomCell.swift */; };
+		61B6004D2556727D000168C9 /* SettingsCustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61B6004B2556727D000168C9 /* SettingsCustomCell.xib */; };
 		61C9C90B252D45CD00CA32A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C90A252D45CD00CA32A4 /* AppDelegate.swift */; };
 		61C9C90D252D45CD00CA32A4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C90C252D45CD00CA32A4 /* SceneDelegate.swift */; };
 		61C9C912252D45CD00CA32A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61C9C910252D45CD00CA32A4 /* Main.storyboard */; };
@@ -78,6 +80,8 @@
 		61AF3AE02531FCB5001BE560 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		61AF3AF4253297AD001BE560 /* Analytics.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Analytics.storyboard; sourceTree = "<group>"; };
 		61AF3AF9253297B7001BE560 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		61B6004A2556727D000168C9 /* SettingsCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCustomCell.swift; sourceTree = "<group>"; };
+		61B6004B2556727D000168C9 /* SettingsCustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsCustomCell.xib; sourceTree = "<group>"; };
 		61C9C907252D45CD00CA32A4 /* TodaysToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaysToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C9C90A252D45CD00CA32A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61C9C90C252D45CD00CA32A4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 			children = (
 				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
 				61E3A29F2553F79C00258DC5 /* Menu */,
+				61B6004225566A93000168C9 /* Cell */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -234,6 +239,15 @@
 				613D1A702547252A00DCCAAB /* Popup.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		61B6004225566A93000168C9 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				61B6004A2556727D000168C9 /* SettingsCustomCell.swift */,
+				61B6004B2556727D000168C9 /* SettingsCustomCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		61C9C8FE252D45CD00CA32A4 = {
@@ -439,6 +453,7 @@
 				61AF3AFA253297B7001BE560 /* Settings.storyboard in Resources */,
 				61E6E12D2534875200052F14 /* CustomTabBarController.storyboard in Resources */,
 				613D1A712547252A00DCCAAB /* Popup.storyboard in Resources */,
+				61B6004D2556727D000168C9 /* SettingsCustomCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,6 +628,7 @@
 				61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */,
 				61C9C90D252D45CD00CA32A4 /* SceneDelegate.swift in Sources */,
 				61E3A2912553F6F200258DC5 /* HelpViewController.swift in Sources */,
+				61B6004C2556727D000168C9 /* SettingsCustomCell.swift in Sources */,
 				61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */,
 				6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */,
 				617FC6E5254B034B005DC7FF /* TableViewController.swift in Sources */,
