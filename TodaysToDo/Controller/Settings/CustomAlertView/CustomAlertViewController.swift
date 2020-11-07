@@ -29,9 +29,13 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
         pickerTitleArray = []
         switch pickerMode! {
         case .endtimeOfTask:
+            titleLabel.text = "タスク終了時刻"
+            messageLabel.text = "タスク終了の時刻を入力してください"
             pickerTitleArray.append(Array(0...23))
             pickerTitleArray.append(Array(0...59))
         case .numberOfTask:
+            titleLabel.text = "タスク設定数"
+            messageLabel.text = "タスクの最大設定数を入力してください"
             pickerTitleArray.append(Array(1...5))
         }
     }
@@ -60,6 +64,7 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     @IBAction private func cancelButton(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
 
 }
