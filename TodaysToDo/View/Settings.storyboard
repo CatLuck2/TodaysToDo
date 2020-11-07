@@ -43,8 +43,8 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="settingsTableView" destination="A9Y-zC-cR0" id="zE8-Ih-Pdc"/>
-                        <segue destination="0WW-xO-YAb" kind="presentation" identifier="settingHelp" id="QQo-u7-cIt"/>
-                        <segue destination="0Ux-sg-eqx" kind="presentation" identifier="settingContact" id="4uH-nc-bnO"/>
+                        <segue destination="0WW-xO-YAb" kind="presentation" identifier="settingHelp" modalPresentationStyle="fullScreen" id="QQo-u7-cIt"/>
+                        <segue destination="0Ux-sg-eqx" kind="presentation" identifier="settingContact" modalPresentationStyle="fullScreen" id="4uH-nc-bnO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1jb-Wl-My6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -56,7 +56,7 @@
             <objects>
                 <viewController id="50V-Cd-Ksq" customClass="HelpViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="d82-IC-Yqh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OTr-Mv-M6C">
@@ -78,12 +78,19 @@
                         <viewLayoutGuide key="safeArea" id="x7u-DR-YG7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="ヘルプ" id="xwD-Vz-3tD"/>
+                    <navigationItem key="navigationItem" title="ヘルプ" id="xwD-Vz-3tD">
+                        <barButtonItem key="leftBarButtonItem" title="&lt;設定" id="Tgj-Ei-JQF">
+                            <connections>
+                                <segue destination="qAc-TE-xCr" kind="unwind" unwindAction="unwindToSettingVC:" id="Tqm-hF-KRs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="helpTableView" destination="OTr-Mv-M6C" id="ubd-Ke-VYN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6tB-ja-Yrt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="qAc-TE-xCr" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1800.0000000000002" y="103.79464285714285"/>
         </scene>
@@ -92,11 +99,11 @@
             <objects>
                 <viewController id="EKS-u0-Vlh" customClass="ContactViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Ce-vz-krR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BoB-zf-bp2">
-                                <rect key="frame" x="51" y="195.5" width="312" height="190"/>
+                                <rect key="frame" x="51" y="227.5" width="312" height="190"/>
                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="BoB-zf-bp2" secondAttribute="height" multiplier="156:95" id="EDU-GQ-3SI"/>
@@ -111,7 +118,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6Y-Y0-enw">
-                                <rect key="frame" x="60" y="121" width="294" height="49.5"/>
+                                <rect key="frame" x="60" y="153" width="294" height="49.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="F6Y-Y0-enw" secondAttribute="height" multiplier="243:41" id="tYi-B7-rW7"/>
                                 </constraints>
@@ -122,7 +129,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbR-uj-21r">
-                                <rect key="frame" x="131" y="439" width="152" height="78"/>
+                                <rect key="frame" x="131" y="471" width="152" height="78"/>
                                 <color key="backgroundColor" systemColor="linkColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zbR-uj-21r" secondAttribute="height" multiplier="76:39" id="Iug-sB-8Av"/>
@@ -152,9 +159,16 @@
                             <constraint firstItem="zbR-uj-21r" firstAttribute="leading" secondItem="wN7-2u-phc" secondAttribute="leading" constant="131" id="mct-zg-Ri0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="お問い合わせ" id="akh-OC-bEl"/>
+                    <navigationItem key="navigationItem" title="お問い合わせ" id="akh-OC-bEl">
+                        <barButtonItem key="leftBarButtonItem" title="&lt;設定" id="jai-Ur-egc">
+                            <connections>
+                                <segue destination="Sb4-69-G3o" kind="unwind" unwindAction="unwindToSettingVC:" id="M8A-85-PQp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFz-g0-qOq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Sb4-69-G3o" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1800.0000000000002" y="823.66071428571422"/>
         </scene>
@@ -164,7 +178,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0WW-xO-YAb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DZ7-Il-5U1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -182,7 +196,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0Ux-sg-eqx" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="g8a-GS-59H">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -133,7 +133,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 break
             }
         }
-
     }
+
+    @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {}
 
 }
