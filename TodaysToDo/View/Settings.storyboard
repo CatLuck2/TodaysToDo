@@ -74,68 +74,14 @@
                     <view key="view" contentMode="scaleToFill" id="0Ce-vz-krR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BoB-zf-bp2">
-                                <rect key="frame" x="51" y="195.5" width="312" height="190"/>
-                                <color key="backgroundColor" systemColor="systemGray4Color"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="BoB-zf-bp2" secondAttribute="height" multiplier="156:95" id="EDU-GQ-3SI"/>
-                                </constraints>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6Y-Y0-enw">
-                                <rect key="frame" x="60" y="121" width="294" height="49.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="F6Y-Y0-enw" secondAttribute="height" multiplier="243:41" id="tYi-B7-rW7"/>
-                                </constraints>
-                                <string key="text">下記の入力欄にご意見などをご記入ください。</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbR-uj-21r">
-                                <rect key="frame" x="131" y="439" width="152" height="78"/>
-                                <color key="backgroundColor" systemColor="linkColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="zbR-uj-21r" secondAttribute="height" multiplier="76:39" id="Iug-sB-8Av"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
-                                <state key="normal" title="送信">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="wN7-2u-phc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="zbR-uj-21r" firstAttribute="centerX" secondItem="0Ce-vz-krR" secondAttribute="centerX" id="3KI-jC-13W"/>
-                            <constraint firstItem="BoB-zf-bp2" firstAttribute="leading" secondItem="wN7-2u-phc" secondAttribute="leading" constant="51" id="6s5-Gr-Utj"/>
-                            <constraint firstItem="F6Y-Y0-enw" firstAttribute="centerX" secondItem="0Ce-vz-krR" secondAttribute="centerX" id="PL3-1Q-lu3"/>
-                            <constraint firstItem="F6Y-Y0-enw" firstAttribute="leading" secondItem="wN7-2u-phc" secondAttribute="leading" constant="60" id="TeT-hI-fUM"/>
-                            <constraint firstItem="F6Y-Y0-enw" firstAttribute="top" secondItem="wN7-2u-phc" secondAttribute="top" constant="65" id="VhI-BA-hsf"/>
-                            <constraint firstItem="zbR-uj-21r" firstAttribute="top" secondItem="BoB-zf-bp2" secondAttribute="bottom" constant="53.5" id="f6v-YH-ghq"/>
-                            <constraint firstItem="BoB-zf-bp2" firstAttribute="top" secondItem="F6Y-Y0-enw" secondAttribute="bottom" constant="25" id="fUI-LM-bcG"/>
-                            <constraint firstItem="BoB-zf-bp2" firstAttribute="centerX" secondItem="0Ce-vz-krR" secondAttribute="centerX" id="k8C-1j-rW4"/>
-                            <constraint firstItem="zbR-uj-21r" firstAttribute="leading" secondItem="wN7-2u-phc" secondAttribute="leading" constant="131" id="mct-zg-Ri0"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="お問い合わせ" id="akh-OC-bEl"/>
+                    <navigationItem key="navigationItem" title="お問い合わせ" id="3ow-6s-Z0d"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFz-g0-qOq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1800.0000000000002" y="823.66071428571422"/>
+            <point key="canvasLocation" x="1800" y="824"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="apL-Nd-ewG">
@@ -175,17 +121,8 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
