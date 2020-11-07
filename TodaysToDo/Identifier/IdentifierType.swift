@@ -20,6 +20,8 @@ enum IdentifierType {
     static let unwindSegueFromPopupToMain = "unwindSegueFromPopupToMain"
     static let segueToHelp = "settingHelp"
     static let segueToContact = "settingContact"
+    // storyboardID
+    static let segueToCustomAlert = "segueToCustomAlert"
     // Realmのモデルで使用するID
     static let realmModelID = "todoList"
 }
