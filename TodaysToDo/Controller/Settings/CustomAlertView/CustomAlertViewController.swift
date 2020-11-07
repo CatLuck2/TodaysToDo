@@ -12,13 +12,13 @@ enum PickerMode {
     case numberOfTask
 }
 
-class CustomAlertViewController: UIViewController {
+class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var messageLabel: UILabel!
     @IBOutlet private weak var pickerView: UIPickerView!
 
-    private var pickerTitleArray: [String] = []
+    private var pickerTitleArray: [[Int]] = []
     var pickerMode: PickerMode!
 
     override func viewWillAppear(_ animated: Bool) {
@@ -26,12 +26,34 @@ class CustomAlertViewController: UIViewController {
         guard pickerMode != nil else {
             return
         }
+        pickerTitleArray = []
         switch pickerMode! {
         case .endtimeOfTask:
-            break
+            pickerTitleArray.append(Array(0...23))
+            pickerTitleArray.append(Array(0...59))
         case .numberOfTask:
-            break
+            pickerTitleArray.append(Array(1...5))
         }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+    }
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        pickerTitleArray.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        let compo = pickerTitleArray[component]
+        return compo.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let item = pickerTitleArray[component][row]
+        return String(item)
     }
 
     @IBAction private func okButton(_ sender: UIButton) {
