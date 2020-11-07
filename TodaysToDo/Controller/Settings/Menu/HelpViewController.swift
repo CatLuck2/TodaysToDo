@@ -24,6 +24,7 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         helpTableView.delegate = self
         helpTableView.dataSource = self
+        helpTableView.tableFooterView = UIView()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -59,9 +59,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OTr-Mv-M6C">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OTr-Mv-M6C">
                                 <rect key="frame" x="0.0" y="56" width="414" height="752"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellForHelp" id="AqX-Zc-6Sf">
@@ -77,6 +76,12 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="x7u-DR-YG7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="OTr-Mv-M6C" firstAttribute="top" secondItem="d82-IC-Yqh" secondAttribute="top" constant="56" id="8ZH-0S-HW4"/>
+                            <constraint firstItem="OTr-Mv-M6C" firstAttribute="leading" secondItem="x7u-DR-YG7" secondAttribute="leading" id="fXD-a5-4Ib"/>
+                            <constraint firstItem="OTr-Mv-M6C" firstAttribute="trailing" secondItem="x7u-DR-YG7" secondAttribute="trailing" id="qXu-Qf-fAF"/>
+                            <constraint firstItem="x7u-DR-YG7" firstAttribute="bottom" secondItem="OTr-Mv-M6C" secondAttribute="bottom" constant="54" id="rwm-dq-xnA"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="ヘルプ" id="xwD-Vz-3tD">
                         <barButtonItem key="leftBarButtonItem" title="&lt;設定" id="Tgj-Ei-JQF">
