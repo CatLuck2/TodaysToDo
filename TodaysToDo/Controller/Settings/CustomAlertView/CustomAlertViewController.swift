@@ -30,12 +30,12 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
         switch pickerMode! {
         case .endtimeOfTask:
             titleLabel.text = "タスク終了時刻"
-            messageLabel.text = "タスク終了の時刻を入力してください"
+            messageLabel.text = "終了通知の時刻を入力してください"
             pickerTitleArray.append(Array(0...23))
             pickerTitleArray.append(Array(0...59))
         case .numberOfTask:
             titleLabel.text = "タスク設定数"
-            messageLabel.text = "タスクの最大設定数を入力してください"
+            messageLabel.text = "最大設定数を入力してください"
             pickerTitleArray.append(Array(1...5))
         }
     }
