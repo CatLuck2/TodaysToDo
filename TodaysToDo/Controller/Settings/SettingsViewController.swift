@@ -128,6 +128,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
         case .data:
             cell.textLabel?.text = settingsMenuTitle[2][indexPath.row]
+            cell.textLabel?.textColor = .red
         }
         return cell
     }
@@ -182,7 +183,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             switch dataType {
             case .delete:
-                break
+                let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
+
+                }))
+                alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
             }
         }
     }
