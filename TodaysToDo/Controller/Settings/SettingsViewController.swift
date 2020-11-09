@@ -42,8 +42,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     private let settingsSectionTitle = ["タスク", "その他", "データ"]
     // 各セクションのメニュー
     private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["データ削除"]]
-    private(set) var endtimeValueOfTask: (Int, Int)!
-    private(set) var numberValueOfTask: Int!
+    private(set) var endtimeValueOfTask: (Int, Int)! = (22,0)
+    private(set) var numberValueOfTask: Int! = 5
 
     override func viewDidLoad() {
         super.viewDidLoad()
