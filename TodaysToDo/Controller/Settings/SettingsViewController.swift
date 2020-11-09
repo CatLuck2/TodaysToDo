@@ -73,13 +73,24 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellForSettingsID", for: indexPath)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cellForSettingsID")
         guard let sectionType = SectionType(rawValue: indexPath.section) else {
             return cell
         }
         switch sectionType {
         case .task:
             cell.textLabel?.text = settingsMenuTitle[0][indexPath.row]
+            guard let taskType = TaskType(rawValue: indexPath.row) else {
+                return cell
+            }
+            switch taskType {
+            case .endtimeOfTask:
+                cell.detailTextLabel?.text = "テスト"
+            case .numberOfTask:
+                cell.detailTextLabel?.text = "テスト"
+            case .priorityOfTask:
+                break
+            }
         case .other:
             cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
         case .data:
