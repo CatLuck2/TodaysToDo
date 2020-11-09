@@ -127,9 +127,11 @@
                         <outlet property="messageLabel" destination="RGB-xq-3mB" id="MaZ-UV-D6E"/>
                         <outlet property="pickerView" destination="oG4-1d-rNx" id="uRS-pD-WYv"/>
                         <outlet property="titleLabel" destination="bMd-ZA-Ot5" id="zo4-xe-JZc"/>
+                        <segue destination="7E5-lw-S2i" kind="unwind" identifier="unwindToSettingsVCFromCustomAlert" unwindAction="unwindToSettingVC:" id="GwT-cm-UIr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xnX-uW-Rq0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="7E5-lw-S2i" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-84.057971014492765" y="14.732142857142856"/>
         </scene>

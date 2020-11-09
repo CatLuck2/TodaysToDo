@@ -61,6 +61,7 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     @IBAction private func okButton(_ sender: UIButton) {
+        performSegue(withIdentifier: IdentifierType.unwindToSettingsVCFromCustomAlert, sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIButton) {
