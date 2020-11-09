@@ -20,8 +20,8 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     private var pickerTitleArray: [[Int]] = []
     var pickerMode: PickerMode!
-    private(set) var selectedEndtime: (Int, Int)!
-    private(set) var selectedNumber: Int!
+    var selectedEndtime: (Int, Int)!
+    var selectedNumber: Int!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -35,10 +35,14 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
             messageLabel.text = "終了通知の時刻を入力してください"
             pickerTitleArray.append(Array(0...23))
             pickerTitleArray.append(Array(0...59))
+            // pickerViewで初期位置
+            pickerView.selectRow(selectedEndtime.0, inComponent: 0, animated: false)
+            pickerView.selectRow(selectedEndtime.1, inComponent: 1, animated: false)
         case .numberOfTask:
             titleLabel.text = "タスク設定数"
             messageLabel.text = "最大設定数を入力してください"
             pickerTitleArray.append(Array(1...5))
+            pickerView.selectRow(selectedNumber - 1, inComponent: 0, animated: false)
         }
     }
 

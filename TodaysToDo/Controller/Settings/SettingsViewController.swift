@@ -146,11 +146,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
                 let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
                 customAlertVC.pickerMode = .endtimeOfTask
+                customAlertVC.selectedEndtime = (endtimeValueOfTask)
                 UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
             case .numberOfTask:
                 let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
                 let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
                 customAlertVC.pickerMode = .numberOfTask
+                customAlertVC.selectedNumber = numberValueOfTask
                 UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
             case .priorityOfTask:
                 break
