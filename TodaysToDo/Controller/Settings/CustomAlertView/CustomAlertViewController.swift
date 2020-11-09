@@ -20,6 +20,8 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     private var pickerTitleArray: [[Int]] = []
     var pickerMode: PickerMode!
+    private(set) var selectedEndtime: (Int, Int)!
+    private(set) var selectedNumber: Int!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -58,6 +60,18 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let item = pickerTitleArray[component][row]
         return String(item)
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch pickerMode! {
+        case .endtimeOfTask:
+            let row1 = pickerView.selectedRow(inComponent: 0)
+            let row2 = pickerView.selectedRow(inComponent: 1)
+            selectedEndtime = (pickerTitleArray[0][row1], pickerTitleArray[1][row2])
+        case .numberOfTask:
+            let row1 = pickerView.selectedRow(inComponent: 0)
+            selectedNumber = pickerTitleArray[0][row1]
+        }
     }
 
     @IBAction private func okButton(_ sender: UIButton) {

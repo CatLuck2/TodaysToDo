@@ -42,6 +42,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     private let settingsSectionTitle = ["タスク", "その他", "データ"]
     // 各セクションのメニュー
     private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["データ削除"]]
+    private(set) var endtimeValueOfTask: (Int, Int)!
+    private(set) var numberValueOfTask: Int!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,6 +154,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
 
-    @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {}
+    @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {
+        let customAlertVC = unwindSegue.source as! CustomAlertViewController
+        switch customAlertVC.pickerMode! {
+        case .endtimeOfTask:
+            endtimeValueOfTask = customAlertVC.selectedEndtime!
+        case .numberOfTask:
+            numberValueOfTask = customAlertVC.selectedNumber!
+        }
+        settingsTableView.reloadData()
+    }
 
 }
