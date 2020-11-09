@@ -42,7 +42,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     private let settingsSectionTitle = ["タスク", "その他", "データ"]
     // 各セクションのメニュー
     private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["データ削除"]]
-    private(set) var endtimeValueOfTask: (Int, Int)! = (22,0)
+    private(set) var endtimeValueOfTask: (Int, Int)! = (22, 0)
     private(set) var numberValueOfTask: Int! = 5
 
     override func viewDidLoad() {
@@ -50,6 +50,29 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
         settingsTableView.tableFooterView = UIView()
+    }
+
+    func getStringOfMinutes(number: Int) -> String {
+        var i = 0
+        var num = number
+        // num == 0
+        if num == 0 {
+            return "00"
+        }
+        // num > =
+        while num > 0 {
+            num /= 10
+            i += 1
+        }
+
+        switch i {
+        case 1:
+            return "0\(number)"
+        case 2:
+            return "\(number)"
+        default:
+            return ""
+        }
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,9 +110,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             switch taskType {
             case .endtimeOfTask:
-                cell.detailTextLabel?.text = "テスト"
+                cell.detailTextLabel?.text = "\(endtimeValueOfTask.0):" + getStringOfMinutes(number: endtimeValueOfTask.1)
             case .numberOfTask:
-                cell.detailTextLabel?.text = "テスト"
+                cell.detailTextLabel?.text = "\(numberValueOfTask!)"
             case .priorityOfTask:
                 break
             }
