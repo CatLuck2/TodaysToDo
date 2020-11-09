@@ -52,7 +52,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsTableView.tableFooterView = UIView()
     }
 
-    func getStringOfMinutes(number: Int) -> String {
+    private func getStringOfMinutes(number: Int) -> String {
         var i = 0
         var num = number
         // num == 0
@@ -73,6 +73,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         default:
             return ""
         }
+    }
+
+    @objc
+    private func toddleSwitchInCell(_ sender: UISwitch) {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -114,7 +118,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .numberOfTask:
                 cell.detailTextLabel?.text = "\(numberValueOfTask!)"
             case .priorityOfTask:
-                break
+                let switchView = UISwitch()
+                switchView.addTarget(self, action: #selector(toddleSwitchInCell(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
             }
         case .other:
             cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
