@@ -19,6 +19,8 @@
 		618EE4ED2539C6AE0085501C /* IdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EE4EC2539C6AE0085501C /* IdentifierType.swift */; };
 		6193D8C825569B6C00A148C1 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6193D8C625569B6C00A148C1 /* CustomAlertViewController.swift */; };
 		6193D8CE25569C3F00A148C1 /* CustomAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6193D8CD25569C3F00A148C1 /* CustomAlert.storyboard */; };
+		6193D8D9255A37BC00A148C1 /* HelpDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6193D8D8255A37BC00A148C1 /* HelpDetail.storyboard */; };
+		6193D8E2255A3C7400A148C1 /* HelpDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6193D8E1255A3C7300A148C1 /* HelpDetailViewController.swift */; };
 		61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */; };
 		61AF3ADC2531F772001BE560 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */; };
 		61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF3AE02531FCB5001BE560 /* MainViewController.swift */; };
@@ -79,6 +81,8 @@
 		618EE4EC2539C6AE0085501C /* IdentifierType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierType.swift; sourceTree = "<group>"; };
 		6193D8C625569B6C00A148C1 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		6193D8CD25569C3F00A148C1 /* CustomAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomAlert.storyboard; sourceTree = "<group>"; };
+		6193D8D8255A37BC00A148C1 /* HelpDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HelpDetail.storyboard; sourceTree = "<group>"; };
+		6193D8E1255A3C7300A148C1 /* HelpDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpDetailViewController.swift; sourceTree = "<group>"; };
 		61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		61AF3ADB2531F772001BE560 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		61AF3AE02531FCB5001BE560 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -231,6 +235,16 @@
 			path = CustomAlertView;
 			sourceTree = "<group>";
 		};
+		6193D8DD255A37C800A148C1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				61AF3AF9253297B7001BE560 /* Settings.storyboard */,
+				6193D8CD25569C3F00A148C1 /* CustomAlert.storyboard */,
+				6193D8D8255A37BC00A148C1 /* HelpDetail.storyboard */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		61AF3AE72531FD27001BE560 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,10 +261,9 @@
 			children = (
 				61C9C910252D45CD00CA32A4 /* Main.storyboard */,
 				61AF3AF4253297AD001BE560 /* Analytics.storyboard */,
-				61AF3AF9253297B7001BE560 /* Settings.storyboard */,
 				61E6E12C2534875200052F14 /* CustomTabBarController.storyboard */,
 				613D1A702547252A00DCCAAB /* Popup.storyboard */,
-				6193D8CD25569C3F00A148C1 /* CustomAlert.storyboard */,
+				6193D8DD255A37C800A148C1 /* Settings */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -324,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				61E3A2902553F6F200258DC5 /* HelpViewController.swift */,
+				6193D8E1255A3C7300A148C1 /* HelpDetailViewController.swift */,
 				61E3A29A2553F75400258DC5 /* ContactViewController.swift */,
 			);
 			path = Menu;
@@ -469,6 +483,7 @@
 				613D1A712547252A00DCCAAB /* Popup.storyboard in Resources */,
 				6193D8CE25569C3F00A148C1 /* CustomAlert.storyboard in Resources */,
 				61B6004D2556727D000168C9 /* SettingsCustomCell.xib in Resources */,
+				6193D8D9255A37BC00A148C1 /* HelpDetail.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +649,7 @@
 				6193D8C825569B6C00A148C1 /* CustomAlertViewController.swift in Sources */,
 				61E6E1CB2538384700052F14 /* ToDoItemCell.swift in Sources */,
 				61E3A29B2553F75400258DC5 /* ContactViewController.swift in Sources */,
+				6193D8E2255A3C7400A148C1 /* HelpDetailViewController.swift in Sources */,
 				61E6E1452537BB4700052F14 /* ToDoModel.swift in Sources */,
 				618EE4ED2539C6AE0085501C /* IdentifierType.swift in Sources */,
 				61C9C90B252D45CD00CA32A4 /* AppDelegate.swift in Sources */,
