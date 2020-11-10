@@ -194,14 +194,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {
-        let customAlertVC = unwindSegue.source as! CustomAlertViewController
-        switch customAlertVC.pickerMode! {
-        case .endtimeOfTask:
-            endtimeValueOfTask = customAlertVC.selectedEndtime!
-        case .numberOfTask:
-            numberValueOfTask = customAlertVC.selectedNumber!
+        if let customAlertVC = unwindSegue.source as? CustomAlertViewController {
+            switch customAlertVC.pickerMode! {
+            case .endtimeOfTask:
+                endtimeValueOfTask = customAlertVC.selectedEndtime!
+            case .numberOfTask:
+                numberValueOfTask = customAlertVC.selectedNumber!
+            }
+            settingsTableView.reloadData()
         }
-        settingsTableView.reloadData()
     }
 
 }
