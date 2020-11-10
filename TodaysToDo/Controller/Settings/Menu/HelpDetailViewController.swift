@@ -9,10 +9,14 @@ import UIKit
 
 class HelpDetailViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var navigationTitle: String!
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard self.navigationController != nil else {
+            return
+        }
+        self.navigationItem.title = navigationTitle
     }
-
 
 }

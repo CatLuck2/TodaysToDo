@@ -38,7 +38,14 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: IdentifierType.segueToHelpDetail, sender: nil)
+        performSegue(withIdentifier: IdentifierType.segueToHelpDetail, sender: helpTitles[indexPath.row])
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == IdentifierType.segueToHelpDetail {
+            let helpDetailVC = segue.destination as! HelpDetailViewController
+            guard let _ = sender as? String else { return }
+            helpDetailVC.navigationTitle = sender as! String
+        }
+    }
 }
