@@ -92,12 +92,23 @@
                     </navigationItem>
                     <connections>
                         <outlet property="helpTableView" destination="OTr-Mv-M6C" id="ubd-Ke-VYN"/>
+                        <segue destination="cfD-NV-KFk" kind="show" identifier="segueToHelpDetail" id="Akh-tV-kgQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6tB-ja-Yrt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="qAc-TE-xCr" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1800.0000000000002" y="103.79464285714285"/>
+        </scene>
+        <!--HelpDetail-->
+        <scene sceneID="qhw-XH-huG">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="helpDetail" storyboardName="HelpDetail" id="cfD-NV-KFk" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="gcC-iG-93n"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iwv-BV-i2l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2436" y="104"/>
         </scene>
         <!--お問い合わせ-->
         <scene sceneID="3KH-SF-XbA">

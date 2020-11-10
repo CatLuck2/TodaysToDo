@@ -38,7 +38,7 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        performSegue(withIdentifier: IdentifierType.segueToHelpDetail, sender: nil)
     }
 
 }
