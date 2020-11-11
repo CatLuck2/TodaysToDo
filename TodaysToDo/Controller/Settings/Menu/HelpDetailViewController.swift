@@ -33,18 +33,28 @@ class HelpDetailViewController: UIViewController {
 
         switch helpTypeValue {
         case .whatIsTodaysTodo:
-            break
+            setTextView(text: "これはTodaysTodoです")
         case .tutorialCreateTask:
-            break
+            setImageView(image: UIImage(systemName: "pencil")!)
         case .whatIsEndTime:
-            break
+            setTextView(text: "これはタスク終了を通知するアラートの表示時刻です")
         case .tutorialEndTime:
-            break
+            setImageView(image: UIImage(systemName: "pencil")!)
         case .whatIsPriority:
-            break
+            setTextView(text: "これは優先順位が高い順でないとタスクを完了できなくさせる機能です")
         case .none:
             break
         }
+    }
+
+    private func setTextView(text: String) {
+        helpDetailTextView.text = text
+        helpDetailTextView.isHidden = false
+    }
+
+    private func setImageView(image: UIImage) {
+        helpDetailImageView.image = image
+        helpDetailImageView.isHidden = false
     }
 
 }
