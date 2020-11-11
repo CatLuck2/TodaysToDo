@@ -22,10 +22,26 @@ class HelpDetailViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         guard self.navigationController != nil else {
             return
         }
         self.navigationItem.title = navigationTitle
+
+        switch helpTypeValue {
+        case .whatIsTodaysTodo:
+            break
+        case .tutorialCreateTask:
+            break
+        case .whatIsEndTime:
+            break
+        case .tutorialEndTime:
+            break
+        case .whatIsPriority:
+            break
+        case .none:
+            break
+        }
     }
 
 }

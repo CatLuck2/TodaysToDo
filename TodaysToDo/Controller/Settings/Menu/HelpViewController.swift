@@ -38,14 +38,32 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: IdentifierType.segueToHelpDetail, sender: helpTitles[indexPath.row])
+        performSegue(withIdentifier: IdentifierType.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == IdentifierType.segueToHelpDetail {
             let helpDetailVC = segue.destination as! HelpDetailViewController
-            guard let _ = sender as? String else { return }
-            helpDetailVC.navigationTitle = sender as! String
+
+            guard let dataForHelpDetail = sender as? [String: Any] else {
+                return
+            }
+            helpDetailVC.navigationTitle = dataForHelpDetail["naigationTitle"] as! String
+
+            switch dataForHelpDetail["indexPathRow"] as! Int {
+            case 0:
+                helpDetailVC.helpTypeValue = .whatIsTodaysTodo
+            case 1:
+                helpDetailVC.helpTypeValue = .tutorialCreateTask
+            case 2:
+                helpDetailVC.helpTypeValue = .whatIsEndTime
+            case 3:
+                helpDetailVC.helpTypeValue = .tutorialEndTime
+            case 4:
+                helpDetailVC.helpTypeValue = .whatIsPriority
+            default:
+                break
+            }
         }
     }
 }
