@@ -33,15 +33,15 @@ class HelpDetailViewController: UIViewController {
 
         switch helpTypeValue {
         case .whatIsTodaysTodo:
-            setTextView(text: "これはTodaysTodoです")
+            setTextView(text: "今日だけのタスクを管理できるアプリです。\n\n少数のタスクだけを作成により、今日やるべきことに集中でき、効率的なタスク消化を生み出します。\n\nただし、複数個（6個）のタスクを作成できず、ジャンルやグループなどのタスクを細かく管理する機能がありません。\n\n")
         case .tutorialCreateTask:
             setImageView(image: UIImage(systemName: "pencil")!)
         case .whatIsEndTime:
-            setTextView(text: "これはタスク終了を通知するアラートの表示時刻です")
+            setTextView(text: "タスク終了を通知するアラートの表示時刻です。\n\n設定した時刻に自動でアラート画面が表示され、アラート画面で作成したタスクを確認チェックできます。\n\nチェックした場合、ユーザーのタスク達成率のデータに反映されます。")
         case .tutorialEndTime:
             setImageView(image: UIImage(systemName: "pencil")!)
         case .whatIsPriority:
-            setTextView(text: "これは優先順位が高い順でないとタスクを完了できなくさせる機能です")
+            setTextView(text: "タスクに優先機能を付与できる機能です。\n\n例えば、３つのタスクで優先順位を付与した場合、1番目のタスクがチェックされない限り、2,3番目のタスクをチェックできません。\n\n注意点として、タスクを作成した後に本機能をON/OFFすることはできません。")
         case .none:
             break
         }
