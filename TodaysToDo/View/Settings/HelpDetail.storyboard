@@ -41,6 +41,10 @@
                             <constraint firstItem="sca-in-YFg" firstAttribute="leading" secondItem="jda-Gg-tjo" secondAttribute="leading" constant="41" id="q0J-QC-iEJ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="helpDetailImageView" destination="Mw6-90-V9U" id="mrv-lQ-6Ng"/>
+                        <outlet property="helpDetailTextView" destination="sca-in-YFg" id="BPd-rJ-CFc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yY-bX-hRj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

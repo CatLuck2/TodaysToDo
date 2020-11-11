@@ -17,6 +17,9 @@ import UIKit
 
 class HelpDetailViewController: UIViewController {
 
+    @IBOutlet private weak var helpDetailTextView: UITextView!
+    @IBOutlet private weak var helpDetailImageView: UIImageView!
+
     var navigationTitle: String!
     var helpTypeValue: HelpType!
 
