@@ -171,11 +171,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
                 present(activityVc, animated: true, completion: nil)
             case .developerAccount:
-                let webPage = "https://mobile.twitter.com/nekokichi1_yos2"
-                let safariVC = SFSafariViewController(url: (URL(string: webPage)!))
-                present(safariVC, animated: true, completion: nil)
+                let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForDeveloperTwitter)!))
+                present(webPage, animated: true, completion: nil)
             case .contact:
-                performSegue(withIdentifier: IdentifierType.segueToContact, sender: nil)
+                let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForGoogleForm)!))
+                present(webPage, animated: true, completion: nil)
             }
         case .data:
             guard let dataType = DataType(rawValue: indexPath.row) else {

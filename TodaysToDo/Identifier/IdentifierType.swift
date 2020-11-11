@@ -26,4 +26,7 @@ enum IdentifierType {
     static let segueToCustomAlert = "segueToCustomAlert"
     // Realmのモデルで使用するID
     static let realmModelID = "todoList"
+    // URL
+    static let urlForDeveloperTwitter = "https://mobile.twitter.com/nekokichi1_yos2"
+    static let urlForGoogleForm = "https://forms.gle/BsQ5sWS3YvETSDfX8"
 }
