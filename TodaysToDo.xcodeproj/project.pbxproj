@@ -11,6 +11,9 @@
 		61259BE0254D537900B1B7BF /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61259BDF254D537900B1B7BF /* GraphView.swift */; };
 		613D1A66254713EA00DCCAAB /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D1A65254713EA00DCCAAB /* PopupViewController.swift */; };
 		613D1A712547252A00DCCAAB /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613D1A702547252A00DCCAAB /* Popup.storyboard */; };
+		614BCDD2255D1E580068A2CA /* タスク編集と削除.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 614BCDCC255D19450068A2CA /* タスク編集と削除.mp4 */; };
+		614BCDD6255D1E610068A2CA /* アラート.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 614BCDCE255D19450068A2CA /* アラート.mp4 */; };
+		614BCDD7255D1E610068A2CA /* タスク作成.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 614BCDCD255D19450068A2CA /* タスク作成.mp4 */; };
 		6169D051253BD5C80032DA92 /* ToDoListAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */; };
 		6169D05B253DD9EF0032DA92 /* NewToDoItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */; };
 		6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169D062253E75F70032DA92 /* NewToDoItemCell.swift */; };
@@ -485,6 +488,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				614BCDD6255D1E610068A2CA /* アラート.mp4 in Resources */,
+				614BCDD7255D1E610068A2CA /* タスク作成.mp4 in Resources */,
+				614BCDD2255D1E580068A2CA /* タスク編集と削除.mp4 in Resources */,
 				61C9C917252D45CE00CA32A4 /* LaunchScreen.storyboard in Resources */,
 				61E6E1CC2538384700052F14 /* ToDoItemCell.xib in Resources */,
 				61C9C914252D45CE00CA32A4 /* Assets.xcassets in Resources */,
