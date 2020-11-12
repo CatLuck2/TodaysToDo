@@ -112,7 +112,10 @@ class MainViewController: UIViewController {
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        //        procutionNotification()
+        if unwindSegue.identifier == IdentifierType.unwindSegueFromPopupToMain {
+            //            procutionNotification()
+            self.setTodoListForAdd()
+        }
     }
 
     /// テスト用のNotification

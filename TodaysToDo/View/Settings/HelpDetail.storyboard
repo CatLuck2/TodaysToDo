@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wYa-n9-175">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Help Detail View Controller-->
+        <scene sceneID="uSo-fD-WA6">
+            <objects>
+                <viewController storyboardIdentifier="helpDetail" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wYa-n9-175" customClass="HelpDetailViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="C1t-fr-cSw">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sca-in-YFg">
+                                <rect key="frame" x="41" y="73" width="332" height="689"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Inj-Kw-0mu" customClass="PlayerView" customModule="TodaysToDo" customModuleProvider="target">
+                                <rect key="frame" x="41" y="73" width="332" height="689"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jda-Gg-tjo"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jda-Gg-tjo" firstAttribute="bottom" secondItem="Inj-Kw-0mu" secondAttribute="bottom" constant="100" id="3U5-Cr-5L3"/>
+                            <constraint firstItem="Inj-Kw-0mu" firstAttribute="leading" secondItem="jda-Gg-tjo" secondAttribute="leading" constant="41" id="8rJ-dJ-S5c"/>
+                            <constraint firstItem="jda-Gg-tjo" firstAttribute="bottom" secondItem="sca-in-YFg" secondAttribute="bottom" constant="100" id="Cez-FV-Gif"/>
+                            <constraint firstItem="jda-Gg-tjo" firstAttribute="trailing" secondItem="sca-in-YFg" secondAttribute="trailing" constant="41" id="Gia-hj-v5W"/>
+                            <constraint firstItem="sca-in-YFg" firstAttribute="top" secondItem="jda-Gg-tjo" secondAttribute="top" constant="29" id="HKl-fP-odh"/>
+                            <constraint firstItem="Inj-Kw-0mu" firstAttribute="top" secondItem="jda-Gg-tjo" secondAttribute="top" constant="29" id="izU-9A-s8p"/>
+                            <constraint firstItem="jda-Gg-tjo" firstAttribute="trailing" secondItem="Inj-Kw-0mu" secondAttribute="trailing" constant="41" id="oBq-Ou-l3H"/>
+                            <constraint firstItem="sca-in-YFg" firstAttribute="leading" secondItem="jda-Gg-tjo" secondAttribute="leading" constant="41" id="q0J-QC-iEJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="helpDetailPlayerView" destination="Inj-Kw-0mu" id="BXt-G3-reN"/>
+                        <outlet property="helpDetailTextView" destination="sca-in-YFg" id="BPd-rJ-CFc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9yY-bX-hRj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-149.27536231884059" y="-13.392857142857142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
