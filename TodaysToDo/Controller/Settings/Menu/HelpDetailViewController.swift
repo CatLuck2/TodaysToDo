@@ -18,8 +18,8 @@ import UIKit
 class HelpDetailViewController: UIViewController {
 
     @IBOutlet private weak var helpDetailTextView: UITextView!
-    @IBOutlet weak var helpDetailAVPlayerView: UIView!
-    
+    @IBOutlet weak var helpDetailPlayerView: PlayerView!
+
     var navigationTitle: String!
     var helpTypeValue: HelpType!
 
