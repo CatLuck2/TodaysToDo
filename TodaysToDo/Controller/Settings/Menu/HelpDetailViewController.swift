@@ -19,7 +19,7 @@ import AVKit
 class HelpDetailViewController: UIViewController {
 
     @IBOutlet private weak var helpDetailTextView: UITextView!
-    @IBOutlet weak var helpDetailPlayerView: PlayerView!
+    @IBOutlet private weak var helpDetailPlayerView: PlayerView!
 
     var navigationTitle: String!
     var helpTypeValue: HelpType!
@@ -53,18 +53,24 @@ class HelpDetailViewController: UIViewController {
         helpDetailTextView.isHidden = false
     }
 
-    func setPlayerView(fileName: String, fileExtension: String) {
+    private func setPlayerView(fileName: String, fileExtension: String) {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension) else {
             print("Url is nil")
             return
         }
 
         helpDetailPlayerView.isHidden = false
+        NotificationCenter.default.addObserver(self, selector: #selector(didEndPlayerView), name: .AVPlayerItemDidPlayToEndTime, object: nil)
 
         let item = AVPlayerItem(url: url)
         player = AVPlayer(playerItem: item)
-
         helpDetailPlayerView.player = player
+        player.play()
+    }
+
+    @objc
+    private func didEndPlayerView() {
+        player.seek(to: CMTime.zero)
         player.play()
     }
 
