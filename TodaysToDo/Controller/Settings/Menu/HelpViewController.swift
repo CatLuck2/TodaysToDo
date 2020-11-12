@@ -14,6 +14,7 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
     private let helpTitles = [
         "TodayTodoとは？",
         "タスク作成画面の操作方法",
+        "タスク編集と削除の操作方法",
         "タスク終了時刻とは？",
         "タスク終了時刻後の流れ",
         "タスク優先順位とは？"
@@ -56,10 +57,12 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
             case 1:
                 helpDetailVC.helpTypeValue = .tutorialCreateTask
             case 2:
-                helpDetailVC.helpTypeValue = .whatIsEndTime
+                helpDetailVC.helpTypeValue = .tutorialEditAndDeleteTask
             case 3:
-                helpDetailVC.helpTypeValue = .tutorialEndTime
+                helpDetailVC.helpTypeValue = .whatIsEndTime
             case 4:
+                helpDetailVC.helpTypeValue = .tutorialEndTime
+            case 5:
                 helpDetailVC.helpTypeValue = .whatIsPriority
             default:
                 break

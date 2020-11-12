@@ -8,6 +8,7 @@
 enum HelpType {
     case whatIsTodaysTodo
     case tutorialCreateTask
+    case tutorialEditAndDeleteTask
     case whatIsEndTime
     case tutorialEndTime
     case whatIsPriority
@@ -37,6 +38,8 @@ class HelpDetailViewController: UIViewController {
             setTextView(text: "今日だけのタスクを管理できるアプリです。\n\n少数のタスクだけを作成により、今日やるべきことに集中でき、効率的なタスク消化を生み出します。\n\nただし、複数個（6個）のタスクを作成できず、ジャンルやグループなどのタスクを細かく管理する機能がありません。\n\n")
         case .tutorialCreateTask:
             setPlayerView(fileName: "タスク作成", fileExtension: "mp4")
+        case .tutorialEditAndDeleteTask:
+            setPlayerView(fileName: "タスク編集と削除", fileExtension: "mp4")
         case .whatIsEndTime:
             setTextView(text: "タスク終了を通知するアラートの表示時刻です。\n\n設定した時刻に自動でアラート画面が表示され、アラート画面で作成したタスクを確認チェックできます。\n\nチェックした場合、ユーザーのタスク達成率のデータに反映されます。")
         case .tutorialEndTime:
