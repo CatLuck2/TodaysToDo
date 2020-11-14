@@ -25,6 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // 初回
             // 次回以降、2回目を通過するように設定
             UserDefaults.standard.set(true, forKey: IdentifierType.isFirstLaurnch)
+            // 設定項目のデフォルト値を設定
+            let sv = SettingsValue()
+            sv.saveSettingsValue(endTime: (23, 0), number: 5, priority: false)
         }
     }
 
