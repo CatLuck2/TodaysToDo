@@ -11,7 +11,7 @@ class SettingsValue: NSObject, NSSecureCoding {
 
     static var supportsSecureCoding: Bool = true
 
-    private(set) var endTimeOfTask: (x: Int, y: Int) = (0, 0)
+    private(set) var endTimeOfTask: (x: Int?, y: Int?) = (0, 0)
     private(set) var numberOfTask: Int = 0
     private(set) var priorityOfTask: Bool = false
 
@@ -20,7 +20,7 @@ class SettingsValue: NSObject, NSSecureCoding {
     }
 
     required init(coder decoder: NSCoder) {
-        if let x = decoder.decodeObject(forKey: "myTupleX") as! Int?, let y = decoder.decodeObject(forKey: "myTupleY") as! Int? {
+        if let x = decoder.decodeInteger(forKey: "myTupleX") as Int?, let y = decoder.decodeInteger(forKey: "myTupleY") as Int? {
             endTimeOfTask = (x, y)
         }
         if let numberOfTask = decoder.decodeInteger(forKey: "number") as Int? {
