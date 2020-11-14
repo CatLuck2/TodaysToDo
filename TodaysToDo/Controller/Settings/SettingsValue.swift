@@ -20,20 +20,20 @@ class SettingsValue: NSObject, NSSecureCoding {
     }
 
     required init(coder decoder: NSCoder) {
-        if let x = decoder.decodeInteger(forKey: "myTupleX") as Int?, let y = decoder.decodeInteger(forKey: "myTupleY") as Int? {
+        if let x = decoder.decodeInteger(forKey: IdentifierType.tupleX) as Int?, let y = decoder.decodeInteger(forKey: IdentifierType.tupleY) as Int? {
             endTimeOfTask = (x, y)
         }
-        if let numberOfTask = decoder.decodeInteger(forKey: "number") as Int? {
+        if let numberOfTask = decoder.decodeInteger(forKey: IdentifierType.number) as Int? {
             self.numberOfTask = numberOfTask
         }
-        self.priorityOfTask = decoder.decodeBool(forKey: "priority")
+        self.priorityOfTask = decoder.decodeBool(forKey: IdentifierType.priority)
     }
 
     func encode(with coder: NSCoder) {
-        coder.encode(endTimeOfTask.x, forKey: "myTupleX")
-        coder.encode(endTimeOfTask.y, forKey: "myTupleY")
-        coder.encode(numberOfTask, forKey: "number")
-        coder.encode(priorityOfTask, forKey: "priority")
+        coder.encode(endTimeOfTask.x, forKey: IdentifierType.tupleX)
+        coder.encode(endTimeOfTask.y, forKey: IdentifierType.tupleY)
+        coder.encode(numberOfTask, forKey: IdentifierType.number)
+        coder.encode(priorityOfTask, forKey: IdentifierType.priority)
     }
 
     // UserDetaultに保存
@@ -47,12 +47,12 @@ class SettingsValue: NSObject, NSSecureCoding {
         guard let settingsValueData = try? NSKeyedArchiver.archivedData(withRootObject: sv, requiringSecureCoding: true) else {
             fatalError("Error of saving data in UserDefault")
         }
-        UserDefaults.standard.set(settingsValueData, forKey: "settingsValueData")
+        UserDefaults.standard.set(settingsValueData, forKey: IdentifierType.settingsValueData)
     }
 
     // UserDefaultから取得
     func readSettingsValue() -> SettingsValue {
-        let dataInUD = UserDefaults.standard.object(forKey: "settingsValueData")
+        let dataInUD = UserDefaults.standard.object(forKey: IdentifierType.settingsValueData)
         do {
             let settingsValueData = try NSKeyedUnarchiver.unarchivedObject(ofClass: SettingsValue.self, from: dataInUD as! Data)!
             return settingsValueData

@@ -31,4 +31,10 @@ enum IdentifierType {
     static let urlForGoogleForm = "https://forms.gle/BsQ5sWS3YvETSDfX8"
     // UserDefaultのキー
     static let isFirstLaurnch = "isFirstLaurnch"
+    static let settingsValueData = "settingsValueData"
+    // NSCodingのキー
+    static let tupleX = "tupleX"
+    static let tupleY = "tupleY"
+    static let number = "number"
+    static let priority = "priority"
 }
