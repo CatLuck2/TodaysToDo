@@ -7,7 +7,9 @@
 
 import Foundation
 
-class SettingsValue: NSObject, NSCoding {
+class SettingsValue: NSObject, NSSecureCoding {
+
+    static var supportsSecureCoding: Bool = true
 
     private(set) var endTimeOfTask: (x: Int, y: Int) = (0, 0)
     private(set) var numberOfTask: Int = 0
@@ -21,7 +23,7 @@ class SettingsValue: NSObject, NSCoding {
         if let x = decoder.decodeObject(forKey: "myTupleX") as! Int?, let y = decoder.decodeObject(forKey: "myTupleY") as! Int? {
             endTimeOfTask = (x, y)
         }
-        if let numberOfTask = decoder.decodeObject(forKey: "number") as? Int {
+        if let numberOfTask = decoder.decodeInteger(forKey: "number") as Int? {
             self.numberOfTask = numberOfTask
         }
         self.priorityOfTask = decoder.decodeBool(forKey: "priority")
@@ -42,20 +44,17 @@ class SettingsValue: NSObject, NSCoding {
         sv.numberOfTask = number
         sv.priorityOfTask = priority
         // UserDefaultに保存
-        let ud = UserDefaults.standard
-        do {
-            let settingsValueData = try NSKeyedArchiver.archivedData(withRootObject: sv, requiringSecureCoding: false)
-            ud.set(settingsValueData, forKey: "settingsValueData")
-        } catch {
+        guard let settingsValueData = try? NSKeyedArchiver.archivedData(withRootObject: sv, requiringSecureCoding: true) else {
             fatalError("Error of saving data in UserDefault")
         }
+        UserDefaults.standard.set(settingsValueData, forKey: "settingsValueData")
     }
 
     // UserDefaultから取得
     func readSettingsValue() -> SettingsValue {
-        let ud = UserDefaults.standard
+        let dataInUD = UserDefaults.standard.object(forKey: "settingsValueData")
         do {
-            let settingsValueData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(ud.object(forKey: "settingsValueData") as! Data) as! SettingsValue
+            let settingsValueData = try NSKeyedUnarchiver.unarchivedObject(ofClass: SettingsValue.self, from: dataInUD as! Data)!
             return settingsValueData
         } catch {
             fatalError("Error of reading data in UserDefault")
