@@ -89,6 +89,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @objc
     private func toddleSwitchInCell(_ sender: UISwitch) {
         isExecutedPriorityOfTask = sender.isOn
+        // UserDefaultに保存
+        let sv = SettingsValue()
+        sv.saveSettingsValue(endTime: self.endtimeValueOfTask, number: self.numberValueOfTask, priority: self.isExecutedPriorityOfTask)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -132,6 +135,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .priorityOfTask:
                 let switchView = UISwitch()
                 switchView.addTarget(self, action: #selector(toddleSwitchInCell(_:)), for: .valueChanged)
+                // switchViewの初期値
+                switchView.isOn = self.isExecutedPriorityOfTask
                 cell.accessoryView = switchView
             }
         case .other:
