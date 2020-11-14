@@ -29,4 +29,6 @@ enum IdentifierType {
     // URL
     static let urlForDeveloperTwitter = "https://mobile.twitter.com/nekokichi1_yos2"
     static let urlForGoogleForm = "https://forms.gle/BsQ5sWS3YvETSDfX8"
+    // UserDefaultのキー
+    static let isFirstLaurnch = "isFirstLaurnch"
 }

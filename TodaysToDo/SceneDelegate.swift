@@ -16,6 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+
+        // 初回起動かをチェック
+        let isFirstLaurnch = UserDefaults.standard.bool(forKey: IdentifierType.isFirstLaurnch)
+        if isFirstLaurnch {
+            // 2回目
+        } else {
+            // 初回
+            // 次回以降、2回目を通過するように設定
+            UserDefaults.standard.set(true, forKey: IdentifierType.isFirstLaurnch)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
