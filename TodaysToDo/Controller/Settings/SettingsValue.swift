@@ -11,16 +11,16 @@ class SettingsValue: NSObject, NSSecureCoding {
 
     static var supportsSecureCoding: Bool = true
 
-    private(set) var endTimeOfTask: (x: Int?, y: Int?) = (0, 0)
-    private(set) var numberOfTask: Int = 0
-    private(set) var priorityOfTask: Bool = false
+    var endTimeOfTask: (x: Int?, y: Int?) = (0, 0)
+    var numberOfTask: Int = 0
+    var priorityOfTask: Bool = false
 
     override init() {
         super.init()
     }
 
     required init(coder decoder: NSCoder) {
-        if let x = decoder.decodeInteger(forKey: IdentifierType.tupleX) as Int?, let y = decoder.decodeInteger(forKey: IdentifierType.tupleY) as Int? {
+        if let x = decoder.decodeObject(forKey: IdentifierType.tupleX) as! Int?, let y = decoder.decodeObject(forKey: IdentifierType.tupleY) as! Int? {
             endTimeOfTask = (x, y)
         }
         if let numberOfTask = decoder.decodeInteger(forKey: IdentifierType.number) as Int? {
@@ -54,7 +54,7 @@ class SettingsValue: NSObject, NSSecureCoding {
     func readSettingsValue() -> SettingsValue {
         let dataInUD = UserDefaults.standard.object(forKey: IdentifierType.settingsValueData)
         do {
-            let settingsValueData = try NSKeyedUnarchiver.unarchivedObject(ofClass: SettingsValue.self, from: dataInUD as! Data)!
+            let settingsValueData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(dataInUD as! Data) as! SettingsValue
             return settingsValueData
         } catch {
             fatalError("Error of reading data in UserDefault")
