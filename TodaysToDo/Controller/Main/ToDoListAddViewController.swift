@@ -18,7 +18,23 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet private weak var todoListTableView: UITableView!
     // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
     // (0, 1) = (Cell.Type, String?)
-    private var newItemList: [(CellType, String?)] = [(CellType.input, ""), (CellType.add, nil)]
+    private var newItemList: [(CellType, String?)]! = []
+    private var limitedNumberOfCell: Int!
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        let sv = SettingsValue()
+        let settingsValueOfTask = sv.readSettingsValue()
+        limitedNumberOfCell = settingsValueOfTask.numberOfTask
+
+        switch limitedNumberOfCell {
+        case 1: // 設定数が1
+            newItemList = [(CellType.input, "")]
+        default: // 設定数が2~5
+            newItemList = [(CellType.input, ""), (CellType.add, nil)]
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,10 +76,10 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             // 最大要素数は5つ
             // inputが3つ以下でinputセルを追加
             // inputが4つなら、最後尾のinputをaddへ変更
-            if newItemList.count < 5 {
+            if newItemList.count < limitedNumberOfCell {
                 newItemList.insert((.input, ""), at: indexPath.row)
             }
-            if newItemList.count == 5 {
+            if newItemList.count == limitedNumberOfCell {
                 newItemList[indexPath.row] = (CellType.input, "")
             }
             todoListTableView.reloadData()
