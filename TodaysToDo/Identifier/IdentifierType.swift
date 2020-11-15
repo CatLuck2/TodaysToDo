@@ -18,6 +18,7 @@ enum IdentifierType {
     static let segueToEditFromMain = "toEdit"
     static let segueToAddFromMain = "toAdd"
     static let unwindSegueFromPopupToMain = "unwindSegueFromPopupToMain"
+    static let unwindToMainVCFromAdd = "unwindToMainVCFromAdd"
     static let segueToHelp = "settingHelp"
     static let segueToContact = "settingContact"
     static let unwindToSettingsVCFromCustomAlert = "unwindToSettingsVCFromCustomAlert"

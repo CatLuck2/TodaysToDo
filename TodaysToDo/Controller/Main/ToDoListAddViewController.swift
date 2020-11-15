@@ -129,7 +129,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
             realm.add(model, update: .all)
         }
 
-        performSegue(withIdentifier: "unwindToMainVCFromAdd", sender: nil)
+        performSegue(withIdentifier: IdentifierType.unwindToMainVCFromAdd, sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIBarButtonItem) {

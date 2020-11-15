@@ -112,7 +112,7 @@ class MainViewController: UIViewController {
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        if unwindSegue.identifier == IdentifierType.unwindSegueFromPopupToMain {
+        if unwindSegue.identifier == IdentifierType.unwindToMainVCFromAdd {
             //            procutionNotification()
             self.setTodoListForAdd()
         }
@@ -138,7 +138,10 @@ class MainViewController: UIViewController {
     /// 本番用のNotification
     func procutionNotification() {
         // UNUserNotificationを登録
-        let triggerDate = DateComponents(hour: 13, minute: 29)
+        // UserDefaultから設定項目の値を取得
+        let sv = SettingsValue()
+        let settingsValueOfTask = sv.readSettingsValue()
+        let triggerDate = DateComponents(hour: settingsValueOfTask.endTimeOfTask.x!, minute: settingsValueOfTask.endTimeOfTask.y!)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
