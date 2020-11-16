@@ -62,6 +62,10 @@ class MainViewController: UIViewController {
     }
 
     private func setTodoListForEdit(numberOfItems: Int) {
+        // UserDefaultから設定項目のデータを取得
+        let sv = SettingsValue()
+        let settingsValueOfTask = sv.readSettingsValue()
+        // 枠線
         todoListStackView.layer.borderWidth = 1
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
@@ -71,6 +75,12 @@ class MainViewController: UIViewController {
         // 子要素View(>Label)を生成し、AutoLayoutを設定し、todoListViewに組み込む
         for n in 0..<numberOfItems {
             let view = UIView()
+            // 優先機能はON?
+            if settingsValueOfTask.priorityOfTask {
+                // viewの背景色にヒートマップ的な色を指定
+                let rgbPercentage: CGFloat = ((CGFloat(n) / CGFloat(numberOfItems)))
+                view.backgroundColor = UIColor(red: 1.0, green: rgbPercentage, blue: 0.0, alpha: 1)
+            }
             view.heightAnchor.constraint(equalToConstant: 59).isActive = true
             view.translatesAutoresizingMaskIntoConstraints = false
 
