@@ -13,6 +13,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!
     // チェックマーク状態の配列
     private var isChecked: [Bool] = []
+    // チェック可能かを示す値の配列
+    private var statesOfTasks:[Bool] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +27,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // isCheckedにタスクの数だけfalseを追加
         for _ in 0..<RealmResults.sharedInstance[0].todoList.count {
             isChecked.append(false)
+            statesOfTasks.append(false)
         }
+        // 0番目のセルはタップ可能に初期化
+        statesOfTasks[0] = true
     }
 
     override func viewDidLayoutSubviews() {
