@@ -62,8 +62,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if isExecutedPriorityOfTask {
             if statesOfTasks[indexPath.row] {
                 cell.selectionStyle = .default
+                cell.textLabel?.alpha = 1.0
             } else {
                 cell.selectionStyle = .none
+                cell.textLabel?.alpha = 0.5
             }
         }
 
