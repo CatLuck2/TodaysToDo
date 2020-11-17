@@ -101,21 +101,25 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 cell.accessoryType = .none
                 isChecked[indexPath.row] = false
                 // タップしたセル以降のセルの各状態をfalseに変更
-                if statesOfTasks.count - 1 >= indexPath.row + 1 {
-                    for row in indexPath.row + 1...statesOfTasks.count - 1 {
-                        isChecked[row] = false
-                        statesOfTasks[row] = false
+                if isExecutedPriorityOfTask {
+                    if statesOfTasks.count - 1 >= indexPath.row + 1 {
+                        for row in indexPath.row + 1...statesOfTasks.count - 1 {
+                            isChecked[row] = false
+                            statesOfTasks[row] = false
+                        }
+                        tableView.reloadData()
                     }
-                    tableView.reloadData()
                 }
             } else {
                 // つける
                 cell.accessoryType = .checkmark
                 isChecked[indexPath.row] = true
                 // (indexPath.row + 1)番目のセルをチェック可能にする
-                if statesOfTasks.count - 1 >= indexPath.row + 1 {
-                    statesOfTasks[indexPath.row + 1] = true
-                    tableView.reloadData()
+                if isExecutedPriorityOfTask {
+                    if statesOfTasks.count - 1 >= indexPath.row + 1 {
+                        statesOfTasks[indexPath.row + 1] = true
+                        tableView.reloadData()
+                    }
                 }
             }
         }
