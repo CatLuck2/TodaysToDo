@@ -13,8 +13,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!
     // チェックマーク状態の配列
     private var isChecked: [Bool] = []
+    // チェック機能がONかどうか
+    private var isExecutedPriorityOfTask: Bool!
     // チェック可能かを示す値の配列
-    private var statesOfTasks:[Bool] = []
+    private var statesOfTasks: [Bool] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,12 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         todoListTableView.dataSource = self
         todoListTableView.allowsMultipleSelection = true
         todoListTableView.tableFooterView = UIView()
+
+        // UserDefaultからデータを取得
+        let sv = SettingsValue()
+        let settingsValueOfTask = sv.readSettingsValue()
+        // チェック機能がONならtrue, OFFならfalse、を代入
+        isExecutedPriorityOfTask = settingsValueOfTask.priorityOfTask
 
         // isCheckedにタスクの数だけfalseを追加
         for _ in 0..<RealmResults.sharedInstance[0].todoList.count {
@@ -49,13 +57,37 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.celllForPopup, for: indexPath)
         cell.textLabel?.text = RealmResults.sharedInstance[0].todoList[indexPath.row]
         cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
+
+        // チェック可能状態を読み込む
+        if isExecutedPriorityOfTask {
+            if statesOfTasks[indexPath.row] {
+                cell.selectionStyle = .default
+            } else {
+                cell.selectionStyle = .none
+            }
+        }
+
         // チェックマーク状態を読み込む
         if !isChecked[indexPath.row] {
             cell.accessoryType = .none
         } else if isChecked[indexPath.row] {
             cell.accessoryType = .checkmark
         }
+
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        // チェック可能状態を読み込む
+        if isExecutedPriorityOfTask {
+            if statesOfTasks[indexPath.row] {
+                return indexPath
+            } else {
+                return nil
+            }
+        }
+
+        return indexPath
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
