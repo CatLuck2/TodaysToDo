@@ -102,6 +102,11 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
             } else {
                 cell.accessoryType = .checkmark
                 isChecked[indexPath.row] = true
+                // (indexPath.row + 1)番目のセルをチェック可能にする
+                if statesOfTasks.count >= indexPath.row + 1 {
+                    statesOfTasks[indexPath.row + 1] = true
+                    tableView.reloadData()
+                }
             }
         }
     }
