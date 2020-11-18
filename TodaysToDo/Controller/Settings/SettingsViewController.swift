@@ -42,9 +42,19 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     private let settingsSectionTitle = ["タスク", "その他", "データ"]
     // 各セクションのメニュー
     private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["データ削除"]]
-    private(set) var endtimeValueOfTask: (Int, Int)! = (22, 0)
-    private(set) var numberValueOfTask: Int! = 5
-    private(set) var isExecutedPriorityOfTask: Bool = false
+    private(set) var endtimeValueOfTask: (Int, Int)!
+    private(set) var numberValueOfTask: Int!
+    private(set) var isExecutedPriorityOfTask: Bool!
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // UserDefaultからタスク項目の値を取得
+        let sv = SettingsValue()
+        let settingsValueOfTask = sv.readSettingsValue()
+        endtimeValueOfTask = settingsValueOfTask.endTimeOfTask as! (Int, Int)
+        numberValueOfTask = settingsValueOfTask.numberOfTask
+        isExecutedPriorityOfTask = settingsValueOfTask.priorityOfTask
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +89,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     @objc
     private func toddleSwitchInCell(_ sender: UISwitch) {
         isExecutedPriorityOfTask = sender.isOn
+        // UserDefaultに保存
+        let sv = SettingsValue()
+        sv.saveSettingsValue(endTime: self.endtimeValueOfTask, number: self.numberValueOfTask, priority: self.isExecutedPriorityOfTask)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -122,6 +135,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .priorityOfTask:
                 let switchView = UISwitch()
                 switchView.addTarget(self, action: #selector(toddleSwitchInCell(_:)), for: .valueChanged)
+                // switchViewの初期値
+                switchView.isOn = self.isExecutedPriorityOfTask
                 cell.accessoryView = switchView
             }
         case .other:
@@ -201,6 +216,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .numberOfTask:
                 numberValueOfTask = customAlertVC.selectedNumber!
             }
+            // UserDefaultに保存
+            let sv = SettingsValue()
+            sv.saveSettingsValue(endTime: self.endtimeValueOfTask, number: self.numberValueOfTask, priority: self.isExecutedPriorityOfTask)
             settingsTableView.reloadData()
         }
     }

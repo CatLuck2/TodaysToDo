@@ -18,6 +18,7 @@ enum IdentifierType {
     static let segueToEditFromMain = "toEdit"
     static let segueToAddFromMain = "toAdd"
     static let unwindSegueFromPopupToMain = "unwindSegueFromPopupToMain"
+    static let unwindToMainVCFromAdd = "unwindToMainVCFromAdd"
     static let segueToHelp = "settingHelp"
     static let segueToContact = "settingContact"
     static let unwindToSettingsVCFromCustomAlert = "unwindToSettingsVCFromCustomAlert"
@@ -29,4 +30,12 @@ enum IdentifierType {
     // URL
     static let urlForDeveloperTwitter = "https://mobile.twitter.com/nekokichi1_yos2"
     static let urlForGoogleForm = "https://forms.gle/BsQ5sWS3YvETSDfX8"
+    // UserDefaultのキー
+    static let isFirstLaurnch = "isFirstLaurnch"
+    static let settingsValueData = "settingsValueData"
+    // NSCodingのキー
+    static let tupleX = "tupleX"
+    static let tupleY = "tupleY"
+    static let number = "number"
+    static let priority = "priority"
 }

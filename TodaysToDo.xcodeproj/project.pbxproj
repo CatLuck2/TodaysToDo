@@ -15,6 +15,7 @@
 		614BCDD6255D1E610068A2CA /* アラート.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 614BCDCE255D19450068A2CA /* アラート.mp4 */; };
 		614BCDD7255D1E610068A2CA /* タスク作成.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 614BCDCD255D19450068A2CA /* タスク作成.mp4 */; };
 		614BCDDC255D32920068A2CA /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614BCDDB255D32920068A2CA /* PlayerView.swift */; };
+		614BCDEF255F8D140068A2CA /* SettingsValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614BCDEE255F8D140068A2CA /* SettingsValue.swift */; };
 		6169D051253BD5C80032DA92 /* ToDoListAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */; };
 		6169D05B253DD9EF0032DA92 /* NewToDoItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */; };
 		6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169D062253E75F70032DA92 /* NewToDoItemCell.swift */; };
@@ -80,6 +81,7 @@
 		614BCDCD255D19450068A2CA /* タスク作成.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "タスク作成.mp4"; sourceTree = "<group>"; };
 		614BCDCE255D19450068A2CA /* アラート.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "アラート.mp4"; sourceTree = "<group>"; };
 		614BCDDB255D32920068A2CA /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		614BCDEE255F8D140068A2CA /* SettingsValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsValue.swift; sourceTree = "<group>"; };
 		6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAddViewController.swift; sourceTree = "<group>"; };
 		6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewToDoItemCell.xib; sourceTree = "<group>"; };
 		6169D062253E75F70032DA92 /* NewToDoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoItemCell.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
+				614BCDEE255F8D140068A2CA /* SettingsValue.swift */,
 				61E3A29F2553F79C00258DC5 /* Menu */,
 				6193D8AA25568B4A00A148C1 /* CustomAlertView */,
 				61B6004225566A93000168C9 /* Cell */,
@@ -668,6 +671,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				614BCDEF255F8D140068A2CA /* SettingsValue.swift in Sources */,
 				6169D051253BD5C80032DA92 /* ToDoListAddViewController.swift in Sources */,
 				6193D8C825569B6C00A148C1 /* CustomAlertViewController.swift in Sources */,
 				61E6E1CB2538384700052F14 /* ToDoItemCell.swift in Sources */,
