@@ -18,13 +18,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
 
         // 初回起動かをチェック
-        let isFirstLaurnch = UserDefaults.standard.bool(forKey: IdentifierType.isFirstLaurnch)
+        let ud = UserDefaults.standard
+        let isFirstLaurnch = ud.bool(forKey: IdentifierType.isFirstLaurnch)
         if isFirstLaurnch {
             // 2回目
         } else {
             // 初回
-            // 次回以降、2回目を通過するように設定
-            UserDefaults.standard.set(true, forKey: IdentifierType.isFirstLaurnch)
+            // 初回起動したことを示す値をUserDefaultに登録
+            ud.set(true, forKey: IdentifierType.isFirstLaurnch)
+            // 1日のタスクが終了したかを示す値をUserDefaultに登録
+            ud.set(Date(), forKey: IdentifierType.dateWhenDidEndTask)
             // 設定項目のデフォルト値を設定
             let sv = SettingsValue()
             sv.saveSettingsValue(endTime: (23, 0), number: 5, priority: false)
