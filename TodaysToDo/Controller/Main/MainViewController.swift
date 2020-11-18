@@ -16,6 +16,16 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // UserDefaultから前回のタスク終了日時を取得
+        guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
+            return
+        }
+        // 今日のタスクが終了したかの確認
+        if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
+            // 今日は既にタスクが終了している
+            return
+        }
+
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
         RealmResults.sharedInstance = realm.objects(ToDoModel.self)
