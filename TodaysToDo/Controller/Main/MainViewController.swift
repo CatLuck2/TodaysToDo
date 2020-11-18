@@ -53,13 +53,15 @@ class MainViewController: UIViewController {
         }
 
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "pencil")
+        imageView.image = UIImage(named: "タスク終了画像")
         imageView.contentMode = .scaleToFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0 / 1.2).isActive = true
 
         let textView = UITextView()
         textView.textAlignment = .center
-        textView.font = UIFont.systemFont(ofSize: 15)
-        textView.text = "本日のタスクは終了しました。\n\n"
+        textView.font = UIFont.boldSystemFont(ofSize: 15)
+        textView.text = "本日のタスクは終了しました。"
         textView.isScrollEnabled = false
 
         todoListStackView.addArrangedSubview(imageView)
