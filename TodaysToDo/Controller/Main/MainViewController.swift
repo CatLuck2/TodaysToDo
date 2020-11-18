@@ -23,6 +23,7 @@ class MainViewController: UIViewController {
         // 今日のタスクが終了したかの確認
         if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
             // 今日は既にタスクが終了している
+            setEndTaskOfTodayLayout()
             return
         }
 
@@ -41,6 +42,28 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
+    }
+
+    // タスク終了後のレイアウトを構築
+    private func setEndTaskOfTodayLayout() {
+        // todoListStackViewの子要素を全て削除
+        let subviews = todoListStackView.subviews
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
+
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "pencil")
+        imageView.contentMode = .scaleToFill
+
+        let textView = UITextView()
+        textView.textAlignment = .center
+        textView.font = UIFont.systemFont(ofSize: 15)
+        textView.text = "本日のタスクは終了しました。\n\n"
+        textView.isScrollEnabled = false
+
+        todoListStackView.addArrangedSubview(imageView)
+        todoListStackView.addArrangedSubview(textView)
     }
 
     // タスクリストのレイアウトを調整
