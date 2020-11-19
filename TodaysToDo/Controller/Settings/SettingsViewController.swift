@@ -89,7 +89,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @objc
-    private func toddleSwitchInCell(_ sender: UISwitch) {
+    private func toggleSwitchInCell(_ sender: UISwitch) {
         isExecutedPriorityOfTask = sender.isOn
         // UserDefaultに保存
         let sv = SettingsValue()
@@ -186,7 +186,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 cell.detailTextLabel?.text = "\(numberValueOfTask!)"
             case .priorityOfTask:
                 let switchView = UISwitch()
-                switchView.addTarget(self, action: #selector(toddleSwitchInCell(_:)), for: .valueChanged)
+                switchView.addTarget(self, action: #selector(toggleSwitchInCell(_:)), for: .valueChanged)
                 // switchViewの初期値
                 switchView.isOn = self.isExecutedPriorityOfTask
                 cell.accessoryView = switchView
@@ -241,7 +241,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .help:
                 performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
             case .share:
-                let shareText = "今日のタスクに集中して取り組めるアプリ -¥ TodaysTodo"
+                let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
                 let shareURL = URL(string: "https://www.apple.com/jp/watch/")!
                 let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
                 present(activityVc, animated: true, completion: nil)
