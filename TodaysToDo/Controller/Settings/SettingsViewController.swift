@@ -101,7 +101,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // タスクリストがある
         if RealmResults.sharedInstance.indices.contains(0) == true {
             let alert = UIAlertController(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+            let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
                 // タスクリストを削除
                 let realm = try! Realm()
                 try! realm.write {
@@ -124,7 +124,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
             let alert = UIAlertController(title: "警告", message: "既に終了したタスクリストのデータを削除してよろしいですか？", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: { _ in
+            let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
                 // TODO:（予定）Realmにある今日のデータを削除
                 // UserDefaultの日付をデフォルト値にリセット
                 UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
