@@ -24,9 +24,17 @@ class MainViewController: UIViewController {
         if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
             // 今日は既にタスクが終了している
             setEndTaskOfTodayLayout()
+            // StackViewのタップジェスチャーを削除
+            for gesture in todoListStackView.gestureRecognizers! {
+                if let recognizer = gesture as? UITapGestureRecognizer {
+                    todoListStackView.removeGestureRecognizer(recognizer)
+                }
+            }
             return
         }
 
+        // StackViewにタップジェスチャーを追加
+        todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
         RealmResults.sharedInstance = realm.objects(ToDoModel.self)
