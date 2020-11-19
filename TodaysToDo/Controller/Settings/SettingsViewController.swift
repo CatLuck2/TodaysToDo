@@ -30,7 +30,8 @@ private enum OtherType: Int {
 }
 // データ関連用
 private enum DataType: Int {
-    case delete //データ削除
+    case deleteTask //タスクリストを削除
+    case deleteAll //全データ削除
 }
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -41,7 +42,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     // [[一般],[アラート],[そのほか]]
     private let settingsSectionTitle = ["タスク", "その他", "データ"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["データ削除"]]
+    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクデータを削除", "全データを削除"]]
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
@@ -142,8 +143,16 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         case .other:
             cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
         case .data:
+            guard let dataType = DataType(rawValue: indexPath.row) else {
+                return cell
+            }
+            switch dataType {
+            case .deleteTask:
+                cell.textLabel?.textColor = .black
+            case .deleteAll:
+                cell.textLabel?.textColor = .red
+            }
             cell.textLabel?.text = settingsMenuTitle[2][indexPath.row]
-            cell.textLabel?.textColor = .red
         }
         return cell
     }
@@ -197,7 +206,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 return
             }
             switch dataType {
-            case .delete:
+            case .deleteTask:
+                break
+            case .deleteAll:
                 let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
 
