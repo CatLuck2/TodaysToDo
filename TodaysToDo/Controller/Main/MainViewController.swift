@@ -57,6 +57,7 @@ class MainViewController: UIViewController {
         todoListStackView.backgroundColor = .white
         todoListStackView.layer.borderWidth = 0
         todoListStackView.layer.cornerRadius = 0
+        todoListStackView.spacing = 30.0
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
         for subview in subviews {
@@ -84,6 +85,7 @@ class MainViewController: UIViewController {
         todoListStackView.backgroundColor = .lightGray
         todoListStackView.layer.borderWidth = 1
         todoListStackView.layer.cornerRadius = 5
+        todoListStackView.spacing = 0
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
         for subview in subviews {
