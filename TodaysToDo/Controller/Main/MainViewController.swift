@@ -70,7 +70,8 @@ class MainViewController: UIViewController {
 
     // タスクリストのレイアウトを調整
     private func setTodoListForAdd() {
-        todoListStackView.layer.borderWidth = 0
+        todoListStackView.backgroundColor = .lightGray
+        todoListStackView.layer.borderWidth = 1
         todoListStackView.layer.cornerRadius = 5
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
@@ -115,6 +116,8 @@ class MainViewController: UIViewController {
                 // viewの背景色にヒートマップ的な色を指定
                 let rgbPercentage: CGFloat = ((CGFloat(n) / CGFloat(numberOfItems)))
                 view.backgroundColor = UIColor(red: 1.0, green: rgbPercentage, blue: 0.0, alpha: 1)
+            } else {
+                todoListStackView.backgroundColor = .lightGray
             }
             view.heightAnchor.constraint(equalToConstant: 59).isActive = true
             view.translatesAutoresizingMaskIntoConstraints = false
