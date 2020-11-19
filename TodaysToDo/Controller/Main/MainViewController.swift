@@ -46,6 +46,9 @@ class MainViewController: UIViewController {
 
     // タスク終了後のレイアウトを構築
     private func setEndTaskOfTodayLayout() {
+        todoListStackView.backgroundColor = .white
+        todoListStackView.layer.borderWidth = 0
+        todoListStackView.layer.cornerRadius = 0
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
         for subview in subviews {
