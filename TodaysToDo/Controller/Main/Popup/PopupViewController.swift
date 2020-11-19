@@ -42,6 +42,9 @@ class PopupViewController: UIViewController {
 
     @objc
     private func closePopup() {
+        // UserDefault（キー：dateWhenDidEndTask）を現在時刻に更新
+        UserDefaults.standard.set(Date(), forKey: IdentifierType.dateWhenDidEndTask)
+        // タスクリストを削除
         let realm = try! Realm()
         try! realm.write {
             realm.delete(realm.objects(ToDoModel.self))

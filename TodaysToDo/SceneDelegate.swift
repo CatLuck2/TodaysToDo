@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // 初回起動したことを示す値をUserDefaultに登録
             ud.set(true, forKey: IdentifierType.isFirstLaurnch)
             // 1日のタスクが終了したかを示す値をUserDefaultに登録
-            ud.set(Date(), forKey: IdentifierType.dateWhenDidEndTask)
+            ud.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
             // 設定項目のデフォルト値を設定
             let sv = SettingsValue()
             sv.saveSettingsValue(endTime: (23, 0), number: 5, priority: false)
