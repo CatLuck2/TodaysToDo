@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 import Accounts
 import SafariServices
 
@@ -30,7 +31,8 @@ private enum OtherType: Int {
 }
 // データ関連用
 private enum DataType: Int {
-    case delete //データ削除
+    case deleteTask //タスクリストを削除
+    case deleteAll //全データ削除
 }
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -41,7 +43,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     // [[一般],[アラート],[そのほか]]
     private let settingsSectionTitle = ["タスク", "その他", "データ"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["データ削除"]]
+    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクデータを削除", "全データを削除"]]
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
@@ -87,11 +89,61 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @objc
-    private func toddleSwitchInCell(_ sender: UISwitch) {
+    private func toggleSwitchInCell(_ sender: UISwitch) {
         isExecutedPriorityOfTask = sender.isOn
         // UserDefaultに保存
         let sv = SettingsValue()
         sv.saveSettingsValue(endTime: self.endtimeValueOfTask, number: self.numberValueOfTask, priority: self.isExecutedPriorityOfTask)
+    }
+
+    // "タスクリストを削除"のセルをタップ時の処理
+    private func setDeleteTaskCell() {
+        // タスクリストがある
+        if RealmResults.sharedInstance.indices.contains(0) == true {
+            let alert = UIAlertController(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
+                // タスクリストを削除
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.delete(realm.objects(ToDoModel.self))
+                }
+                // 削除したことをアラートで表示
+                let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
+                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(resultAlert, animated: true, completion: nil)
+            })
+            alert.addAction(okAction)
+            alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+
+        // 本日のタスクは終了している
+        guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
+            return
+        }
+        if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
+            let alert = UIAlertController(title: "警告", message: "既に終了したタスクリストのデータを削除してよろしいですか？", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
+                // TODO:（予定）Realmにある今日のデータを削除
+                // UserDefaultの日付をデフォルト値にリセット
+                UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
+                // Realmのデータを削除したことを表示
+                let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
+                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(resultAlert, animated: true, completion: nil)
+            })
+            alert.addAction(okAction)
+            alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+
+        // まだ今日のタスクが終了していない
+        let alert = UIAlertController(title: "エラー", message: "今日のタスクが終了してません", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -134,7 +186,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 cell.detailTextLabel?.text = "\(numberValueOfTask!)"
             case .priorityOfTask:
                 let switchView = UISwitch()
-                switchView.addTarget(self, action: #selector(toddleSwitchInCell(_:)), for: .valueChanged)
+                switchView.addTarget(self, action: #selector(toggleSwitchInCell(_:)), for: .valueChanged)
                 // switchViewの初期値
                 switchView.isOn = self.isExecutedPriorityOfTask
                 cell.accessoryView = switchView
@@ -142,8 +194,16 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         case .other:
             cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
         case .data:
+            guard let dataType = DataType(rawValue: indexPath.row) else {
+                return cell
+            }
+            switch dataType {
+            case .deleteTask:
+                cell.textLabel?.textColor = .black
+            case .deleteAll:
+                cell.textLabel?.textColor = .red
+            }
             cell.textLabel?.text = settingsMenuTitle[2][indexPath.row]
-            cell.textLabel?.textColor = .red
         }
         return cell
     }
@@ -181,7 +241,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .help:
                 performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
             case .share:
-                let shareText = "今日のタスクに集中して取り組めるアプリ -¥ TodaysTodo"
+                let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
                 let shareURL = URL(string: "https://www.apple.com/jp/watch/")!
                 let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
                 present(activityVc, animated: true, completion: nil)
@@ -197,7 +257,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 return
             }
             switch dataType {
-            case .delete:
+            case .deleteTask:
+                setDeleteTaskCell()
+            case .deleteAll:
                 let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
 

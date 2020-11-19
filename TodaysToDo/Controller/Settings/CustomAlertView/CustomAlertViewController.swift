@@ -52,6 +52,23 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
         pickerView.dataSource = self
     }
 
+    private func compareNowAndEndTime() -> Int {
+        // 現在時刻
+        let currentDate = Date()
+        // 終了時刻
+        var endTimeDate = DateComponents()
+        let cal = Calendar.current
+        endTimeDate.year = cal.component(.year, from: currentDate)
+        endTimeDate.month = cal.component(.month, from: currentDate)
+        endTimeDate.day = cal.component(.day, from: currentDate)
+        endTimeDate.timeZone = TimeZone(abbreviation: "JST") // Japan Standard Time
+        endTimeDate.hour = selectedEndtime.0
+        endTimeDate.minute = selectedEndtime.1
+
+        let diff1 = cal.dateComponents([.minute], from: currentDate, to: cal.date(from: endTimeDate)!)
+        return diff1.minute!
+    }
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         pickerTitleArray.count
     }

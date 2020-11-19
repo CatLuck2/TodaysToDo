@@ -33,6 +33,7 @@ enum IdentifierType {
     // UserDefaultのキー
     static let isFirstLaurnch = "isFirstLaurnch"
     static let settingsValueData = "settingsValueData"
+    static let dateWhenDidEndTask = "dateWhenDidEndTask"
     // NSCodingのキー
     static let tupleX = "tupleX"
     static let tupleY = "tupleY"

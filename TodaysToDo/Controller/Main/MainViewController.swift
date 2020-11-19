@@ -16,6 +16,25 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // UserDefaultから前回のタスク終了日時を取得
+        guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
+            return
+        }
+        // 今日のタスクが終了したかの確認
+        if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
+            // 今日は既にタスクが終了している
+            setEndTaskOfTodayLayout()
+            // StackViewのタップジェスチャーを削除
+            for gesture in todoListStackView.gestureRecognizers! {
+                if let recognizer = gesture as? UITapGestureRecognizer {
+                    todoListStackView.removeGestureRecognizer(recognizer)
+                }
+            }
+            return
+        }
+
+        // StackViewにタップジェスチャーを追加
+        todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
         RealmResults.sharedInstance = realm.objects(ToDoModel.self)
@@ -33,10 +52,40 @@ class MainViewController: UIViewController {
         todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
     }
 
+    // タスク終了後のレイアウトを構築
+    private func setEndTaskOfTodayLayout() {
+        todoListStackView.backgroundColor = .white
+        todoListStackView.layer.borderWidth = 0
+        todoListStackView.layer.cornerRadius = 0
+        todoListStackView.spacing = 30.0
+        // todoListStackViewの子要素を全て削除
+        let subviews = todoListStackView.subviews
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
+
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "タスク終了画像")
+        imageView.contentMode = .scaleToFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0 / 1.2).isActive = true
+
+        let textView = UITextView()
+        textView.textAlignment = .center
+        textView.font = UIFont.boldSystemFont(ofSize: 15)
+        textView.text = "本日のタスクは終了しました。"
+        textView.isScrollEnabled = false
+
+        todoListStackView.addArrangedSubview(imageView)
+        todoListStackView.addArrangedSubview(textView)
+    }
+
     // タスクリストのレイアウトを調整
     private func setTodoListForAdd() {
-        todoListStackView.layer.borderWidth = 0
+        todoListStackView.backgroundColor = .lightGray
+        todoListStackView.layer.borderWidth = 1
         todoListStackView.layer.cornerRadius = 5
+        todoListStackView.spacing = 0
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
         for subview in subviews {
@@ -80,6 +129,8 @@ class MainViewController: UIViewController {
                 // viewの背景色にヒートマップ的な色を指定
                 let rgbPercentage: CGFloat = ((CGFloat(n) / CGFloat(numberOfItems)))
                 view.backgroundColor = UIColor(red: 1.0, green: rgbPercentage, blue: 0.0, alpha: 1)
+            } else {
+                todoListStackView.backgroundColor = .lightGray
             }
             view.heightAnchor.constraint(equalToConstant: 59).isActive = true
             view.translatesAutoresizingMaskIntoConstraints = false
