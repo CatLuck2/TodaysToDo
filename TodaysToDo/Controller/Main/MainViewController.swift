@@ -38,12 +38,17 @@ class MainViewController: UIViewController {
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
         RealmResults.sharedInstance = realm.objects(ToDoModel.self)
-        if RealmResults.sharedInstance.indices.contains(0) == true {
+        if RealmResults.sharedInstance.indices.contains(0) == false {
+            // Realmにデータがない
+            setTodoListForAdd()
+            return
+        }
+        if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+            // タスクリストがない
+            setTodoListForAdd()
+        } else {
             // 既にデータがある
             setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
-        } else {
-            // データがない
-            setTodoListForAdd()
         }
     }
 

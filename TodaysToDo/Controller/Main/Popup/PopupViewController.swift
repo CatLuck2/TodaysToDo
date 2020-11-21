@@ -59,9 +59,7 @@ class PopupViewController: UIViewController {
             ]
             let model = ToDoModel(value: datas)
             realm.add(model, update: .all)
-            print(datas)
         }
-        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true))
         performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
     }
 
