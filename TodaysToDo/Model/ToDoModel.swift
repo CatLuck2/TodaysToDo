@@ -11,15 +11,15 @@ private var realm = try! Realm()
 
 class ToDoModel: Object {
     // タスクリスト
-    let todoList = List<String>()
+    var todoList = List<String>()
     // 全タスクリストのデータをまとめたもの
     let taskListDatas = List<TaskListData>()
     // 今週
-    var totalOfCompletedTaskInThisWeek:[Date:Int] = [:]
+    var totalOfCompletedTaskInThisWeek: [Date: Int] = [:]
     // 今月
-    var totalOfCompletedTaskInThisMonth:[Date:Int] = [:]
+    var totalOfCompletedTaskInThisMonth: [Date: Int] = [:]
     // 今年
-    var totalOfCompletedTaskInThisYear:[Date:Int] = [:]
+    var totalOfCompletedTaskInThisYear: [Date: Int] = [:]
     // 達成率
     var percentOfComplete = 0
     // モデルID
@@ -33,18 +33,14 @@ class ToDoModel: Object {
 // 各日のタスクデータ
 class TaskListData: Object {
     // 日付
-    private let date: Date!
+    private var date: Date! = nil
     // 達成したタスクの数
-    private let numberOfCompletedTask: Int!
+    private var numberOfCompletedTask: Int! = nil
 
-    init(date: Date, number: Int) {
+    convenience init(date: Date, number: Int) {
+        self.init()
         self.date = date
         self.numberOfCompletedTask = number
-    }
-
-    @available(*, unavailable)
-    required init() {
-        fatalError("init() has not been implemented")
     }
 }
 
