@@ -13,15 +13,15 @@ class ToDoModel: Object {
     // タスクリスト
     var todoList = List<String>()
     // 全タスクリストのデータをまとめたもの
-    let taskListDatas = List<TaskListData>()
+    var taskListDatas = List<TaskListData>()
     // 今週
-    var totalOfCompletedTaskInThisWeek: [Date: Int] = [:]
+    var weekList = List<TotalOfCompletedTaskInWeek>()
     // 今月
-    var totalOfCompletedTaskInThisMonth: [Date: Int] = [:]
+    var monthList = List<TotalOfCompletedTaskInMonth>()
     // 今年
-    var totalOfCompletedTaskInThisYear: [Date: Int] = [:]
+    var yearList = List<TotalOfCompletedTaskInYear>()
     // 達成率
-    var percentOfComplete = 0
+    @objc dynamic var percentOfComplete = 0
     // モデルID
     @objc dynamic var id: Int = 1
 
@@ -33,15 +33,27 @@ class ToDoModel: Object {
 // 各日のタスクデータ
 class TaskListData: Object {
     // 日付
-    private var date: Date! = nil
+    @objc dynamic var date: Date! = nil
     // 達成したタスクの数
-    private var numberOfCompletedTask: Int! = nil
+    @objc dynamic var numberOfCompletedTask: Int = 0
+}
 
-    convenience init(date: Date, number: Int) {
-        self.init()
-        self.date = date
-        self.numberOfCompletedTask = number
-    }
+// 今週
+class TotalOfCompletedTaskInWeek: Object {
+    @objc dynamic var dayOfWeek: Date! = nil
+    @objc dynamic var total: Int = 0
+}
+
+// 今月
+class TotalOfCompletedTaskInMonth: Object {
+    @objc dynamic var dayOfMonth: Date! = nil
+    @objc dynamic var total: Int = 0
+}
+
+// 今年
+class TotalOfCompletedTaskInYear: Object {
+    @objc dynamic var monthOfYear: Date! = nil
+    @objc dynamic var total: Int = 0
 }
 
 // Realmのデータ（全ファイルで共有）

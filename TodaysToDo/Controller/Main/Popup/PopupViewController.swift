@@ -47,8 +47,21 @@ class PopupViewController: UIViewController {
         // タスクリストを削除
         let realm = try! Realm()
         try! realm.write {
+            // タスクリストを削除
             realm.delete(realm.objects(ToDoModel.self))
+            // タスクリストに関するデータを保存
+            let datas: [String: Any] = [
+                "taskListDatas": [["date": Date(), "numberOfCompletedTask": 1]],
+                "weekList": [["dayOfWeek": Date(), "total": 2]],
+                "monthList": [["dayOfMonth": Date(), "total": 3]],
+                "yearList": [["monthOfYear": Date(), "total": 4]],
+                "percentOfComplete": 1
+            ]
+            let model = ToDoModel(value: datas)
+            realm.add(model, update: .all)
+            print(datas)
         }
+        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true))
         performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
     }
 
