@@ -44,21 +44,49 @@ class PopupViewController: UIViewController {
     private func closePopup() {
         // UserDefault（キー：dateWhenDidEndTask）を現在時刻に更新
         UserDefaults.standard.set(Date(), forKey: IdentifierType.dateWhenDidEndTask)
-        // タスクリストを削除
+
+        // Realmとのやり取り
         let realm = try! Realm()
+        // 初回
         try! realm.write {
-            // タスクリストを削除
-            realm.delete(realm.objects(ToDoModel.self))
-            // タスクリストに関するデータを保存
-            let datas: [String: Any] = [
-                "taskListDatas": [["date": Date(), "numberOfCompletedTask": 1]],
-                "weekList": [["dayOfWeek": Date(), "total": 2]],
-                "monthList": [["dayOfMonth": Date(), "total": 3]],
-                "yearList": [["monthOfYear": Date(), "total": 4]],
-                "percentOfComplete": 1
-            ]
-            let model = ToDoModel(value: datas)
-            realm.add(model, update: .all)
+            // todoListを削除
+            RealmResults.sharedInstance[0].todoList.removeAll()
+            if RealmResults.sharedInstance[0].taskListDatas.indices.contains(0) == true {
+                // 次回以降
+                // タスクリストに関するデータを保存
+                let taskListModel = TaskListData()
+                taskListModel.date = Date()
+                taskListModel.numberOfCompletedTask = 5
+                // 今週
+                let weekModel = TotalOfCompletedTaskInWeek()
+                weekModel.dayOfWeek = Date()
+                weekModel.total = 3
+                // 今月
+                let monthModel = TotalOfCompletedTaskInMonth()
+                monthModel.dayOfMonth = Date()
+                monthModel.total = 3
+                // 今年
+                let yearModel = TotalOfCompletedTaskInYear()
+                yearModel.monthOfYear = Date()
+                yearModel.total = 3
+                // Realmの既存データに追加
+                RealmResults.sharedInstance[0].taskListDatas.append(taskListModel)
+                RealmResults.sharedInstance[0].weekList.append(weekModel)
+                RealmResults.sharedInstance[0].monthList.append(monthModel)
+                RealmResults.sharedInstance[0].yearList.append(yearModel)
+            } else {
+                // 初回
+                // taskListDatas以外は仮のデータ
+                let datas: [String: Any] = [
+                    "taskListDatas": [["date": Date(), "numberOfCompletedTask": 1]],
+                    "weekList": [["dayOfWeek": Date(), "total": 2]],
+                    "monthList": [["dayOfMonth": Date(), "total": 3]],
+                    "yearList": [["monthOfYear": Date(), "total": 4]],
+                    "percentOfComplete": 1
+                ]
+                let model = ToDoModel(value: datas)
+                realm.add(model, update: .all)
+            }
         }
         performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
     }
