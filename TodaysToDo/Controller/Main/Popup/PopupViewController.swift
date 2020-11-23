@@ -73,7 +73,7 @@ class PopupViewController: UIViewController {
                 }
             } else {
                 // 初回
-                let datas: [String: Any] = ["taskListDatas": [["date": Date(timeIntervalSince1970: -1.0), "numberOfCompletedTask": 1]]
+                let datas: [String: Any] = ["taskListDatas": [["date": Date().getCurrentDate(), "numberOfCompletedTask": 1]]
                 ]
                 let model = ToDoModel(value: datas)
                 realm.add(model, update: .all)

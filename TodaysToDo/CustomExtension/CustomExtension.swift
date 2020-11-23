@@ -19,4 +19,11 @@ extension Date {
         guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
         return gregorian.date(byAdding: .day, value: 7, to: sunday)
     }
+    func getCurrentDate() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdkHms", options: 0, locale: Locale(identifier: "ja_JP"))
+        let st = dateFormatter.string(from: Date())
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")!
+        return dateFormatter.date(from: st)!
+    }
 }
