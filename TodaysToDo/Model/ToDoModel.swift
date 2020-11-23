@@ -15,9 +15,9 @@ class ToDoModel: Object {
     // 全タスクリストのデータをまとめたもの
     var taskListDatas = List<TaskListData>()
     // 今週
-    var weekList = List<TotalOfCompletedTaskInWeek>()
+    var weekList = List<TaskListData>()
     // 今月
-    var monthList = List<TotalOfCompletedTaskInMonth>()
+    var monthList = List<TaskListData>()
     // 今年
     var yearList = List<TotalOfCompletedTaskInYear>()
     // 達成率
@@ -36,18 +36,6 @@ class TaskListData: Object {
     @objc dynamic var date: Date! = nil
     // 達成したタスクの数
     @objc dynamic var numberOfCompletedTask: Int = 0
-}
-
-// 今週
-class TotalOfCompletedTaskInWeek: Object {
-    @objc dynamic var dayOfWeek: Date! = nil
-    @objc dynamic var total: Int = 0
-}
-
-// 今月
-class TotalOfCompletedTaskInMonth: Object {
-    @objc dynamic var dayOfMonth: Date! = nil
-    @objc dynamic var total: Int = 0
 }
 
 // 今年

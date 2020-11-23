@@ -49,40 +49,31 @@ class PopupViewController: UIViewController {
         let realm = try! Realm()
         // 初回
         try! realm.write {
-            // todoListを削除
+            // 各データを初期化
             RealmResults.sharedInstance[0].todoList.removeAll()
+            RealmResults.sharedInstance[0].weekList.removeAll()
+            RealmResults.sharedInstance[0].monthList.removeAll()
+            RealmResults.sharedInstance[0].yearList.removeAll()
+
             if RealmResults.sharedInstance[0].taskListDatas.indices.contains(0) == true {
                 // 次回以降
-                // タスクリストに関するデータを保存
-                let taskListModel = TaskListData()
-                taskListModel.date = Date()
-                taskListModel.numberOfCompletedTask = 5
-                // 今週
-                let weekModel = TotalOfCompletedTaskInWeek()
-                weekModel.dayOfWeek = Date()
-                weekModel.total = 3
-                // 今月
-                let monthModel = TotalOfCompletedTaskInMonth()
-                monthModel.dayOfMonth = Date()
-                monthModel.total = 3
-                // 今年
-                let yearModel = TotalOfCompletedTaskInYear()
-                yearModel.monthOfYear = Date()
-                yearModel.total = 3
-                // Realmの既存データに追加
-                RealmResults.sharedInstance[0].taskListDatas.append(taskListModel)
-                RealmResults.sharedInstance[0].weekList.append(weekModel)
-                RealmResults.sharedInstance[0].monthList.append(monthModel)
-                RealmResults.sharedInstance[0].yearList.append(yearModel)
+                // 今週のデータを追加
+                // タイムゾーンを指定
+                var calender = Calendar.current
+                calender.timeZone = TimeZone(identifier: "UTC")!
+                // 今週の各日付、タスクの日付を比較していく
+                for i in 0...6 {
+                    let date = Calendar.current.date(byAdding: .day, value: i, to: Date().startOfWeek!)
+                    for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                        // 今週の中の日付が存在する？
+                        if calender.isDate(taskData.date!, inSameDayAs: date!) {
+                            RealmResults.sharedInstance[0].weekList.append(taskData)
+                        }
+                    }
+                }
             } else {
                 // 初回
-                // taskListDatas以外は仮のデータ
-                let datas: [String: Any] = [
-                    "taskListDatas": [["date": Date(), "numberOfCompletedTask": 1]],
-                    "weekList": [["dayOfWeek": Date(), "total": 2]],
-                    "monthList": [["dayOfMonth": Date(), "total": 3]],
-                    "yearList": [["monthOfYear": Date(), "total": 4]],
-                    "percentOfComplete": 1
+                let datas: [String: Any] = ["taskListDatas": [["date": Date(timeIntervalSince1970: -1.0), "numberOfCompletedTask": 1]]
                 ]
                 let model = ToDoModel(value: datas)
                 realm.add(model, update: .all)
