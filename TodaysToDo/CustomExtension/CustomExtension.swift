@@ -47,6 +47,18 @@ extension Date {
         }
         return days
     }
+    var allMonthsOfYear: [Date] {
+        var months: [Date] = []
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        for month in 1...12 {
+            var dataComponent = DateComponents()
+            dataComponent.year = calendar.component(.year, from: self)
+            dataComponent.month = month
+            months.append(calendar.date(from: dataComponent)!)
+        }
+        return months
+    }
     func getCurrentDate() -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdkHms", options: 0, locale: Locale(identifier: "ja_JP"))
