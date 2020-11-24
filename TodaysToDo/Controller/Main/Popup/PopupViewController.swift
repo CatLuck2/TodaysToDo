@@ -64,21 +64,20 @@ class PopupViewController: UIViewController {
 
                 // 今週
                 // 今週の各日付、タスクの日付を比較していく
-                for i in 0...6 {
-                    let date = Calendar.current.date(byAdding: .day, value: i, to: Date().startOfWeek!)
+                for day in Date().allDaysOfWeek {
                     for taskData in RealmResults.sharedInstance[0].taskListDatas {
                         // 今週の中の日付が存在する？
-                        if calender.isDate(taskData.date!, inSameDayAs: date!) {
+                        if calender.isDate(taskData.date!, inSameDayAs: day) {
                             RealmResults.sharedInstance[0].weekList.append(taskData)
                         }
                     }
                 }
 
                 // 今月
-                for d in Date().allDaysOfMonth {
+                for day in Date().allDaysOfMonth {
                     for taskData in RealmResults.sharedInstance[0].taskListDatas {
                         // 今週の中の日付が存在する？
-                        if calender.isDate(taskData.date!, inSameDayAs: d) {
+                        if calender.isDate(taskData.date!, inSameDayAs: day) {
                             RealmResults.sharedInstance[0].monthList.append(taskData)
                         }
                     }

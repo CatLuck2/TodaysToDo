@@ -19,19 +19,28 @@ extension Date {
         guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
         return gregorian.date(byAdding: .day, value: 7, to: sunday)
     }
+    var allDaysOfWeek: [Date] {
+        var days: [Date]! = []
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        for d in 0...6 {
+            let day = calendar.date(byAdding: .day, value: d, to: startOfWeek!)
+            days.append(day!)
+        }
+        return days
+    }
     var firstDayOfMonth: Date {
         var calender = Calendar.current
         calender.timeZone = TimeZone(identifier: "UTC")!
-        let components = calender.dateComponents([.year, .month], from: Date())
+        let components = calender.dateComponents([.year, .month], from: self)
         let startOfMonth = calender.date(from: components)
         return startOfMonth!
     }
     var allDaysOfMonth: [Date] {
         var days: [Date]! = []
-        let date = Date()
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(identifier: "UTC")!
-        let rangeOfThisMonth = calendar.range(of: .day, in: .month, for: date)
+        let rangeOfThisMonth = calendar.range(of: .day, in: .month, for: self)
         for d in 0..<rangeOfThisMonth!.last! {
             let day = calendar.date(byAdding: .day, value: d, to: firstDayOfMonth)
             days.append(day!)
