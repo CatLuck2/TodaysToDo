@@ -59,15 +59,15 @@ class PopupViewController: UIViewController {
                 // 次回以降
                 // 各期間でデータをソート
                 // タイムゾーンを指定
-                var calender = Calendar.current
-                calender.timeZone = TimeZone(identifier: "UTC")!
+                var calendar = Calendar.current
+                calendar.timeZone = TimeZone(identifier: "UTC")!
 
                 // 今週
                 // 今週の各日付、タスクの日付を比較していく
                 for day in Date().allDaysOfWeek {
                     for taskData in RealmResults.sharedInstance[0].taskListDatas {
                         // 今週の中の日付が存在する？
-                        if calender.isDate(taskData.date!, inSameDayAs: day) {
+                        if calendar.isDate(taskData.date!, inSameDayAs: day) {
                             RealmResults.sharedInstance[0].weekList.append(taskData)
                         }
                     }
@@ -77,10 +77,26 @@ class PopupViewController: UIViewController {
                 for day in Date().allDaysOfMonth {
                     for taskData in RealmResults.sharedInstance[0].taskListDatas {
                         // 今週の中の日付が存在する？
-                        if calender.isDate(taskData.date!, inSameDayAs: day) {
+                        if calendar.isDate(taskData.date!, inSameDayAs: day) {
                             RealmResults.sharedInstance[0].monthList.append(taskData)
                         }
                     }
+                }
+
+                // 今年
+                for month in Date().allMonthsOfYear {
+                    var totalOfInMonth: Int! = 0
+                    for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                        // 同じ月が存在する？
+                        if calendar.isDate(month, equalTo: taskData.date!, toGranularity: .month) {
+                            // 合致する月のタスクデータのチェック数を足していく
+                            totalOfInMonth += taskData.numberOfCompletedTask
+                        }
+                    }
+                    let yearModel = TotalOfCompletedTaskInYear()
+                    yearModel.monthOfYear = month
+                    yearModel.total = totalOfInMonth
+                    RealmResults.sharedInstance[0].yearList.append(yearModel)
                 }
             } else {
                 // 初回
