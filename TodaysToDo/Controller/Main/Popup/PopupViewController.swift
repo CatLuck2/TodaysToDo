@@ -50,18 +50,24 @@ class PopupViewController: UIViewController {
         let realm = try! Realm()
         // 初回
         try! realm.write {
-            // 各データを初期化
-            RealmResults.sharedInstance[0].todoList.removeAll()
-            RealmResults.sharedInstance[0].weekList.removeAll()
-            RealmResults.sharedInstance[0].monthList.removeAll()
-            RealmResults.sharedInstance[0].yearList.removeAll()
-
             if RealmResults.sharedInstance[0].taskListDatas.indices.contains(0) == true {
                 // 次回以降
+                // 達成率を算出
+                var totalOfTask: Int = 0
+                var totalOfCompletedTask: Int = 0
+                for task in RealmResults.sharedInstance[0].taskListDatas {
+                    totalOfTask += task.numberOfTask
+                    totalOfCompletedTask += task.numberOfCompletedTask
+                }
+                let avergePerOfCompletedTask = Int((Double(totalOfCompletedTask) / Double(totalOfTask)) * 100)
+                RealmResults.sharedInstance[0].percentOfComplete = avergePerOfCompletedTask
+
                 // タスクデータを作成/保存
                 let taskModel = TaskListData()
                 taskModel.date = Date().getCurrentDate()
-                taskModel.numberOfCompletedTask = tableViewController.getNumOfCheckedCell()
+                taskModel.numberOfTask = tableViewController.getNumOfTask()
+                taskModel.numberOfCompletedTask = tableViewController.getNumOfCheckedTask()
+                RealmResults.sharedInstance[0].todoList.removeAll()
                 RealmResults.sharedInstance[0].taskListDatas.append(taskModel)
 
                 // 各期間でデータをソート
@@ -70,7 +76,8 @@ class PopupViewController: UIViewController {
                 calendar.timeZone = TimeZone(identifier: "UTC")!
 
                 // 今週
-                // 今週の各日付、タスクの日付を比較していく
+                // 今週の各日付、タスクの日付を比較していく]
+                RealmResults.sharedInstance[0].weekList.removeAll()
                 for day in Date().allDaysOfWeek {
                     for taskData in RealmResults.sharedInstance[0].taskListDatas {
                         // 今週の中の日付が存在する？
@@ -81,6 +88,7 @@ class PopupViewController: UIViewController {
                 }
 
                 // 今月
+                RealmResults.sharedInstance[0].monthList.removeAll()
                 for day in Date().allDaysOfMonth {
                     for taskData in RealmResults.sharedInstance[0].taskListDatas {
                         // 今週の中の日付が存在する？
@@ -91,6 +99,7 @@ class PopupViewController: UIViewController {
                 }
 
                 // 今年
+                RealmResults.sharedInstance[0].yearList.removeAll()
                 for month in Date().allMonthsOfYear {
                     var totalOfInMonth: Int! = 0
                     for taskData in RealmResults.sharedInstance[0].taskListDatas {
@@ -107,7 +116,10 @@ class PopupViewController: UIViewController {
                 }
             } else {
                 // 初回
-                let datas: [String: Any] = ["taskListDatas": [["date": Date().getCurrentDate(), "numberOfCompletedTask": 1]]
+                let datas: [String: Any] = [
+                    "taskListDatas": [["date": Date().getCurrentDate(),
+                                       "numberOfTask": tableViewController.getNumOfTask(),
+                                       "numberOfCompletedTask": tableViewController.getNumOfCheckedTask()]]
                 ]
                 let model = ToDoModel(value: datas)
                 realm.add(model, update: .all)
