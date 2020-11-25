@@ -34,6 +34,8 @@ class ToDoModel: Object {
 class TaskListData: Object {
     // 日付
     @objc dynamic var date: Date! = nil
+    // 作成したタスクの数
+    @objc dynamic var numberOfTask: Int = 0
     // 達成したタスクの数
     @objc dynamic var numberOfCompletedTask: Int = 0
 }
