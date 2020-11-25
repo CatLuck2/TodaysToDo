@@ -13,11 +13,12 @@ class PopupViewController: UIViewController {
     @IBOutlet weak var popupParentView: UIView!
     @IBOutlet private weak var popupStackView: UIStackView!
     private let realm = try! Realm()
+    private var tableViewController = TableViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // popupStackViewにtableViewを追加
-        let tableViewController = TableViewController()
+        tableViewController = TableViewController()
         addChild(tableViewController)
         tableViewController.view.layer.borderWidth = 1
         tableViewController.view.layer.cornerRadius = 5
@@ -57,6 +58,12 @@ class PopupViewController: UIViewController {
 
             if RealmResults.sharedInstance[0].taskListDatas.indices.contains(0) == true {
                 // 次回以降
+                // タスクデータを作成/保存
+                let taskModel = TaskListData()
+                taskModel.date = Date().getCurrentDate()
+                taskModel.numberOfCompletedTask = tableViewController.getNumOfCheckedCell()
+                RealmResults.sharedInstance[0].taskListDatas.append(taskModel)
+
                 // 各期間でデータをソート
                 // タイムゾーンを指定
                 var calendar = Calendar.current
