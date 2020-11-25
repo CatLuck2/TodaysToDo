@@ -49,6 +49,14 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         view.frame.size.height = todoListTableView.contentSize.height
     }
 
+    func getNumOfCheckedCell() -> Int {
+        var totalOfTrue = 0
+        for value in isChecked where value == true {
+            totalOfTrue += 1
+        }
+        return totalOfTrue
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         RealmResults.sharedInstance[0].todoList.count
     }
