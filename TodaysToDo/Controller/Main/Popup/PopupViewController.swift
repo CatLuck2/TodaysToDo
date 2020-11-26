@@ -50,79 +50,69 @@ class PopupViewController: UIViewController {
         let realm = try! Realm()
         // 初回
         try! realm.write {
-            if RealmResults.sharedInstance[0].taskListDatas.indices.contains(0) == true {
-                // 次回以降
-                // 達成率を算出
-                var totalOfTask: Int = 0
-                var totalOfCompletedTask: Int = 0
-                for task in RealmResults.sharedInstance[0].taskListDatas {
-                    totalOfTask += task.numberOfTask
-                    totalOfCompletedTask += task.numberOfCompletedTask
-                }
-                let avergePerOfCompletedTask = Int((Double(totalOfCompletedTask) / Double(totalOfTask)) * 100)
-                RealmResults.sharedInstance[0].percentOfComplete = avergePerOfCompletedTask
+            // 次回以降
+            // タスクデータを作成/保存
+            let taskModel = TaskListData()
+            taskModel.date = Date().getCurrentDate()
+            taskModel.numberOfTask = tableViewController.getNumOfTask()
+            taskModel.numberOfCompletedTask = tableViewController.getNumOfCheckedTask()
+            RealmResults.sharedInstance[0].taskListDatas.append(taskModel)
 
-                // タスクデータを作成/保存
-                let taskModel = TaskListData()
-                taskModel.date = Date().getCurrentDate()
-                taskModel.numberOfTask = tableViewController.getNumOfTask()
-                taskModel.numberOfCompletedTask = tableViewController.getNumOfCheckedTask()
-                RealmResults.sharedInstance[0].todoList.removeAll()
-                RealmResults.sharedInstance[0].taskListDatas.append(taskModel)
+            // 達成率を算出
+            var totalOfTask: Int = 0
+            var totalOfCompletedTask: Int = 0
+            for task in RealmResults.sharedInstance[0].taskListDatas {
+                totalOfTask += task.numberOfTask
+                totalOfCompletedTask += task.numberOfCompletedTask
+            }
+            let avergePerOfCompletedTask = Int((Double(totalOfCompletedTask) / Double(totalOfTask)) * 100)
+            RealmResults.sharedInstance[0].percentOfComplete = avergePerOfCompletedTask
+            // 達成率の算出にtodoListが必要なので、算出後にtodoListを初期化
+            RealmResults.sharedInstance[0].todoList.removeAll()
 
-                // 各期間でデータをソート
-                // タイムゾーンを指定
-                var calendar = Calendar.current
-                calendar.timeZone = TimeZone(identifier: "UTC")!
+            // 各期間でデータをソート
+            // タイムゾーンを指定
+            var calendar = Calendar.current
+            calendar.timeZone = TimeZone(identifier: "UTC")!
 
-                // 今週
-                // 今週の各日付、タスクの日付を比較していく]
-                RealmResults.sharedInstance[0].weekList.removeAll()
-                for day in Date().allDaysOfWeek {
-                    for taskData in RealmResults.sharedInstance[0].taskListDatas {
-                        // 今週の中の日付が存在する？
-                        if calendar.isDate(taskData.date!, inSameDayAs: day) {
-                            RealmResults.sharedInstance[0].weekList.append(taskData)
-                        }
+            // 今週
+            // 今週の各日付、タスクの日付を比較していく]
+            RealmResults.sharedInstance[0].weekList.removeAll()
+            for day in Date().allDaysOfWeek {
+                for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                    // 今週の中の日付が存在する？
+                    if calendar.isDate(taskData.date!, inSameDayAs: day) {
+                        RealmResults.sharedInstance[0].weekList.append(taskData)
                     }
                 }
+            }
 
-                // 今月
-                RealmResults.sharedInstance[0].monthList.removeAll()
-                for day in Date().allDaysOfMonth {
-                    for taskData in RealmResults.sharedInstance[0].taskListDatas {
-                        // 今週の中の日付が存在する？
-                        if calendar.isDate(taskData.date!, inSameDayAs: day) {
-                            RealmResults.sharedInstance[0].monthList.append(taskData)
-                        }
+            // 今月
+            RealmResults.sharedInstance[0].monthList.removeAll()
+            for day in Date().allDaysOfMonth {
+                for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                    // 今週の中の日付が存在する？
+                    if calendar.isDate(taskData.date!, inSameDayAs: day) {
+                        RealmResults.sharedInstance[0].monthList.append(taskData)
                     }
                 }
+            }
 
-                // 今年
-                RealmResults.sharedInstance[0].yearList.removeAll()
-                for month in Date().allMonthsOfYear {
-                    var totalOfInMonth: Int! = 0
-                    for taskData in RealmResults.sharedInstance[0].taskListDatas {
-                        // 同じ月が存在する？
-                        if calendar.isDate(month, equalTo: taskData.date!, toGranularity: .month) {
-                            // 合致する月のタスクデータのチェック数を足していく
-                            totalOfInMonth += taskData.numberOfCompletedTask
-                        }
+            // 今年
+            RealmResults.sharedInstance[0].yearList.removeAll()
+            for month in Date().allMonthsOfYear {
+                var totalOfInMonth: Int! = 0
+                for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                    // 同じ月が存在する？
+                    if calendar.isDate(month, equalTo: taskData.date!, toGranularity: .month) {
+                        // 合致する月のタスクデータのチェック数を足していく
+                        totalOfInMonth += taskData.numberOfCompletedTask
                     }
-                    let yearModel = TotalOfCompletedTaskInYear()
-                    yearModel.monthOfYear = month
-                    yearModel.total = totalOfInMonth
-                    RealmResults.sharedInstance[0].yearList.append(yearModel)
                 }
-            } else {
-                // 初回
-                let datas: [String: Any] = [
-                    "taskListDatas": [["date": Date().getCurrentDate(),
-                                       "numberOfTask": tableViewController.getNumOfTask(),
-                                       "numberOfCompletedTask": tableViewController.getNumOfCheckedTask()]]
-                ]
-                let model = ToDoModel(value: datas)
-                realm.add(model, update: .all)
+                let yearModel = TotalOfCompletedTaskInYear()
+                yearModel.monthOfYear = month
+                yearModel.total = totalOfInMonth
+                RealmResults.sharedInstance[0].yearList.append(yearModel)
             }
         }
         performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
