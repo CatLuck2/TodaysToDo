@@ -39,6 +39,7 @@
                                                         <segments>
                                                             <segment title="今週"/>
                                                             <segment title="今月"/>
+                                                            <segment title="今年"/>
                                                         </segments>
                                                         <connections>
                                                             <action selector="graphSegment:" destination="Lrq-VJ-8Xq" eventType="valueChanged" id="Sdu-cj-U91"/>

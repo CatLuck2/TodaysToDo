@@ -50,6 +50,16 @@ class AnalyticsViewController: UIViewController {
     }
 
     @IBAction private func graphSegment(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0: //今週
+            break
+        case 1: //今月
+            break
+        case 2: //今年
+            break
+        default:
+            break
+        }
     }
 
 }
