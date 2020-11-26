@@ -16,14 +16,53 @@ class GraphView: UIView {
     private var graphHeight: CGFloat = 300 //グラフの高さ
     private var graphPoints: [String] = [] //グラフの横目盛り
     private var graphDatas: [CGFloat] = [] //グラフの値
-    // 各期間のgraphPoints
-    private var graphPointsWeek: [String] = ["月", "火", "水", "木", "金", "土", "日"]
-    private var graphPointsMonth: [String] = [] //月によって日数が異なるので、初期は空の配列
-    private var graphPointsYear: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
-    func drawLineGraph() {
-        graphPoints = ["2000/2/3", "2000/3/3", "2000/4/3", "2000/5/3", "2000/6/3", "2000/7/3", "2000/8/3"]
-        graphDatas = [100, 30, 10, -50, 90, 12, 40]
+    // グラフ関連の変数を初期化]
+    private func initVariables() {
+        graphPoints = []
+        graphDatas = []
+    }
+
+    // 今週用のグラフを描画
+    func drawWeekLineGraph() {
+        initVariables()
+        graphPoints = ["月", "火", "水", "木", "金", "土", "日"]
+        graphDatas = []
+
+        graphFrame()
+        memoriGraphDraw()
+    }
+
+    // 今月用のグラフを描画
+    func drawMonthLineGraph() {
+        initVariables()
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        for day1 in Date().allDaysOfMonth {
+            var isContainedSameDay = false
+            graphPoints.append("\(day1.dayFromMonthOfDataType)")
+            for day2 in RealmResults.sharedInstance[0].monthList {
+                if calendar.isDate(day1, inSameDayAs: day2.date!) {
+                    graphDatas.append(CGFloat(day2.numberOfCompletedTask))
+                    isContainedSameDay = true
+                }
+            }
+            if isContainedSameDay == false {
+                graphDatas.append(0)
+            }
+        }
+
+        graphFrame()
+        memoriGraphDraw()
+    }
+
+    // 今年用のグラフを描画
+    func drawYearLineGraph() {
+        initVariables()
+        graphPoints = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+        for month in RealmResults.sharedInstance[0].yearList {
+            graphDatas.append(CGFloat(month.total))
+        }
 
         graphFrame()
         memoriGraphDraw()

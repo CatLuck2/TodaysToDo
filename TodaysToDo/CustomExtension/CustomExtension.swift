@@ -36,6 +36,13 @@ extension Date {
         let startOfMonth = calender.date(from: components)
         return startOfMonth!
     }
+    var dayFromMonthOfDataType: Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        dateFormatter.dateFormat = "dd"
+        let monthString = dateFormatter.string(from: self)
+        return Int(monthString)!
+    }
     var allDaysOfMonth: [Date] {
         var days: [Date]! = []
         var calendar = Calendar.current
