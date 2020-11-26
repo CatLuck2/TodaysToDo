@@ -16,6 +16,10 @@ class GraphView: UIView {
     private var graphHeight: CGFloat = 300 //グラフの高さ
     private var graphPoints: [String] = [] //グラフの横目盛り
     private var graphDatas: [CGFloat] = [] //グラフの値
+    // 各期間のgraphPoints
+    private var graphPointsWeek: [String] = ["月", "火", "水", "木", "金", "土", "日"]
+    private var graphPointsMonth: [String] = [] //月によって日数が異なるので、初期は空の配列
+    private var graphPointsYear: [String] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
     func drawLineGraph() {
         graphPoints = ["2000/2/3", "2000/3/3", "2000/4/3", "2000/5/3", "2000/6/3", "2000/7/3", "2000/8/3"]
