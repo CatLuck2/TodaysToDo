@@ -26,9 +26,22 @@ class GraphView: UIView {
     // 今週用のグラフを描画
     func drawWeekLineGraph() {
         initVariables()
-        graphPoints = ["月", "火", "水", "木", "金", "土", "日"]
-        graphDatas = []
-
+        graphPoints = ["日", "月", "火", "水", "木", "金", "土"]
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        for day1 in Date().allDaysOfWeek {
+            var isContainedSameDay = false
+            for day2 in RealmResults.sharedInstance[0].weekList {
+                if calendar.isDate(day1, inSameDayAs: day2.date!) {
+                    graphDatas.append(CGFloat(day2.numberOfCompletedTask))
+                    isContainedSameDay = true
+                }
+            }
+            if isContainedSameDay == false {
+                graphDatas.append(0)
+            }
+        }
+        print(graphDatas)
         graphFrame()
         memoriGraphDraw()
     }

@@ -30,7 +30,7 @@ class AnalyticsViewController: UIViewController {
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
         // グラフを描画
-        graphView.drawLineGraph()
+        graphView.drawYearLineGraph()
         // graphContentViewをグラフの横幅に合わせる
         graphContentViewWidth.constant = graphView.checkWidth() + 20
         // スクロール領域をgraphContentViewに調整
