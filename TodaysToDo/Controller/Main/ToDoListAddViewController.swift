@@ -140,9 +140,16 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         // Realmへ保存する
         let realm = try! Realm()
         try! realm.write {
-            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
-            let model = ToDoModel(value: newTodoListForRealm)
-            realm.add(model, update: .all)
+            // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
+            if RealmResults.sharedInstance.isEmpty == true {
+                // 初回
+                let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
+                let model = ToDoModel(value: newTodoListForRealm)
+                realm.add(model, update: .all)
+            } else {
+                // 次回
+                RealmResults.sharedInstance[0].todoList.append(objectsIn: textFieldValueArray)
+            }
         }
 
         performSegue(withIdentifier: IdentifierType.unwindToMainVCFromAdd, sender: nil)

@@ -67,9 +67,8 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
         // タスクリストを更新
         let realm = try! Realm()
         try! realm.write {
-            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: uneditingTodoList]
-            let model = ToDoModel(value: newTodoListForRealm)
-            realm.add(model, update: .all)
+            RealmResults.sharedInstance[0].todoList.removeAll()
+            RealmResults.sharedInstance[0].todoList.append(objectsIn: uneditingTodoList)
         }
         dismiss(animated: true, completion: nil)
     }
