@@ -17,6 +17,12 @@ class AnalyticsViewController: UIViewController {
 
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setTotalCompletedTaskLabel()
+        setRateCompletedTaskLabel()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // グラフを作成
@@ -29,6 +35,18 @@ class AnalyticsViewController: UIViewController {
         graphContentViewWidth.constant = graphView.checkWidth() + 20
         // スクロール領域をgraphContentViewに調整
         graphScrollView.contentSize = graphContentView.frame.size
+    }
+
+    private func setTotalCompletedTaskLabel() {
+        var total: Int = 0
+        for task in RealmResults.sharedInstance[0].taskListDatas {
+            total += task.numberOfCompletedTask
+        }
+        totalCompletedTaskLabel.text = "\(total)個"
+    }
+
+    private func setRateCompletedTaskLabel() {
+        rateCompletedTaskLabel.text = "\(RealmResults.sharedInstance[0].percentOfComplete)%"
     }
 
     @IBAction private func graphSegment(_ sender: UISegmentedControl) {
