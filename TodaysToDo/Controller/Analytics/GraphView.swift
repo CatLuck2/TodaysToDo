@@ -11,6 +11,8 @@ class GraphView: UIView {
 
     private var lineWidth: CGFloat = 3.0 //グラフ線の太さ
     private var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
+    private var circleWidth: CGFloat = 3.0 //円の半径
+    private var circleColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //円の色
 
     private var memoriMargin: CGFloat = 0 //横目盛の感覚
     private var graphHeight: CGFloat = 250 //グラフの高さ
@@ -146,6 +148,7 @@ class GraphView: UIView {
     //グラフの線を描画
     override func draw(_ rect: CGRect) {
         var count: CGFloat = 0
+        var myCircle = UIBezierPath() //頂点の円
         let linePath = UIBezierPath() //線
 
         linePath.lineWidth = lineWidth //線の幅
@@ -179,14 +182,35 @@ class GraphView: UIView {
                     nowY = graphHeight - nowY
                 }
                 //最初のループ時にのみ発動
+                var circlePoint = CGPoint()
                 if Int(count) == 0 {
                     //yが増加すると、開始地点が低くなる
                     linePath.move(to: CGPoint(x: 0, y: nowY))
+                    circlePoint = CGPoint(x: count * memoriMargin + circleWidth, y: nowY)
+                    myCircle = UIBezierPath(arcCenter: circlePoint, radius: circleWidth, startAngle: 0.0, endAngle: CGFloat(Double.pi * 2), clockwise: false)
+                    circleColor.setFill()
+                    myCircle.fill()
+                    myCircle.stroke()
                 }
 
                 //描画ポイントを指定
                 //原点からx座標を計算
                 linePath.addLine(to: CGPoint(x: (count + 1) * memoriMargin, y: nextY))
+
+                //円をつくる
+                circlePoint = CGPoint(x: (count + 1) * memoriMargin, y: nextY)
+                myCircle = UIBezierPath(arcCenter: circlePoint,
+                                        // 半径
+                                        radius: circleWidth,
+                                        // 初角度
+                                        startAngle: 0.0,
+                                        // 最終角度
+                                        endAngle: CGFloat(Double.pi * 2),
+                                        // 反時計回り
+                                        clockwise: false)
+                circleColor.setFill()
+                myCircle.fill()
+                myCircle.stroke()
             }
             count += 1
         }
