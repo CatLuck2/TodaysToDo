@@ -17,7 +17,7 @@ class GraphView: UIView {
     private var graphPoints: [String] = [] //グラフの横目盛り
     private var graphDatas: [CGFloat] = [] //グラフの値
 
-    // グラフ関連の変数を初期化]
+    // グラフ関連の変数を初期化
     private func initVariables() {
         graphPoints = []
         graphDatas = []
@@ -117,6 +117,12 @@ class GraphView: UIView {
             //ラベルを描画
             label.frame = CGRect(x: lebelX, y: graphHeight, width: rect.width, height: rect.height)
             self.addSubview(label)
+            // 月のグラフで横目盛りを減らす
+            if graphPoints.count > 12 {
+                if Int(memori)! % 7 != 0 {
+                    label.isHidden = true
+                }
+            }
 
             count += 1
         }
