@@ -13,7 +13,7 @@ class GraphView: UIView {
     private var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
 
     private var memoriMargin: CGFloat = 70 //横目盛の感覚
-    private var graphHeight: CGFloat = 300 //グラフの高さ
+    private var graphHeight: CGFloat = 250 //グラフの高さ
     private var graphPoints: [String] = [] //グラフの横目盛り
     private var graphDatas: [CGFloat] = [] //グラフの値
 
