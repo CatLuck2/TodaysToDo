@@ -36,11 +36,11 @@ class AnalyticsViewController: UIViewController {
     private func drawLineGraph() {
         switch graphSegment.selectedSegmentIndex {
         case 0: //今週
-            graphView.drawWeekLineGraph()
+            graphView.drawWeekLineGraph(screenWidth: self.view.frame.width)
         case 1: //今月
-            graphView.drawMonthLineGraph()
+            graphView.drawMonthLineGraph(screenWidth: self.view.frame.width)
         case 2: //今年
-            graphView.drawYearLineGraph()
+            graphView.drawYearLineGraph(screenWidth: self.view.frame.width)
         default:
             break
         }

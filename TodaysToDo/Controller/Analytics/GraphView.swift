@@ -12,7 +12,7 @@ class GraphView: UIView {
     private var lineWidth: CGFloat = 3.0 //グラフ線の太さ
     private var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
 
-    private var memoriMargin: CGFloat = 70 //横目盛の感覚
+    private var memoriMargin: CGFloat = 0 //横目盛の感覚
     private var graphHeight: CGFloat = 250 //グラフの高さ
     private var graphPoints: [String] = [] //グラフの横目盛り
     private var graphDatas: [CGFloat] = [] //グラフの値
@@ -24,7 +24,7 @@ class GraphView: UIView {
     }
 
     // 今週用のグラフを描画
-    func drawWeekLineGraph() {
+    func drawWeekLineGraph(screenWidth: CGFloat) {
         initVariables()
         graphPoints = ["日", "月", "火", "水", "木", "金", "土"]
         var calendar = Calendar.current
@@ -41,12 +41,14 @@ class GraphView: UIView {
                 graphDatas.append(0)
             }
         }
+        // 画面幅 = 余白(10) + グラフの幅((目盛り数-1) x 目盛り幅) + 余白(10)
+        memoriMargin = (screenWidth - 20) / CGFloat((graphPoints.count - 1))
         graphFrame()
         memoriGraphDraw()
     }
 
     // 今月用のグラフを描画
-    func drawMonthLineGraph() {
+    func drawMonthLineGraph(screenWidth: CGFloat) {
         initVariables()
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(identifier: "UTC")!
@@ -63,19 +65,19 @@ class GraphView: UIView {
                 graphDatas.append(0)
             }
         }
-
+        memoriMargin = (screenWidth - 20) / CGFloat((graphPoints.count - 1))
         graphFrame()
         memoriGraphDraw()
     }
 
     // 今年用のグラフを描画
-    func drawYearLineGraph() {
+    func drawYearLineGraph(screenWidth: CGFloat) {
         initVariables()
         graphPoints = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
         for month in RealmResults.sharedInstance[0].yearList {
             graphDatas.append(CGFloat(month.total))
         }
-
+        memoriMargin = (screenWidth - 20) / CGFloat((graphPoints.count - 1))
         graphFrame()
         memoriGraphDraw()
     }
