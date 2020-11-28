@@ -14,8 +14,10 @@ class AnalyticsViewController: UIViewController {
     @IBOutlet private weak var graphContentView: UIView!
     @IBOutlet private weak var totalCompletedTaskLabel: UILabel!
     @IBOutlet private weak var rateCompletedTaskLabel: UILabel!
-
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
+
+    // グラフ
+    let graphView = GraphView()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -25,12 +27,23 @@ class AnalyticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // グラフを作成
-        let graphView = GraphView()
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
         // グラフを描画
-        graphView.drawYearLineGraph()
+        drawLineGraph()
+    }
+
+    private func drawLineGraph() {
+        switch graphSegment.selectedSegmentIndex {
+        case 0: //今週
+            graphView.drawWeekLineGraph()
+        case 1: //今月
+            graphView.drawMonthLineGraph()
+        case 2: //今年
+            graphView.drawYearLineGraph()
+        default:
+            break
+        }
         // graphContentViewをグラフの横幅に合わせる
         graphContentViewWidth.constant = graphView.checkWidth() + 20
         // スクロール領域をgraphContentViewに調整
@@ -50,16 +63,13 @@ class AnalyticsViewController: UIViewController {
     }
 
     @IBAction private func graphSegment(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0: //今週
-            break
-        case 1: //今月
-            break
-        case 2: //今年
-            break
-        default:
-            break
+        // 描画されたグラフを更新
+        graphView.setNeedsDisplay()
+        // 横目盛りを更新
+        for view in graphView.subviews {
+            view.removeFromSuperview()
         }
+        drawLineGraph()
     }
 
 }

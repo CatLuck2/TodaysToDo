@@ -41,7 +41,6 @@ class GraphView: UIView {
                 graphDatas.append(0)
             }
         }
-        print(graphDatas)
         graphFrame()
         memoriGraphDraw()
     }
