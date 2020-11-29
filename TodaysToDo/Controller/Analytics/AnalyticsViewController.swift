@@ -29,18 +29,7 @@ class AnalyticsViewController: UIViewController {
         super.viewDidLoad()
         let width = 320
         let height = 250
-
-        let myData = [
-            ["Mon": 15],
-            ["Tues": 30],
-            ["Weds": 7],
-            ["Thurs": 65],
-            ["Fri": 30],
-            ["Sat": 15],
-            ["Sun": 45]
-        ]
-
-        let graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: myData)
+        let graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
         // graphContentViewをグラフの横幅に合わせる
@@ -65,6 +54,39 @@ class AnalyticsViewController: UIViewController {
     //        // スクロール領域をgraphContentViewに調整
     //        graphScrollView.contentSize = graphContentView.frame.size
     //    }
+
+    private func createWeekDatas() -> [[String: Int]] {
+        var data = [
+            ["日": 0],
+            ["月": 0],
+            ["火": 0],
+            ["水": 0],
+            ["木": 0],
+            ["金": 0],
+            ["土": 0]
+        ]
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        for day1 in Date().allDaysOfWeek {
+            for day2 in RealmResults.sharedInstance[0].weekList {
+                if calendar.isDate(day1, inSameDayAs: day2.date!) {
+                    // dataの各要素をそれぞれ取り出す
+                    for i in 0..<data.count {
+                        // 取り出した要素のキーと値を取り出す
+                        for (_, value) in data[i].enumerated() {
+                            // day1の曜日と合致するか確認
+                            if value.key == Date().getDayOfTheWeek(date: day1) {
+                                // 合致した曜日の値を更新
+                                data[i][Date().getDayOfTheWeek(date: day1)]
+                                    = day2.numberOfCompletedTask
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return data
+    }
 
     private func setTotalCompletedTaskLabel() {
         var total: Int = 0

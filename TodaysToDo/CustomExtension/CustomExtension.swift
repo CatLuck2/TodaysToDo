@@ -66,6 +66,13 @@ extension Date {
         }
         return months
     }
+    //曜日を取得
+    func getDayOfTheWeek(date: Date) -> String {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "ja_JP")
+        let dw = Calendar.current.component(.weekday, from: date)
+        return df.shortWeekdaySymbols[dw - 2]
+    }
     func getCurrentDate() -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdkHms", options: 0, locale: Locale(identifier: "ja_JP"))
