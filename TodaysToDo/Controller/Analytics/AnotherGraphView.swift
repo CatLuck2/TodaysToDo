@@ -27,7 +27,6 @@ class AnotherGraphView: UIView {
 
     var xMargin: CGFloat = 20
     var originLabelText: String?
-    var originLabelColor = UIColor.black
 
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")

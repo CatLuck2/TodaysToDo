@@ -29,7 +29,7 @@ class AnalyticsViewController: UIViewController {
         super.viewDidLoad()
         let width = 320
         let height = 250
-        let graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
+        let graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createMonthDatas())
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
         // graphContentViewをグラフの横幅に合わせる
@@ -75,9 +75,36 @@ class AnalyticsViewController: UIViewController {
                         // 取り出した要素のキーと値を取り出す
                         for (_, value) in data[i].enumerated() {
                             // day1の曜日と合致するか確認
-                            if value.key == Date().getDayOfTheWeek(date: day1) {
+                            if value.key == Date().getDayOfWeek(date: day1) {
                                 // 合致した曜日の値を更新
-                                data[i][Date().getDayOfTheWeek(date: day1)]
+                                data[i][Date().getDayOfWeek(date: day1)] = day2.numberOfCompletedTask
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return data
+    }
+
+    private func createMonthDatas() -> [[String: Int]] {
+        var data = [[String: Int]]()
+        for day in Date().allDaysOfMonth {
+            data.append([Date().getDayOfMonth(date: day): 0])
+        }
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        for day1 in Date().allDaysOfMonth {
+            for day2 in RealmResults.sharedInstance[0].monthList {
+                if calendar.isDate(day1, inSameDayAs: day2.date!) {
+                    // dataの各要素をそれぞれ取り出す
+                    for i in 0..<data.count {
+                        // 取り出した要素のキーと値を取り出す
+                        for (_, value) in data[i].enumerated() {
+                            // day1の日と合致するか確認
+                            if value.key == Date().getDayOfMonth(date: day1) {
+                                // 合致した日の値を更新
+                                data[i][Date().getDayOfMonth(date: day1)]
                                     = day2.numberOfCompletedTask
                             }
                         }
