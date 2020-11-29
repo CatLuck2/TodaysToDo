@@ -17,7 +17,9 @@ class AnalyticsViewController: UIViewController {
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
     // グラフ
-    //    let graphView = GraphView()
+    var graphView = AnotherGraphView()
+    let width = 320
+    let height = 250
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -27,9 +29,8 @@ class AnalyticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let width = 320
-        let height = 250
-        let graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createMonthDatas())
+
+        graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
         // graphContentViewをグラフの横幅に合わせる
@@ -39,16 +40,16 @@ class AnalyticsViewController: UIViewController {
     }
 
     //    private func drawLineGraph() {
-    //        switch graphSegment.selectedSegmentIndex {
-    //        case 0: //今週
-    //            graphView.drawWeekLineGraph(screenWidth: self.view.frame.width)
-    //        case 1: //今月
-    //            graphView.drawMonthLineGraph(screenWidth: self.view.frame.width)
-    //        case 2: //今年
-    //            graphView.drawYearLineGraph(screenWidth: self.view.frame.width)
-    //        default:
-    //            break
-    //        }
+    //            switch graphSegment.selectedSegmentIndex {
+    //            case 0: //今週
+    //                graphView.drawWeekLineGraph(screenWidth: self.view.frame.width)
+    //            case 1: //今月
+    //                graphView.drawMonthLineGraph(screenWidth: self.view.frame.width)
+    //            case 2: //今年
+    //                graphView.drawYearLineGraph(screenWidth: self.view.frame.width)
+    //            default:
+    //                break
+    //            }
     //        // graphContentViewをグラフの横幅に合わせる
     //        graphContentViewWidth.constant = graphView.checkWidth() + 20
     //        // スクロール領域をgraphContentViewに調整
@@ -128,13 +129,19 @@ class AnalyticsViewController: UIViewController {
     }
 
     @IBAction private func graphSegment(_ sender: UISegmentedControl) {
-        // 描画されたグラフを更新
-        //        graphView.setNeedsDisplay()
-        //        // 横目盛りを更新
-        //        for view in graphView.subviews {
-        //            view.removeFromSuperview()
-        //        }
-        //        drawLineGraph()
+        // 既存のグラフを削除
+        for view in graphContentView.subviews {
+            view.removeFromSuperview()
+        }
+        switch graphSegment.selectedSegmentIndex {
+        case 0: //今週
+            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
+        case 1: //今月
+            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createMonthDatas())
+        default:
+            break
+        }
+        graphContentView.addSubview(graphView)
     }
 
 }
