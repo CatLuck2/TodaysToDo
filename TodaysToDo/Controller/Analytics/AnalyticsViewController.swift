@@ -17,7 +17,7 @@ class AnalyticsViewController: UIViewController {
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
     // グラフ
-    let graphView = GraphView()
+    //    let graphView = GraphView()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -27,28 +27,44 @@ class AnalyticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let width = 320
+        let height = 250
+
+        let myData = [
+            ["Mon": 15],
+            ["Tues": 30],
+            ["Weds": 7],
+            ["Thurs": 65],
+            ["Fri": 30],
+            ["Sat": 15],
+            ["Sun": 45]
+        ]
+
+        let graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: myData)
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
-        // グラフを描画
-        drawLineGraph()
-    }
-
-    private func drawLineGraph() {
-        switch graphSegment.selectedSegmentIndex {
-        case 0: //今週
-            graphView.drawWeekLineGraph(screenWidth: self.view.frame.width)
-        case 1: //今月
-            graphView.drawMonthLineGraph(screenWidth: self.view.frame.width)
-        case 2: //今年
-            graphView.drawYearLineGraph(screenWidth: self.view.frame.width)
-        default:
-            break
-        }
         // graphContentViewをグラフの横幅に合わせる
-        graphContentViewWidth.constant = graphView.checkWidth() + 20
+        graphContentViewWidth.constant = CGFloat(width)
         // スクロール領域をgraphContentViewに調整
         graphScrollView.contentSize = graphContentView.frame.size
     }
+
+    //    private func drawLineGraph() {
+    //        switch graphSegment.selectedSegmentIndex {
+    //        case 0: //今週
+    //            graphView.drawWeekLineGraph(screenWidth: self.view.frame.width)
+    //        case 1: //今月
+    //            graphView.drawMonthLineGraph(screenWidth: self.view.frame.width)
+    //        case 2: //今年
+    //            graphView.drawYearLineGraph(screenWidth: self.view.frame.width)
+    //        default:
+    //            break
+    //        }
+    //        // graphContentViewをグラフの横幅に合わせる
+    //        graphContentViewWidth.constant = graphView.checkWidth() + 20
+    //        // スクロール領域をgraphContentViewに調整
+    //        graphScrollView.contentSize = graphContentView.frame.size
+    //    }
 
     private func setTotalCompletedTaskLabel() {
         var total: Int = 0
@@ -64,12 +80,12 @@ class AnalyticsViewController: UIViewController {
 
     @IBAction private func graphSegment(_ sender: UISegmentedControl) {
         // 描画されたグラフを更新
-        graphView.setNeedsDisplay()
-        // 横目盛りを更新
-        for view in graphView.subviews {
-            view.removeFromSuperview()
-        }
-        drawLineGraph()
+        //        graphView.setNeedsDisplay()
+        //        // 横目盛りを更新
+        //        for view in graphView.subviews {
+        //            view.removeFromSuperview()
+        //        }
+        //        drawLineGraph()
     }
 
 }
