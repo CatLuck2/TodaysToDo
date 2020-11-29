@@ -81,6 +81,14 @@ extension Date {
         let dm = df.string(from: date)
         return dm
     }
+    //年を取得
+    func getMonthOfYear(date: Date) -> String {
+        let df = DateFormatter()
+        df.dateFormat = "M"
+        df.locale = Locale(identifier: "ja_JP")
+        let dy = df.string(from: date)
+        return dy
+    }
     func getCurrentDate() -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdkHms", options: 0, locale: Locale(identifier: "ja_JP"))

@@ -116,6 +116,38 @@ class AnalyticsViewController: UIViewController {
         return data
     }
 
+    private func createYearDatas() -> [[String: Int]] {
+        var data = [
+            ["1": 0],
+            ["2": 0],
+            ["3": 0],
+            ["4": 0],
+            ["5": 0],
+            ["6": 0],
+            ["7": 0],
+            ["8": 0],
+            ["9": 0],
+            ["10": 0],
+            ["11": 0],
+            ["12": 0]
+        ]
+        for monthDate in RealmResults.sharedInstance[0].yearList {
+            // dataの各要素をそれぞれ取り出す
+            for i in 0..<data.count {
+                // 取り出した要素のキーと値を取り出す
+                for (_, value) in data[i].enumerated() {
+                    // day1の日と合致するか確認
+                    if value.key == Date().getMonthOfYear(date: monthDate.monthOfYear) {
+                        // 合致した日の値を更新
+                        data[i][Date().getMonthOfYear(date: monthDate.monthOfYear)]
+                            = monthDate.total
+                    }
+                }
+            }
+        }
+        return data
+    }
+
     private func setTotalCompletedTaskLabel() {
         var total: Int = 0
         for task in RealmResults.sharedInstance[0].taskListDatas {
@@ -138,6 +170,8 @@ class AnalyticsViewController: UIViewController {
             graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
         case 1: //今月
             graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createMonthDatas())
+        case 2: //今年
+            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createYearDatas())
         default:
             break
         }
