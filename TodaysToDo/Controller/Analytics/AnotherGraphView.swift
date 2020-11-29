@@ -162,7 +162,16 @@ class AnotherGraphView: UIView {
         let xLabel = axisLabel(title: point.keys.first!)
         xLabel.frame = CGRect(x: xposition - 18, y: graphHeight + 20, width: 36, height: 20)
         xLabel.textAlignment = .center
-        addSubview(xLabel)
+        // 今月のグラフを表示してる場合
+        // 今週:7個、今年:12個
+        if data.count > 12 {
+            guard let pointByNum = Int(point.keys.first!) else { return }
+            if pointByNum % 2 == 0 {
+                addSubview(xLabel)
+            }
+        } else {
+            addSubview(xLabel)
+        }
 
         if showPoints {
             // Add a marker for this value
