@@ -18,8 +18,8 @@ class AnalyticsViewController: UIViewController {
 
     // グラフ
     var graphView = AnotherGraphView()
-    let width = 320
-    let height = 250
+    var width: CGFloat = 0
+    var height: CGFloat = 0
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -29,7 +29,8 @@ class AnalyticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        width = self.view.frame.width
+        height = graphContentView.frame.height
         graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
