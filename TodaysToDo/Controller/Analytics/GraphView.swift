@@ -1,221 +1,257 @@
 //
-//  GraphView.swift
+//  AnotherGraphView.swift
 //  TodaysToDo
 //
-//  Created by Nekokichi on 2020/10/31.
+//  Created by Nekokichi on 2020/11/29.
 //
 
 import UIKit
 
+enum GraphType {
+    case week
+    case month
+    case year
+}
+
 class GraphView: UIView {
 
-    private var lineWidth: CGFloat = 3.0 //グラフ線の太さ
-    private var lineColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //グラフ線の色
-    private var circleWidth: CGFloat = 3.0 //円の半径
-    private var circleColor = UIColor(red: 0.088, green: 0.501, blue: 0.979, alpha: 1) //円の色
+    private var graphType: GraphType!
+    private var data = [[String: Int]]()
+    private var context: CGContext?
+    private let padding: CGFloat = 30
+    private var graphWidth: CGFloat = 0
+    private var graphHeight: CGFloat = 0
+    private var axisWidth: CGFloat = 0
+    private var axisHeight: CGFloat = 0
+    private var everest: CGFloat = 0
 
-    private var memoriMargin: CGFloat = 0 //横目盛の感覚
-    private var graphHeight: CGFloat = 250 //グラフの高さ
-    private var graphPoints: [String] = [] //グラフの横目盛り
-    private var graphDatas: [CGFloat] = [] //グラフの値
+    // Graph Styles
+    var showLines = true
+    var showPoints = true
+    var linesColor = UIColor.lightGray
+    var labelFont = UIFont.systemFont(ofSize: 10)
 
-    // グラフ関連の変数を初期化
-    private func initVariables() {
-        graphPoints = []
-        graphDatas = []
+    var xMargin: CGFloat = 20
+    var originLabelText: String?
+
+    private var isThereSameDayOfWeek = false
+
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
     }
 
-    // 今週用のグラフを描画
-    func drawWeekLineGraph(screenWidth: CGFloat) {
-        initVariables()
-        graphPoints = ["日", "月", "火", "水", "木", "金", "土"]
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        for day1 in Date().allDaysOfWeek {
-            var isContainedSameDay = false
-            for day2 in RealmResults.sharedInstance[0].weekList {
-                if calendar.isDate(day1, inSameDayAs: day2.date!) {
-                    graphDatas.append(CGFloat(day2.numberOfCompletedTask))
-                    isContainedSameDay = true
-                }
-            }
-            if isContainedSameDay == false {
-                graphDatas.append(0)
-            }
-        }
-        // 画面幅 = 余白(10) + グラフの幅((目盛り数-1) x 目盛り幅) + 余白(10)
-        memoriMargin = (screenWidth - 20) / CGFloat((graphPoints.count - 1))
-        graphFrame()
-        memoriGraphDraw()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
 
-    // 今月用のグラフを描画
-    func drawMonthLineGraph(screenWidth: CGFloat) {
-        initVariables()
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        for day1 in Date().allDaysOfMonth {
-            var isContainedSameDay = false
-            graphPoints.append("\(day1.dayFromMonthOfDataType)")
-            for day2 in RealmResults.sharedInstance[0].monthList {
-                if calendar.isDate(day1, inSameDayAs: day2.date!) {
-                    graphDatas.append(CGFloat(day2.numberOfCompletedTask))
-                    isContainedSameDay = true
-                }
-            }
-            if isContainedSameDay == false {
-                graphDatas.append(0)
-            }
-        }
-        memoriMargin = (screenWidth - 20) / CGFloat((graphPoints.count - 1))
-        graphFrame()
-        memoriGraphDraw()
+    init(frame: CGRect, graphtype: GraphType, data: [[String: Int]]) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.clear
+        self.data = data
+        self.graphType = graphtype
     }
 
-    // 今年用のグラフを描画
-    func drawYearLineGraph(screenWidth: CGFloat) {
-        initVariables()
-        graphPoints = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-        for month in RealmResults.sharedInstance[0].yearList {
-            graphDatas.append(CGFloat(month.total))
-        }
-        memoriMargin = (screenWidth - 20) / CGFloat((graphPoints.count - 1))
-        graphFrame()
-        memoriGraphDraw()
-    }
-
-    //グラフを描画するviewの大きさ
-    private func graphFrame() {
-        self.backgroundColor = UIColor(red: 0.972, green: 0.973, blue: 0.972, alpha: 1)
-        self.frame = CGRect(x: 10, y: 0, width: checkWidth(), height: checkHeight())
-    }
-
-    //横目盛・グラフを描画する
-    private func memoriGraphDraw() {
-
-        var count: CGFloat = 0
-        for memori in graphPoints {
-            //ラベル作成〜設定
-            let label = UILabel()
-            label.text = String(memori)
-            label.font = UIFont.systemFont(ofSize: 9)
-
-            //ラベルの位置情報
-            //ラベルのサイズを取得
-            let frame = CGSize(width: 250, height: CGFloat.greatestFiniteMagnitude)
-            let rect = label.sizeThatFits(frame)
-
-            //ラベルの位置
-            var lebelX = (count * memoriMargin) - rect.width / 2
-            //最初のラベル
-            if Int(count) == 0 {
-                lebelX = (count * memoriMargin)
-            }
-            //最後のラベル
-            if Int(count + 1) == graphPoints.count {
-                lebelX = (count * memoriMargin) - rect.width
-            }
-
-            //ラベルを描画
-            label.frame = CGRect(x: lebelX, y: graphHeight, width: rect.width, height: rect.height)
-            self.addSubview(label)
-            // 月のグラフで横目盛りを減らす
-            if graphPoints.count > 12 {
-                if Int(memori)! % 7 != 0 {
-                    label.isHidden = true
-                }
-            }
-
-            count += 1
-        }
-    }
-
-    // graphDatasの最大値-最低値
-    var yAxisMax: CGFloat {
-        (graphDatas.max() ?? 0) - (graphDatas.min() ?? 0)
-    }
-
-    //グラフ横幅を算出
-    func checkWidth() -> CGFloat {
-        CGFloat(graphPoints.count - 1) * memoriMargin
-    }
-
-    //グラフ縦幅を算出
-    func checkHeight() -> CGFloat {
-        graphHeight
-    }
-
-    //グラフの線を描画
     override func draw(_ rect: CGRect) {
-        var count: CGFloat = 0
-        var myCircle = UIBezierPath() //頂点の円
-        let linePath = UIBezierPath() //線
+        super.draw(rect)
 
-        linePath.lineWidth = lineWidth //線の幅
-        lineColor.setStroke() //UIBezierPathに色を適用？
+        context = UIGraphicsGetCurrentContext()
 
-        //datapoint:各点の値
-        //move -> addLine -> addLine -> ... -> linePath.stroke()
-        for datapoint in graphDatas {
-            //count+1がgraphDatas.countを超えるまでループ
-            if Int(count + 1) < graphDatas.count {
+        // Graph size
+        graphWidth = (rect.size.width - padding) - 10
+        graphHeight = rect.size.height - 40
+        axisWidth = rect.size.width - 10
+        axisHeight = (rect.size.height - padding) - 10
 
-                //終点(2回目以降のループ)
-                var nextY: CGFloat = 0
-                //(値 / （最大値ー最小値）* (グラフの高さ))
-                nextY = graphDatas[Int(count + 1)]/yAxisMax * (graphHeight)
-                //グラフの高さー nextY
-                nextY = graphHeight - nextY
-                if (graphDatas.min() ?? 0) < 0 {
-                    nextY = (graphDatas[Int(count + 1)] - (graphDatas.min() ?? 0)) / yAxisMax * (graphHeight)
-                    nextY = graphHeight - nextY
-                }
-
-                //最初の開始地点を指定（1回目のループ）
-                //count==0の時、count>0はnowYを採用？
-                //始点(値 / （最大値ー最小値）* (グラフの高さー点の半径))
-                var nowY: CGFloat = datapoint / yAxisMax * (graphHeight)
-                nowY = graphHeight - nowY
-                //graphDatasの最小値がマイナスの場合
-                if (graphDatas.min() ?? 0) < 0 {
-                    nowY = (datapoint - (graphDatas.min() ?? 0)) / yAxisMax * (graphHeight)
-                    nowY = graphHeight - nowY
-                }
-                //最初のループ時にのみ発動
-                var circlePoint = CGPoint()
-                if Int(count) == 0 {
-                    //yが増加すると、開始地点が低くなる
-                    linePath.move(to: CGPoint(x: 0, y: nowY))
-                    circlePoint = CGPoint(x: count * memoriMargin + circleWidth, y: nowY)
-                    myCircle = UIBezierPath(arcCenter: circlePoint, radius: circleWidth, startAngle: 0.0, endAngle: CGFloat(Double.pi * 2), clockwise: false)
-                    circleColor.setFill()
-                    myCircle.fill()
-                    myCircle.stroke()
-                }
-
-                //描画ポイントを指定
-                //原点からx座標を計算
-                linePath.addLine(to: CGPoint(x: (count + 1) * memoriMargin, y: nextY))
-
-                //円をつくる
-                circlePoint = CGPoint(x: (count + 1) * memoriMargin, y: nextY)
-                myCircle = UIBezierPath(arcCenter: circlePoint,
-                                        // 半径
-                                        radius: circleWidth,
-                                        // 初角度
-                                        startAngle: 0.0,
-                                        // 最終角度
-                                        endAngle: CGFloat(Double.pi * 2),
-                                        // 反時計回り
-                                        clockwise: false)
-                circleColor.setFill()
-                myCircle.fill()
-                myCircle.stroke()
+        // Lets work out the highest value and round to the nearest 25.
+        // This will be used to work out the position of each value
+        // on the Y axis, it essentialy reperesents 100% of Y
+        for (index, point) in data.enumerated() {
+            let keys = Array(data[index].keys)
+            let currKey = keys.first!
+            if CGFloat(point[currKey]!) > everest {
+                everest = CGFloat(Int(ceilf(Float(point[currKey]!) / 25) * 25))
             }
-            count += 1
         }
-        //折れ線グラフを描画
-        linePath.stroke()
+        if everest == 0 {
+            everest = 25
+        }
+
+        // X軸線を描画
+        let xAxisPath = CGMutablePath()
+        xAxisPath.move(to: CGPoint(x: padding, y: rect.size.height - 31))
+        xAxisPath.addLine(to: CGPoint(x: axisWidth, y: rect.size.height - 31))
+        context!.addPath(xAxisPath)
+        context!.setStrokeColor(UIColor.black.cgColor)
+        context!.strokePath()
+
+        // Y軸線を描画
+        let yAxisPath = CGMutablePath()
+        yAxisPath.move(to: CGPoint(x: padding, y: 10))
+        yAxisPath.addLine(to: CGPoint(x: padding, y: rect.size.height - 31))
+        context!.addPath(yAxisPath)
+        context!.setStrokeColor(UIColor.black.cgColor)
+        context!.strokePath()
+
+        // Y軸の値、値を示す線、を描画
+        let yLabelInterval = Int(everest / 5)
+        for i in 0...5 {
+            let label = axisLabel(title: String(format: "%d", i * yLabelInterval))
+            label.frame = CGRect(x: 0, y: floor((rect.size.height - padding) - CGFloat(i) * (axisHeight / 5) - 10), width: 20, height: 20)
+            addSubview(label)
+
+            if showLines && i != 0 {
+                let line = CGMutablePath()
+                line.move(to: CGPoint(x: padding + 1, y: floor(rect.size.height - padding) - (CGFloat(i) * (axisHeight / 5))))
+                line.addLine(to: CGPoint(x: axisWidth, y: floor(rect.size.height - padding) - (CGFloat(i) * (axisHeight / 5))))
+                context!.addPath(line)
+                context!.setLineWidth(1)
+                context!.setStrokeColor(linesColor.cgColor)
+                context!.strokePath()
+            }
+        }
+
+        // 始点を描画
+        let pointPath = CGMutablePath()
+        let firstPoint = data[0][data[0].keys.first!]
+        let initialY: CGFloat = ceil((CGFloat(firstPoint!) * (axisHeight / everest))) - 10
+        let initialX: CGFloat = padding + xMargin
+        pointPath.move(to: CGPoint(x: initialX, y: graphHeight - initialY))
+
+        // 始点以降の処理
+        for (_, value) in data.enumerated() {
+            // x軸のラベル、頂点の丸、を描画
+            plotPoint(point: [value.keys.first!: value.values.first!], path: pointPath)
+        }
+        // 線を結ぶ頂点を登録
+        context!.addPath(pointPath)
+        // 線の幅
+        context!.setLineWidth(2)
+        // 線の色
+        context!.setStrokeColor(UIColor.black.cgColor)
+        // 線を引く
+        context!.strokePath()
+
+        // ???
+        if originLabelText != nil {
+            let originLabel = UILabel()
+            originLabel.text = originLabelText
+            originLabel.textAlignment = .center
+            originLabel.font = labelFont
+            originLabel.textColor = UIColor.black
+            originLabel.backgroundColor = backgroundColor
+            originLabel.frame = CGRect(x: -2, y: graphHeight + 20, width: 40, height: 20)
+            addSubview(originLabel)
+        }
+    }
+
+    // Plot a point on the graph
+    private func plotPoint(point: [String: Int], path: CGMutablePath) {
+
+        // work out the distance to draw the remaining points at
+        let interval = Int(graphWidth - xMargin * 2) / (data.count - 1)
+
+        let pointValue = point[point.keys.first!]
+
+        // Calculate X and Y positions
+        let yposition: CGFloat = ceil((CGFloat(pointValue!) * (axisHeight / everest))) - 10
+
+        var index = 0
+        for (ind, value) in data.enumerated() {
+            if point.keys.first! == value.keys.first! && point.values.first! == value.values.first! {
+                index = ind
+            }
+        }
+        let xposition = CGFloat(interval * index) + padding + xMargin
+
+        // X軸の各値のラベルを表示
+        strokeXAxisLabel(point: point, position: xposition)
+        // 現在日付以前のデータのみを表示
+        switch graphType {
+        case .week:
+            if isThereSameDayOfWeek {
+                break
+            } else {
+                if Date().dayOfWeekByStr == point.keys.first! {
+                    isThereSameDayOfWeek = true
+                }
+                // 線を登録
+                path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
+                // 頂点の円を描画
+                strokePointMarker(xPosition: xposition, yPosition: yposition)
+            }
+        case .month:
+            // 日を比較
+            if Int(Date().dayOfMonthByStr)! >= Int(point.keys.first!)! {
+                path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
+                strokePointMarker(xPosition: xposition, yPosition: yposition)
+            }
+        case .year:
+            // 月を比較
+            if Int(Date().monthOfYearByStr)! >= Int(point.keys.first!)! {
+                path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
+                strokePointMarker(xPosition: xposition, yPosition: yposition)
+            }
+        case .none:
+            break
+        }
+
+    }
+
+    // X軸のラベルを描画
+    private func strokeXAxisLabel(point: [String: Int], position: CGFloat) {
+        let xLabel = axisLabel(title: point.keys.first!)
+        xLabel.frame = CGRect(x: position - 18, y: graphHeight + 20, width: 36, height: 20)
+        xLabel.textAlignment = .center
+        // 今月のグラフを表示してる場合
+        // 今週:7個、今年:12個
+        if data.count > 12 {
+            guard let pointByNum = Int(point.keys.first!) else { return }
+            if pointByNum % 2 == 0 {
+                addSubview(xLabel)
+            }
+        } else {
+            addSubview(xLabel)
+        }
+    }
+
+    // 円を描画
+    private func strokePointMarker(xPosition: CGFloat, yPosition: CGFloat) {
+        if showPoints {
+            // Add a marker for this value
+            let pointMarker = valueMarker()
+            pointMarker.frame = CGRect(x: xPosition - 8, y: CGFloat(ceil(graphHeight - yPosition) - 8), width: 16, height: 16)
+            layer.addSublayer(pointMarker)
+        }
+    }
+
+    // X軸の値を表示するためのLabel
+    private func axisLabel(title: String) -> UILabel {
+        let label = UILabel(frame: CGRect.zero)
+        label.text = title as String
+        label.font = labelFont
+        label.textColor = UIColor.black
+        label.backgroundColor = backgroundColor
+        label.textAlignment = NSTextAlignment.right
+
+        return label
+    }
+
+    // 頂点の円を描くためのCALayer
+    func valueMarker() -> CALayer {
+        let pointMarker = CALayer()
+        pointMarker.backgroundColor = backgroundColor?.cgColor
+        pointMarker.cornerRadius = 8
+        pointMarker.masksToBounds = true
+
+        let markerInner = CALayer()
+        markerInner.frame = CGRect(x: 3, y: 3, width: 10, height: 10)
+        markerInner.cornerRadius = 5
+        markerInner.masksToBounds = true
+        markerInner.backgroundColor = UIColor.black.cgColor
+
+        pointMarker.addSublayer(markerInner)
+
+        return pointMarker
     }
 
 }

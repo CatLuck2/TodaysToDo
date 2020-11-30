@@ -17,7 +17,7 @@ class AnalyticsViewController: UIViewController {
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
     // グラフ
-    var graphView = AnotherGraphView()
+    var graphView = GraphView()
     var width: CGFloat = 0
     var height: CGFloat = 0
 
@@ -31,7 +31,7 @@ class AnalyticsViewController: UIViewController {
         super.viewDidLoad()
         width = self.view.frame.width
         height = graphContentView.frame.height
-        graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
+        graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
         // graphContentViewをグラフの横幅に合わせる
@@ -39,23 +39,6 @@ class AnalyticsViewController: UIViewController {
         // スクロール領域をgraphContentViewに調整
         graphScrollView.contentSize = graphContentView.frame.size
     }
-
-    //    private func drawLineGraph() {
-    //            switch graphSegment.selectedSegmentIndex {
-    //            case 0: //今週
-    //                graphView.drawWeekLineGraph(screenWidth: self.view.frame.width)
-    //            case 1: //今月
-    //                graphView.drawMonthLineGraph(screenWidth: self.view.frame.width)
-    //            case 2: //今年
-    //                graphView.drawYearLineGraph(screenWidth: self.view.frame.width)
-    //            default:
-    //                break
-    //            }
-    //        // graphContentViewをグラフの横幅に合わせる
-    //        graphContentViewWidth.constant = graphView.checkWidth() + 20
-    //        // スクロール領域をgraphContentViewに調整
-    //        graphScrollView.contentSize = graphContentView.frame.size
-    //    }
 
     private func createWeekDatas() -> [[String: Int]] {
         var data = [
@@ -168,11 +151,11 @@ class AnalyticsViewController: UIViewController {
         }
         switch graphSegment.selectedSegmentIndex {
         case 0: //今週
-            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
+            graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
         case 1: //今月
-            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .month, data: createMonthDatas())
+            graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .month, data: createMonthDatas())
         case 2: //今年
-            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .year, data: createYearDatas())
+            graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .year, data: createYearDatas())
         default:
             break
         }

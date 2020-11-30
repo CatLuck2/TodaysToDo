@@ -21,11 +21,6 @@ extension Date {
         guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
         return gregorian.date(byAdding: .day, value: 1, to: sunday)
     }
-    var endOfWeek: Date? {
-        let gregorian = Calendar(identifier: .gregorian)
-        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
-        return gregorian.date(byAdding: .day, value: 7, to: sunday)
-    }
     var allDaysOfWeek: [Date] {
         var days: [Date]! = []
         var calendar = Calendar.current
@@ -50,13 +45,6 @@ extension Date {
         let components = calender.dateComponents([.year, .month], from: self)
         let startOfMonth = calender.date(from: components)
         return startOfMonth!
-    }
-    var dayFromMonthOfDataType: Int {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(identifier: "UTC")
-        dateFormatter.dateFormat = "dd"
-        let monthString = dateFormatter.string(from: self)
-        return Int(monthString)!
     }
     var allDaysOfMonth: [Date] {
         var days: [Date]! = []
