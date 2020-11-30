@@ -262,7 +262,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .deleteAll:
                 let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
-
+                    // Realmの全データを削除
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.deleteAll()
+                    }
+                    let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
+                    resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(resultAlert, animated: true, completion: nil)
                 }))
                 alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
                 present(alert, animated: true, completion: nil)
