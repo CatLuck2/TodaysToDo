@@ -7,10 +7,11 @@
 
 import UIKit
 
-class CustomTabBarController: UITabBarController {
+class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        delegate = self
         // 各StoryBoardの名前
         let storyboardNames = ["Main", "Analytics", "Settings"]
         var viewControllers = [UIViewController]()
@@ -34,6 +35,23 @@ class CustomTabBarController: UITabBarController {
             viewControllers.append(viewController)
         }
         setViewControllers(viewControllers, animated: false)
+    }
+
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is AnalyticsViewController {
+            if RealmResults.sharedInstance.isEmpty == true {
+                let alert = UIAlertController(title: "エラー", message: "統計に必要なデータがありません", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return false
+            } else if RealmResults.sharedInstance[0].taskListDatas.isEmpty == true {
+                let alert = UIAlertController(title: "エラー", message: "統計に必要なデータがありません", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return false
+            }
+        }
+        return true
     }
 
 }

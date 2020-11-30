@@ -16,6 +16,9 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // Realmにデータが保存されてるかを確認
+        let realm = try! Realm()
+        RealmResults.sharedInstance = realm.objects(ToDoModel.self)
         // UserDefaultから前回のタスク終了日時を取得
         guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
             return
@@ -35,9 +38,6 @@ class MainViewController: UIViewController {
 
         // StackViewにタップジェスチャーを追加
         todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
-        // Realmにデータが保存されてるかを確認
-        let realm = try! Realm()
-        RealmResults.sharedInstance = realm.objects(ToDoModel.self)
         if RealmResults.sharedInstance.isEmpty == true {
             // Realmに1度も保存してない
             setTodoListForAdd()
