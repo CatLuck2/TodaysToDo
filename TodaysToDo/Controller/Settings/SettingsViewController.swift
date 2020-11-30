@@ -97,7 +97,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     // "タスクリストを削除"のセルをタップ時の処理
-    private func setDeleteTaskCell() {
+    private func deleteTask() {
         // タスクリストがある
         if RealmResults.sharedInstance.indices.contains(0) == true {
             let alert = UIAlertController(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？", preferredStyle: .alert)
@@ -107,6 +107,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 try! realm.write {
                     realm.delete(realm.objects(ToDoModel.self))
                 }
+                // 通知類を削除
+                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
                 // 削除したことをアラートで表示
                 let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
                 resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -258,7 +262,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             switch dataType {
             case .deleteTask:
-                setDeleteTaskCell()
+                deleteTask()
             case .deleteAll:
                 let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
@@ -267,6 +271,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     try! realm.write {
                         realm.deleteAll()
                     }
+                    // 通知類を削除
+                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                    NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+                    // 削除したことを通知
                     let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
                     resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                     self.present(resultAlert, animated: true, completion: nil)

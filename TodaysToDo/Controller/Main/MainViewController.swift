@@ -194,7 +194,7 @@ class MainViewController: UIViewController {
 
     /// テスト用のNotification
     func testNotification() {
-        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
         content.title = "アラート"
