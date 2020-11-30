@@ -7,11 +7,17 @@
 
 import UIKit
 
+enum GraphType {
+    case week
+    case month
+    case year
+}
+
 class AnotherGraphView: UIView {
 
+    private var graphType: GraphType!
     private var data = [[String: Int]]()
     private var context: CGContext?
-
     private let padding: CGFloat = 30
     private var graphWidth: CGFloat = 0
     private var graphHeight: CGFloat = 0
@@ -28,6 +34,8 @@ class AnotherGraphView: UIView {
     var xMargin: CGFloat = 20
     var originLabelText: String?
 
+    private var isThereSameDayOfWeek = false
+
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }
@@ -36,12 +44,11 @@ class AnotherGraphView: UIView {
         super.init(frame: frame)
     }
 
-    init(frame: CGRect, data: [[String: Int]]) {
-
+    init(frame: CGRect, graphtype: GraphType, data: [[String: Int]]) {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
         self.data = data
-
+        self.graphType = graphtype
     }
 
     override func draw(_ rect: CGRect) {
@@ -69,28 +76,25 @@ class AnotherGraphView: UIView {
             everest = 25
         }
 
-        // Draw graph X-AXIS
+        // X軸線を描画
         let xAxisPath = CGMutablePath()
         xAxisPath.move(to: CGPoint(x: padding, y: rect.size.height - 31))
         xAxisPath.addLine(to: CGPoint(x: axisWidth, y: rect.size.height - 31))
         context!.addPath(xAxisPath)
-
         context!.setStrokeColor(UIColor.black.cgColor)
         context!.strokePath()
 
-        // Draw graph Y-AXIS
+        // Y軸線を描画
         let yAxisPath = CGMutablePath()
         yAxisPath.move(to: CGPoint(x: padding, y: 10))
         yAxisPath.addLine(to: CGPoint(x: padding, y: rect.size.height - 31))
         context!.addPath(yAxisPath)
-
         context!.setStrokeColor(UIColor.black.cgColor)
         context!.strokePath()
 
-        // Draw y axis labels and lines
+        // Y軸の値、値を示す線、を描画
         let yLabelInterval = Int(everest / 5)
         for i in 0...5 {
-
             let label = axisLabel(title: String(format: "%d", i * yLabelInterval))
             label.frame = CGRect(x: 0, y: floor((rect.size.height - padding) - CGFloat(i) * (axisHeight / 5) - 10), width: 20, height: 20)
             addSubview(label)
@@ -106,25 +110,28 @@ class AnotherGraphView: UIView {
             }
         }
 
-        // Lets move to the first point
+        // 始点を描画
         let pointPath = CGMutablePath()
         let firstPoint = data[0][data[0].keys.first!]
         let initialY: CGFloat = ceil((CGFloat(firstPoint!) * (axisHeight / everest))) - 10
         let initialX: CGFloat = padding + xMargin
         pointPath.move(to: CGPoint(x: initialX, y: graphHeight - initialY))
 
-        // Loop over the remaining values
+        // 始点以降の処理
         for (_, value) in data.enumerated() {
+            // x軸のラベル、頂点の丸、を描画
             plotPoint(point: [value.keys.first!: value.values.first!], path: pointPath)
         }
-
-        // Set stroke colours and stroke the values path
+        // 線を結ぶ頂点を登録
         context!.addPath(pointPath)
+        // 線の幅
         context!.setLineWidth(2)
+        // 線の色
         context!.setStrokeColor(UIColor.black.cgColor)
+        // 線を引く
         context!.strokePath()
 
-        // Add Origin Label
+        // ???
         if originLabelText != nil {
             let originLabel = UILabel()
             originLabel.text = originLabelText
@@ -138,7 +145,7 @@ class AnotherGraphView: UIView {
     }
 
     // Plot a point on the graph
-    func plotPoint(point: [String: Int], path: CGMutablePath) {
+    private func plotPoint(point: [String: Int], path: CGMutablePath) {
 
         // work out the distance to draw the remaining points at
         let interval = Int(graphWidth - xMargin * 2) / (data.count - 1)
@@ -156,11 +163,44 @@ class AnotherGraphView: UIView {
         }
         let xposition = CGFloat(interval * index) + padding + xMargin
 
-        // Draw line to this value
-        path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
+        // X軸の各値のラベルを表示
+        strokeXAxisLabel(point: point, position: xposition)
+        // 現在日付以前のデータのみを表示
+        switch graphType {
+        case .week:
+            if isThereSameDayOfWeek {
+                break
+            } else {
+                if Date().dayOfWeekByStr == point.keys.first! {
+                    isThereSameDayOfWeek = true
+                }
+                // 線を登録
+                path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
+                // 頂点の円を描画
+                strokePointMarker(xPosition: xposition, yPosition: yposition)
+            }
+        case .month:
+            // 日を比較
+            if Int(Date().dayOfMonthByStr)! >= Int(point.keys.first!)! {
+                path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
+                strokePointMarker(xPosition: xposition, yPosition: yposition)
+            }
+        case .year:
+            // 月を比較
+            if Int(Date().monthOfYearByStr)! >= Int(point.keys.first!)! {
+                path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
+                strokePointMarker(xPosition: xposition, yPosition: yposition)
+            }
+        case .none:
+            break
+        }
 
+    }
+
+    // X軸のラベルを描画
+    private func strokeXAxisLabel(point: [String: Int], position: CGFloat) {
         let xLabel = axisLabel(title: point.keys.first!)
-        xLabel.frame = CGRect(x: xposition - 18, y: graphHeight + 20, width: 36, height: 20)
+        xLabel.frame = CGRect(x: position - 18, y: graphHeight + 20, width: 36, height: 20)
         xLabel.textAlignment = .center
         // 今月のグラフを表示してる場合
         // 今週:7個、今年:12個
@@ -172,17 +212,20 @@ class AnotherGraphView: UIView {
         } else {
             addSubview(xLabel)
         }
+    }
 
+    // 円を描画
+    private func strokePointMarker(xPosition: CGFloat, yPosition: CGFloat) {
         if showPoints {
             // Add a marker for this value
             let pointMarker = valueMarker()
-            pointMarker.frame = CGRect(x: xposition - 8, y: CGFloat(ceil(graphHeight - yposition) - 8), width: 16, height: 16)
+            pointMarker.frame = CGRect(x: xPosition - 8, y: CGFloat(ceil(graphHeight - yPosition) - 8), width: 16, height: 16)
             layer.addSublayer(pointMarker)
         }
     }
 
-    // Returns an axis label
-    func axisLabel(title: String) -> UILabel {
+    // X軸の値を表示するためのLabel
+    private func axisLabel(title: String) -> UILabel {
         let label = UILabel(frame: CGRect.zero)
         label.text = title as String
         label.font = labelFont
@@ -193,7 +236,7 @@ class AnotherGraphView: UIView {
         return label
     }
 
-    // Returns a point for plotting
+    // 頂点の円を描くためのCALayer
     func valueMarker() -> CALayer {
         let pointMarker = CALayer()
         pointMarker.backgroundColor = backgroundColor?.cgColor

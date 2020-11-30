@@ -9,6 +9,13 @@ import Foundation
 import RealmSwift
 
 extension Date {
+    //曜日を取得
+    var dayOfWeekByStr: String {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "ja_JP")
+        let dw = Calendar.current.component(.weekday, from: self)
+        return df.shortWeekdaySymbols[dw - 2]
+    }
     var startOfWeek: Date? {
         let gregorian = Calendar(identifier: .gregorian)
         guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
@@ -28,6 +35,14 @@ extension Date {
             days.append(day!)
         }
         return days
+    }
+    //日を取得
+    var dayOfMonthByStr: String {
+        let df = DateFormatter()
+        df.dateFormat = "d"
+        df.locale = Locale(identifier: "ja_JP")
+        let dm = df.string(from: self)
+        return dm
     }
     var firstDayOfMonth: Date {
         var calender = Calendar.current
@@ -54,6 +69,14 @@ extension Date {
         }
         return days
     }
+    //年を取得
+    var monthOfYearByStr: String {
+        let df = DateFormatter()
+        df.dateFormat = "M"
+        df.locale = Locale(identifier: "ja_JP")
+        let dy = df.string(from: self)
+        return dy
+    }
     var allMonthsOfYear: [Date] {
         var months: [Date] = []
         var calendar = Calendar.current
@@ -65,29 +88,6 @@ extension Date {
             months.append(calendar.date(from: dataComponent)!)
         }
         return months
-    }
-    //曜日を取得
-    func getDayOfWeek(date: Date) -> String {
-        let df = DateFormatter()
-        df.locale = Locale(identifier: "ja_JP")
-        let dw = Calendar.current.component(.weekday, from: date)
-        return df.shortWeekdaySymbols[dw - 2]
-    }
-    //日を取得
-    func getDayOfMonth(date: Date) -> String {
-        let df = DateFormatter()
-        df.dateFormat = "d"
-        df.locale = Locale(identifier: "ja_JP")
-        let dm = df.string(from: date)
-        return dm
-    }
-    //年を取得
-    func getMonthOfYear(date: Date) -> String {
-        let df = DateFormatter()
-        df.dateFormat = "M"
-        df.locale = Locale(identifier: "ja_JP")
-        let dy = df.string(from: date)
-        return dy
     }
     func getCurrentDate() -> Date {
         let dateFormatter = DateFormatter()

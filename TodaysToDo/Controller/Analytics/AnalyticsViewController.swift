@@ -31,7 +31,7 @@ class AnalyticsViewController: UIViewController {
         super.viewDidLoad()
         width = self.view.frame.width
         height = graphContentView.frame.height
-        graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
+        graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
         // graphContentViewに載せる
         graphContentView.addSubview(graphView)
         // graphContentViewをグラフの横幅に合わせる
@@ -77,9 +77,9 @@ class AnalyticsViewController: UIViewController {
                         // 取り出した要素のキーと値を取り出す
                         for (_, value) in data[i].enumerated() {
                             // day1の曜日と合致するか確認
-                            if value.key == Date().getDayOfWeek(date: day1) {
+                            if value.key == day1.dayOfWeekByStr {
                                 // 合致した曜日の値を更新
-                                data[i][Date().getDayOfWeek(date: day1)] = day2.numberOfCompletedTask
+                                data[i][day1.dayOfWeekByStr] = day2.numberOfCompletedTask
                             }
                         }
                     }
@@ -92,7 +92,7 @@ class AnalyticsViewController: UIViewController {
     private func createMonthDatas() -> [[String: Int]] {
         var data = [[String: Int]]()
         for day in Date().allDaysOfMonth {
-            data.append([Date().getDayOfMonth(date: day): 0])
+            data.append([day.dayOfMonthByStr: 0])
         }
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(identifier: "UTC")!
@@ -104,9 +104,9 @@ class AnalyticsViewController: UIViewController {
                         // 取り出した要素のキーと値を取り出す
                         for (_, value) in data[i].enumerated() {
                             // day1の日と合致するか確認
-                            if value.key == Date().getDayOfMonth(date: day1) {
+                            if value.key == day1.dayOfMonthByStr {
                                 // 合致した日の値を更新
-                                data[i][Date().getDayOfMonth(date: day1)]
+                                data[i][day1.dayOfMonthByStr]
                                     = day2.numberOfCompletedTask
                             }
                         }
@@ -138,9 +138,9 @@ class AnalyticsViewController: UIViewController {
                 // 取り出した要素のキーと値を取り出す
                 for (_, value) in data[i].enumerated() {
                     // day1の日と合致するか確認
-                    if value.key == Date().getMonthOfYear(date: monthDate.monthOfYear) {
+                    if value.key == monthDate.monthOfYear.monthOfYearByStr {
                         // 合致した日の値を更新
-                        data[i][Date().getMonthOfYear(date: monthDate.monthOfYear)]
+                        data[i][monthDate.monthOfYear.monthOfYearByStr]
                             = monthDate.total
                     }
                 }
@@ -168,11 +168,11 @@ class AnalyticsViewController: UIViewController {
         }
         switch graphSegment.selectedSegmentIndex {
         case 0: //今週
-            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createWeekDatas())
+            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
         case 1: //今月
-            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createMonthDatas())
+            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .month, data: createMonthDatas())
         case 2: //今年
-            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), data: createYearDatas())
+            graphView = AnotherGraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .year, data: createYearDatas())
         default:
             break
         }
