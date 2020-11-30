@@ -105,34 +105,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 // タスクリストを削除
                 let realm = try! Realm()
                 try! realm.write {
-                    realm.delete(realm.objects(ToDoModel.self))
+                    RealmResults.sharedInstance[0].todoList.removeAll()
                 }
                 // 通知類を削除
                 UNUserNotificationCenter.current().removeAllDeliveredNotifications()
                 UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                 NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
                 // 削除したことをアラートで表示
-                let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
-                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                self.present(resultAlert, animated: true, completion: nil)
-            })
-            alert.addAction(okAction)
-            alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
-            return
-        }
-
-        // 本日のタスクは終了している
-        guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
-            return
-        }
-        if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
-            let alert = UIAlertController(title: "警告", message: "既に終了したタスクリストのデータを削除してよろしいですか？", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
-                // TODO:（予定）Realmにある今日のデータを削除
-                // UserDefaultの日付をデフォルト値にリセット
-                UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
-                // Realmのデータを削除したことを表示
                 let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
                 resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 self.present(resultAlert, animated: true, completion: nil)
@@ -275,6 +254,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     UNUserNotificationCenter.current().removeAllDeliveredNotifications()
                     UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                     NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+                    // UserDefaultの日付をデフォルト値にリセット
+                    UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
                     // 削除したことを通知
                     let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
                     resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
