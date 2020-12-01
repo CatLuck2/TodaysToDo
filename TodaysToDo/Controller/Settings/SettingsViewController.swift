@@ -61,6 +61,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         endtimeValueOfTask = settingsValueOfTask.endTimeOfTask as! (Int, Int)
         numberValueOfTask = settingsValueOfTask.numberOfTask
         isExecutedPriorityOfTask = settingsValueOfTask.priorityOfTask
+        settingsTableView.reloadData()
     }
 
     override func viewDidLoad() {
@@ -148,14 +149,49 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         case .other:
             return settingsMenuTitle[1].count
         case .deleteTask:
+            // Realmに何のデータも無ければ、データ削除のセクションは非表示
+            if RealmResults.sharedInstance.indices.contains(0) == false {
+                return 0
+            }
+            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+                return 0
+            }
             return settingsMenuTitle[2].count
         case .deleteAll:
+            // Realmに何のデータも無ければ、データ削除のセクションは非表示
+            if RealmResults.sharedInstance.indices.contains(0) == false {
+                return 0
+            }
+            if RealmResults.sharedInstance[0].taskListDatas.isEmpty == true {
+                return 0
+            }
             return settingsMenuTitle[3].count
         }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        settingsSectionTitle[section]
+        switch section {
+        case 2: //タスクデータ削除
+            // Realmに何のデータも無ければ、データ削除のセクションは非表示
+            if RealmResults.sharedInstance.indices.contains(0) == false {
+                return nil
+            }
+            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+                return nil
+            }
+        case 3: //全データ削除
+            // Realmに何のデータも無ければ、データ削除のセクションは非表示
+            if RealmResults.sharedInstance.indices.contains(0) == false {
+                return nil
+            }
+            if RealmResults.sharedInstance[0].taskListDatas.isEmpty == true {
+                return nil
+            }
+        default:
+            break
+        }
+        return settingsSectionTitle[section]
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
