@@ -256,7 +256,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
                     // 削除したことをアラートで表示
                     let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
-                    resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+                        self.settingsTableView.reloadData()
+                    }))
                     self.present(resultAlert, animated: true, completion: nil)
                 })
                 alert.addAction(okAction)
@@ -280,7 +282,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
                 // 削除したことを通知
                 let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
-                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+                    self.settingsTableView.reloadData()
+                }))
                 self.present(resultAlert, animated: true, completion: nil)
             }))
             alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
