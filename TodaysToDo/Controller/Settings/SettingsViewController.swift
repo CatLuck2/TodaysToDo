@@ -14,7 +14,8 @@ import SafariServices
 private enum SectionType: Int {
     case task //タスク
     case other //その他
-    case data //データ
+    case deleteTask //タスク削除
+    case deleteAll //全データ削除
 }
 // タスク用
 private enum TaskType: Int {
@@ -29,9 +30,13 @@ private enum OtherType: Int {
     case developerAccount //開発者Twitter
     case contact //お問い合わせ
 }
-// データ関連用
-private enum DataType: Int {
+// タスクリスト削除
+private enum DeleteTaskType: Int {
     case deleteTask //タスクリストを削除
+}
+
+// 全データ削除
+private enum DeleteAllType: Int {
     case deleteAll //全データ削除
 }
 
@@ -41,9 +46,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     // セクションタイトル
     // [[一般],[アラート],[そのほか]]
-    private let settingsSectionTitle = ["タスク", "その他", "データ"]
+    private let settingsSectionTitle = ["タスク", "その他", "タスクデータ削除", "全データ削除"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクデータを削除", "全データを削除"]]
+    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクデータを削除"], ["全データを削除"]]
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
@@ -142,8 +147,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return settingsMenuTitle[0].count
         case .other:
             return settingsMenuTitle[1].count
-        case .data:
+        case .deleteTask:
             return settingsMenuTitle[2].count
+        case .deleteAll:
+            return settingsMenuTitle[3].count
         }
     }
 
@@ -176,17 +183,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         case .other:
             cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
-        case .data:
-            guard let dataType = DataType(rawValue: indexPath.row) else {
-                return cell
-            }
-            switch dataType {
-            case .deleteTask:
-                cell.textLabel?.textColor = .black
-            case .deleteAll:
-                cell.textLabel?.textColor = .red
-            }
+        case .deleteTask:
+            cell.textLabel?.textColor = .black
             cell.textLabel?.text = settingsMenuTitle[2][indexPath.row]
+        case .deleteAll:
+            cell.textLabel?.textColor = .red
+            cell.textLabel?.text = settingsMenuTitle[3][indexPath.row]
         }
         return cell
     }
@@ -235,35 +237,29 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForGoogleForm)!))
                 present(webPage, animated: true, completion: nil)
             }
-        case .data:
-            guard let dataType = DataType(rawValue: indexPath.row) else {
-                return
-            }
-            switch dataType {
-            case .deleteTask:
-                deleteTask()
-            case .deleteAll:
-                let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
-                    // Realmの全データを削除
-                    let realm = try! Realm()
-                    try! realm.write {
-                        realm.deleteAll()
-                    }
-                    // 通知類を削除
-                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                    NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
-                    // UserDefaultの日付をデフォルト値にリセット
-                    UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
-                    // 削除したことを通知
-                    let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
-                    resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                    self.present(resultAlert, animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
-            }
+        case .deleteTask:
+            deleteTask()
+        case .deleteAll:
+            let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
+                // Realmの全データを削除
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.deleteAll()
+                }
+                // 通知類を削除
+                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+                // UserDefaultの日付をデフォルト値にリセット
+                UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
+                // 削除したことを通知
+                let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
+                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(resultAlert, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
     }
 
