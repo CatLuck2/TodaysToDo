@@ -102,39 +102,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         sv.saveSettingsValue(endTime: self.endtimeValueOfTask, number: self.numberValueOfTask, priority: self.isExecutedPriorityOfTask)
     }
 
-    // "タスクリストを削除"のセルをタップ時の処理
-    private func deleteTask() {
-        // タスクリストがある
-        if RealmResults.sharedInstance.indices.contains(0) == true {
-            let alert = UIAlertController(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
-                // タスクリストを削除
-                let realm = try! Realm()
-                try! realm.write {
-                    RealmResults.sharedInstance[0].todoList.removeAll()
-                }
-                // 通知類を削除
-                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
-                // 削除したことをアラートで表示
-                let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
-                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                self.present(resultAlert, animated: true, completion: nil)
-            })
-            alert.addAction(okAction)
-            alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
-            return
-        }
-
-        // まだ今日のタスクが終了していない
-        let alert = UIAlertController(title: "エラー", message: "今日のタスクが終了してません", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-
     func numberOfSections(in tableView: UITableView) -> Int {
         settingsSectionTitle.count
     }
@@ -274,7 +241,29 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 present(webPage, animated: true, completion: nil)
             }
         case .deleteTask:
-            deleteTask()
+            // タスクリストがある
+            if RealmResults.sharedInstance.indices.contains(0) == true {
+                let alert = UIAlertController(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
+                    // タスクリストを削除
+                    let realm = try! Realm()
+                    try! realm.write {
+                        RealmResults.sharedInstance[0].todoList.removeAll()
+                    }
+                    // 通知類を削除
+                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                    NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+                    // 削除したことをアラートで表示
+                    let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
+                    resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(resultAlert, animated: true, completion: nil)
+                })
+                alert.addAction(okAction)
+                alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return
+            }
         case .deleteAll:
             let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
