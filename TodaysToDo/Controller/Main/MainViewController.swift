@@ -186,15 +186,19 @@ class MainViewController: UIViewController {
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        if unwindSegue.identifier == IdentifierType.unwindToMainVCFromAdd {
-            //            procutionNotification()
+        switch unwindSegue.identifier {
+        case IdentifierType.unwindToMainVCFromAdd: //追加画面からunwind
             self.setTodoListForAdd()
+        case IdentifierType.unwindSegueFromPopupToMain: //ポップアップからunwind
+            self.setTodoListForAdd()
+        default:
+            break
         }
     }
 
     /// テスト用のNotification
     func testNotification() {
-        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
+        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
         content.title = "アラート"
