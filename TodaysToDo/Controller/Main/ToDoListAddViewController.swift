@@ -120,6 +120,15 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         [dragItem(for: indexPath)]
     }
 
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        // 追加用セルの位置にドロップされないように制限
+        if newItemList[proposedDestinationIndexPath.row] == (CellType.add, nil) {
+            return sourceIndexPath
+        } else {
+            return proposedDestinationIndexPath
+        }
+    }
+
     //: ドラッグしたアイテムを返す
     func dragItem(for indexPath: IndexPath) -> UIDragItem {
         let text = newItemList[indexPath.row].1
