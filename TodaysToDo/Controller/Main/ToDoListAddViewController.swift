@@ -117,7 +117,12 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        [dragItem(for: indexPath)]
+        // 追加用セルのドラッグを禁止
+        if newItemList[indexPath.row] == (CellType.add, nil) {
+            return [UIDragItem]()
+        } else {
+            return [dragItem(for: indexPath)]
+        }
     }
 
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
