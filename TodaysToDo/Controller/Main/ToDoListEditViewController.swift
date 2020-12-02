@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDropDelegate, UITableViewDragDelegate {
 
     @IBOutlet private weak var todoListTableView: UITableView!
     // 編集中のタスクリスト (途中で破棄できる)
@@ -21,6 +21,9 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
 
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
+        todoListTableView.dropDelegate = self
+        todoListTableView.dragDelegate = self
+        todoListTableView.dragInteractionEnabled = true
         todoListTableView.tableFooterView = UIView()
         todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForTodoItemID)
     }
@@ -52,6 +55,48 @@ class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITable
             uneditingTodoList.remove(at: indexPath.row)
             todoListTableView.reloadData()
         }
+    }
+
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        [dragItem(for: indexPath)]
+    }
+
+    //: ドラッグしたアイテムを返す
+    func dragItem(for indexPath: IndexPath) -> UIDragItem {
+        let text = uneditingTodoList[indexPath.row]
+        let provider = NSItemProvider(object: text as NSItemProviderWriting)
+        return UIDragItem(itemProvider: provider)
+    }
+
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+    }
+
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        guard let item = coordinator.items.first,
+              let destinationIndexPath = coordinator.destinationIndexPath,
+              let sourceIndexPath = item.sourceIndexPath else {
+            return
+        }
+
+        // tableViewと要素の配列を更新
+        tableView.performBatchUpdates({
+            // アイテムを操作
+            moveItem(sourcePath: sourceIndexPath.row, destinationPath: destinationIndexPath.row)
+            // ドラッグ元のセルを削除
+            tableView.deleteRows(at: [sourceIndexPath], with: .automatic)
+            // ドラッグ先にセルを挿入
+            tableView.insertRows(at: [destinationIndexPath], with: .automatic)
+        }, completion: nil)
+        // ドロップのアニメーションを開始
+        coordinator.drop(item.dragItem, toRowAt: destinationIndexPath)
+    }
+
+    private func moveItem(sourcePath: Int, destinationPath: Int) {
+        // ドラッグ元のアイテムを削除
+        let prefecture = uneditingTodoList.remove(at: sourcePath)
+        // ドラッグ先にアイテムを挿入
+        uneditingTodoList.insert(prefecture, at: destinationPath)
     }
 
     @IBAction private func updateTodoItemButton(_ sender: UIBarButtonItem) {
