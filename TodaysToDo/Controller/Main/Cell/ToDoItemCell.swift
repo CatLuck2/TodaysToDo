@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
+class ToDoItemCell: UITableViewCell, UITextFieldDelegate, UITextDropDelegate {
 
     // ToDoListAddVCから参照されるため、privateはなし-> Void)!
     @IBOutlet weak var todoItemTextField: UITextField!
@@ -16,6 +16,12 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         todoItemTextField.addTarget(self, action: #selector(textFieldDidChange(sender:)), for: .editingChanged)
+        todoItemTextField.textDropDelegate = self
+    }
+
+    // textFieldをドラッグ時、中のテキストをドロップしないようにする
+    func textDroppableView(_ textDroppableView: UIView & UITextDroppable, proposalForDrop drop: UITextDropRequest) -> UITextDropProposal {
+        UITextDropProposal(operation: .cancel)
     }
 
     func resetTextField() {
