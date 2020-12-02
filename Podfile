@@ -10,13 +10,4 @@ target 'TodaysToDo' do
   pod 'SwiftLint'
   pod 'SwiftFormat/CLI'
 
-  target 'TodaysToDoTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'TodaysToDoUITests' do
-    # Pods for testing
-  end
-
 end
