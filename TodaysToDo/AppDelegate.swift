@@ -48,7 +48,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if #available(iOS 14.0, *) {
             completionHandler([[.banner, .list, .sound]])
         } else {
-            completionHandler([[.banner, .alert, .sound]])
+            completionHandler([[.badge, .alert, .sound]])
         }
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
