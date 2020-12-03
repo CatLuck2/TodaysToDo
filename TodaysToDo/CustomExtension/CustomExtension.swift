@@ -13,8 +13,10 @@ extension Date {
     var dayOfWeekByStr: String {
         let df = DateFormatter()
         df.locale = Locale(identifier: "ja_JP")
-        let dw = Calendar.current.component(.weekday, from: self)
-        return df.shortWeekdaySymbols[dw - 2]
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        let dw = calendar.component(.weekday, from: self)
+        return df.shortWeekdaySymbols[dw - 1]
     }
     var startOfWeek: Date? {
         let gregorian = Calendar(identifier: .gregorian)
