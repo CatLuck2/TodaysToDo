@@ -190,7 +190,14 @@ class MainViewController: UIViewController {
         case IdentifierType.unwindToMainVCFromAdd: //追加画面からunwind
             self.setTodoListForAdd()
         case IdentifierType.unwindSegueFromPopupToMain: //ポップアップからunwind
-            self.setTodoListForAdd()
+            // 今日は既にタスクが終了している
+            setEndTaskOfTodayLayout()
+            // StackViewのタップジェスチャーを削除
+            for gesture in todoListStackView.gestureRecognizers! {
+                if let recognizer = gesture as? UITapGestureRecognizer {
+                    todoListStackView.removeGestureRecognizer(recognizer)
+                }
+            }
         default:
             break
         }
