@@ -23,15 +23,15 @@ class PopupViewController: UIViewController {
         // デバイスの高さに応じて、ポップアップの上端の制約を調整
         switch self.view.frame.height {
         case 400.0..<500.0:
-            setAnchorConstraint(per: 140)
+            setAnchorConstraint(per: 100)
         case 500.0..<600.0:
-            setAnchorConstraint(per: 160)
+            setAnchorConstraint(per: 120)
         case 600.0..<700.0:
-            setAnchorConstraint(per: 170)
+            setAnchorConstraint(per: 140)
         case 700.0..<800.0:
-            setAnchorConstraint(per: 180)
+            setAnchorConstraint(per: 160)
         case 800.0..<850.0:
-            setAnchorConstraint(per: 190)
+            setAnchorConstraint(per: 180)
         case 850.0..<899.0:
             setAnchorConstraint(per: 200)
         default:
