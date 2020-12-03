@@ -55,8 +55,10 @@
                     <navigationItem key="navigationItem" id="O7X-86-VbJ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="popupBottomAnchor" destination="1U4-oq-duS" id="fmv-dO-Ktq"/>
                         <outlet property="popupParentView" destination="4gT-lC-10k" id="RQI-ac-wNV"/>
                         <outlet property="popupStackView" destination="caU-tq-NXl" id="WKW-Hd-jSo"/>
+                        <outlet property="popupTopAnchor" destination="iD7-nv-duZ" id="KM3-cK-v6C"/>
                         <segue destination="lWv-2t-UMH" kind="unwind" identifier="unwindSegueFromPopupToMain" unwindAction="unwindToMainVC:" id="Mqi-8y-Mdu"/>
                     </connections>
                 </viewController>

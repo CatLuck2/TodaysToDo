@@ -12,11 +12,32 @@ class PopupViewController: UIViewController {
 
     @IBOutlet weak var popupParentView: UIView!
     @IBOutlet private weak var popupStackView: UIStackView!
+    @IBOutlet private weak var popupTopAnchor: NSLayoutConstraint!
+    @IBOutlet private weak var popupBottomAnchor: NSLayoutConstraint!
     private let realm = try! Realm()
     private var tableViewController = TableViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // デバイスの高さに応じて、ポップアップの上端の制約を調整
+        switch self.view.frame.height {
+        case 400.0..<500.0:
+            setAnchorConstraint(per: 140)
+        case 500.0..<600.0:
+            setAnchorConstraint(per: 160)
+        case 600.0..<700.0:
+            setAnchorConstraint(per: 170)
+        case 700.0..<800.0:
+            setAnchorConstraint(per: 180)
+        case 800.0..<850.0:
+            setAnchorConstraint(per: 190)
+        case 850.0..<899.0:
+            setAnchorConstraint(per: 200)
+        default:
+            break
+        }
+
         // popupStackViewにtableViewを追加
         tableViewController = TableViewController()
         addChild(tableViewController)
@@ -39,6 +60,13 @@ class PopupViewController: UIViewController {
         popupStackView.trailingAnchor.constraint(equalTo: popupParentView.trailingAnchor, constant: -20.0).isActive = true
         popupStackView.topAnchor.constraint(equalTo: popupParentView.topAnchor, constant: 20.0).isActive = true
         popupStackView.bottomAnchor.constraint(equalTo: popupParentView.bottomAnchor, constant: -20.0).isActive = true
+    }
+
+    private func setAnchorConstraint(per: CGFloat) {
+        // 上端制約のデフォルト値：85
+        popupTopAnchor.constant *= (per / 100)
+        // 下端制約のデフォルト値：80
+        popupBottomAnchor.constant *= (per / 100)
     }
 
     @objc
