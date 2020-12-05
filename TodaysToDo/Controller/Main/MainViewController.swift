@@ -13,6 +13,7 @@ class MainViewController: UIViewController {
     @IBOutlet private weak var todoListStackView: UIStackView!
     private var request: UNNotificationRequest!
     private let center = UNUserNotificationCenter.current()
+    @IBOutlet weak var subViewOnStackView: UIView!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -60,9 +61,11 @@ class MainViewController: UIViewController {
 
     // タスク終了後のレイアウトを構築
     private func setEndTaskOfTodayLayout() {
-        todoListStackView.backgroundColor = .white
-        todoListStackView.layer.borderWidth = 0
-        todoListStackView.layer.cornerRadius = 0
+        if #available(iOS 14, *) {
+            todoListStackView.backgroundColor = .white
+            todoListStackView.layer.borderWidth = 0
+            todoListStackView.layer.cornerRadius = 0
+        }
         todoListStackView.spacing = 30.0
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
@@ -88,16 +91,22 @@ class MainViewController: UIViewController {
 
     // タスクリストのレイアウトを調整
     private func setTodoListForAdd() {
-        todoListStackView.backgroundColor = .lightGray
-        todoListStackView.layer.borderWidth = 1
-        todoListStackView.layer.cornerRadius = 5
-        todoListStackView.spacing = 0
-        // todoListStackViewの子要素を全て削除
+        // todoListStackViewの子要素を全て削除l
         let subviews = todoListStackView.subviews
         for subview in subviews {
             subview.removeFromSuperview()
         }
         let view = UIView()
+        if #available(iOS 14, *) {
+            todoListStackView.backgroundColor = .lightGray
+            todoListStackView.layer.borderWidth = 1
+            todoListStackView.layer.cornerRadius = 5
+        } else {
+            view.backgroundColor = .lightGray
+            view.layer.borderWidth = 1
+            view.layer.cornerRadius = 5
+        }
+        todoListStackView.spacing = 0
         view.heightAnchor.constraint(equalToConstant: 59).isActive = true
         view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -120,8 +129,6 @@ class MainViewController: UIViewController {
         // UserDefaultから設定項目のデータを取得
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
-        // 枠線
-        todoListStackView.layer.borderWidth = 1
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
         for subview in subviews {
@@ -135,8 +142,20 @@ class MainViewController: UIViewController {
                 // viewの背景色にヒートマップ的な色を指定
                 let rgbPercentage: CGFloat = ((CGFloat(n) / CGFloat(numberOfItems)))
                 view.backgroundColor = UIColor(red: 1.0, green: rgbPercentage, blue: 0.0, alpha: 1)
+                view.layer.cornerRadius = 5
             } else {
-                todoListStackView.backgroundColor = .lightGray
+                if #available(iOS 14, *) {
+                    todoListStackView.backgroundColor = .lightGray
+                } else {
+                    view.backgroundColor = .lightGray
+                }
+            }
+            if #available(iOS 14, *) {
+                todoListStackView.layer.borderWidth = 1
+                todoListStackView.layer.cornerRadius = 5
+            } else {
+                view.layer.borderWidth = 1
+                view.layer.cornerRadius = 5
             }
             view.heightAnchor.constraint(equalToConstant: 59).isActive = true
             view.translatesAutoresizingMaskIntoConstraints = false
