@@ -162,9 +162,7 @@
                             <constraint firstItem="EdV-ht-hSW" firstAttribute="leading" secondItem="j14-PG-pmj" secondAttribute="leading" id="qsg-J4-3Ri"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Item" id="WyN-In-XJq"/>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="タスク編集" id="hlf-wH-Frz">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="SzK-ek-QJh">
                             <connections>
