@@ -69,7 +69,14 @@ class GraphView: UIView {
             let keys = Array(data[index].keys)
             let currKey = keys.first!
             if CGFloat(point[currKey]!) > everest {
-                everest = CGFloat(Int(ceilf(Float(point[currKey]!) / 25) * 25))
+                switch graphType {
+                case .week, .month:
+                    everest = CGFloat(Int(ceilf(Float(point[currKey]!) / 5) * 5))
+                case .year:
+                    everest = CGFloat(Int(ceilf(Float(point[currKey]!) / 160) * 160))
+                default:
+                    break
+                }
             }
         }
         if everest == 0 {
