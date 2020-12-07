@@ -15,6 +15,7 @@ enum GraphType {
 
 class GraphView: UIView {
 
+    private var df = DateFormatter()
     private var graphType: GraphType!
     private var data = [[String: Int]]()
     private var context: CGContext?
@@ -178,7 +179,7 @@ class GraphView: UIView {
             if isThereSameDayOfWeek {
                 break
             } else {
-                if Date().dayOfWeekByStr == point.keys.first! {
+                if df.getDayOfWeekByStr(date: Date()) == point.keys.first! {
                     isThereSameDayOfWeek = true
                 }
                 // 線を登録
@@ -188,13 +189,13 @@ class GraphView: UIView {
             }
         case .month:
             // 日を比較
-            if Int(Date().dayOfMonthByStr)! >= Int(point.keys.first!)! {
+            if Int(df.getDayOfMonthByStr(date: Date()))! >= Int(point.keys.first!)! {
                 path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
                 strokePointMarker(xPosition: xposition, yPosition: yposition)
             }
         case .year:
             // 月を比較
-            if Int(Date().monthOfYearByStr)! >= Int(point.keys.first!)! {
+            if Int(df.getMonthOfYearByStr(date: Date()))! >= Int(point.keys.first!)! {
                 path.addLine(to: CGPoint(x: xposition, y: graphHeight - yposition))
                 strokePointMarker(xPosition: xposition, yPosition: yposition)
             }

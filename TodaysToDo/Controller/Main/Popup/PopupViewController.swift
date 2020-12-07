@@ -81,7 +81,7 @@ class PopupViewController: UIViewController {
             // 次回以降
             // タスクデータを作成/保存
             let taskModel = TaskListData()
-            taskModel.date = Date().getCurrentDate()
+            taskModel.date = DateFormatter().getCurrentDate()
             taskModel.numberOfTask = tableViewController.getNumOfTask()
             taskModel.numberOfCompletedTask = tableViewController.getNumOfCheckedTask()
             RealmResults.sharedInstance[0].taskListDatas.append(taskModel)
@@ -98,7 +98,6 @@ class PopupViewController: UIViewController {
             // 達成率の算出にtodoListが必要なので、算出後にtodoListを初期化
             RealmResults.sharedInstance[0].todoList.removeAll()
 
-            // 各期間でデータをソート
             // タイムゾーンを指定
             var calendar = Calendar.current
             calendar.timeZone = TimeZone(identifier: "UTC")!
@@ -106,7 +105,7 @@ class PopupViewController: UIViewController {
             // 今週
             // 今週の各日付、タスクの日付を比較していく]
             RealmResults.sharedInstance[0].weekList.removeAll()
-            for day in Date().allDaysOfWeek {
+            for day in calendar.getAllDaysOfWeek {
                 for taskData in RealmResults.sharedInstance[0].taskListDatas {
                     // 今週の中の日付が存在する？
                     if calendar.isDate(taskData.date!, inSameDayAs: day) {
@@ -117,7 +116,7 @@ class PopupViewController: UIViewController {
 
             // 今月
             RealmResults.sharedInstance[0].monthList.removeAll()
-            for day in Date().allDaysOfMonth {
+            for day in calendar.getAllDaysOfMonth(date: Date()) {
                 for taskData in RealmResults.sharedInstance[0].taskListDatas {
                     // 今週の中の日付が存在する？
                     if calendar.isDate(taskData.date!, inSameDayAs: day) {
@@ -128,7 +127,7 @@ class PopupViewController: UIViewController {
 
             // 今年
             RealmResults.sharedInstance[0].yearList.removeAll()
-            for month in Date().allMonthsOfYear {
+            for month in calendar.getAllMonthsOfYear(date: Date()) {
                 var totalOfInMonth: Int! = 0
                 for taskData in RealmResults.sharedInstance[0].taskListDatas {
                     // 同じ月が存在する？
