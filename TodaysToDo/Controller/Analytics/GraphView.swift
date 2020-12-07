@@ -8,9 +8,7 @@
 import UIKit
 
 enum GraphType {
-    case week
-    case month
-    case year
+    case week, month, year
 }
 
 class GraphView: UIView {

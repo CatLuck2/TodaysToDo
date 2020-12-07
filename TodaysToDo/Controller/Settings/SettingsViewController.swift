@@ -12,23 +12,15 @@ import SafariServices
 
 // セクション用
 private enum SectionType: Int {
-    case task //タスク
-    case other //その他
-    case deleteTask //タスク削除
-    case deleteAll //全データ削除
+    case task, other, deleteTask, deleteAll //タスク,その他、データ削除、全データ削除
 }
 // タスク用
 private enum TaskType: Int {
-    case endtimeOfTask //終了時刻
-    case numberOfTask //設定数
-    case priorityOfTask //優先順位
+    case endtimeOfTask, numberOfTask, priorityOfTask //終了時刻、設定数、優先順位
 }
 // その他メニュー用
 private enum OtherType: Int {
-    case help //ヘルプ
-    case share //シェア
-    case developerAccount //開発者Twitter
-    case contact //お問い合わせ
+    case help, share, developerAccount, contact //ヘルプ、シェア、開発者Twitter、お問い合わせ
 }
 // タスクリスト削除
 private enum DeleteTaskType: Int {
