@@ -13,7 +13,6 @@ class MainViewController: UIViewController {
     @IBOutlet private weak var todoListStackView: UIStackView!
     private var request: UNNotificationRequest!
     private let center = UNUserNotificationCenter.current()
-    @IBOutlet weak var subViewOnStackView: UIView!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -200,8 +199,6 @@ class MainViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Popup", bundle: nil)
         let popupVC = storyboard.instantiateViewController(withIdentifier: "segueToPopup") as! PopupViewController
         UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
-        // Notificationを削除
-        NotificationCenter.default.removeObserver(self)
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {

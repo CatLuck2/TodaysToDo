@@ -189,7 +189,7 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     //: ドラッグしたアイテムを返す
     func dragItem(for indexPath: IndexPath) -> UIDragItem {
         let text = newItemList[indexPath.row].1
-        let provider = NSItemProvider(object: text as! NSItemProviderWriting)
+        let provider = NSItemProvider(object: text! as NSItemProviderWriting)
         return UIDragItem(itemProvider: provider)
     }
 

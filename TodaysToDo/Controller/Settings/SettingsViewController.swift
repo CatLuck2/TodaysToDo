@@ -134,7 +134,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             return settingsMenuTitle[3].count
         }
-        return 0
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -205,70 +204,32 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             guard let taskType = TaskType(rawValue: indexPath.row) else {
                 return
             }
-            switch taskType {
-            case .endtimeOfTask:
-                let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
-                let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
-                customAlertVC.pickerMode = .endtimeOfTask
-                customAlertVC.selectedEndtime = (endtimeValueOfTask)
-                UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
-            case .numberOfTask:
-                let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
-                let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
-                customAlertVC.pickerMode = .numberOfTask
-                customAlertVC.selectedNumber = numberValueOfTask
-                UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
-            case .priorityOfTask:
-                break
-            }
+            processOfTaskTypeInDidSelectRowAt(taskType: taskType)
         case .other:
             guard let otherType = OtherType(rawValue: indexPath.row) else {
                 return
             }
-            switch otherType {
-            case .help:
-                performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
-            case .share:
-                let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
-                let shareURL = URL(string: "https://www.apple.com/jp/watch/")!
-                let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
-                present(activityVc, animated: true, completion: nil)
-            case .developerAccount:
-                let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForDeveloperTwitter)!))
-                present(webPage, animated: true, completion: nil)
-            case .contact:
-                let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForGoogleForm)!))
-                present(webPage, animated: true, completion: nil)
-            }
+            processOfOtherTypeInDidSelectRowAt(otherType: otherType)
         case .deleteTask:
-            // タスクリストがある
-            if RealmResults.sharedInstance.indices.contains(0) == true {
-                let alert = UIAlertController(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .destructive, handler: { _ in
-                    // タスクリストを削除
-                    let realm = try! Realm()
-                    try! realm.write {
-                        RealmResults.sharedInstance[0].todoList.removeAll()
-                    }
-                    // 通知類を削除
-                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                    NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
-                    // 削除したことをアラートで表示
-                    let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
-                    resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
-                        self.settingsTableView.reloadData()
-                    }))
-                    self.present(resultAlert, animated: true, completion: nil)
-                })
-                alert.addAction(okAction)
-                alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
-                return
+            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") {
+                // タスクリストを削除
+                let realm = try! Realm()
+                try! realm.write {
+                    RealmResults.sharedInstance[0].todoList.removeAll()
+                }
+                // 通知類を削除
+                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+                // 削除したことをアラートで表示
+                let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
+                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+                    self.settingsTableView.reloadData()
+                }))
+                self.present(resultAlert, animated: true, completion: nil)
             }
         case .deleteAll:
-            let alert = UIAlertController(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
+            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") {
                 // Realmの全データを削除
                 let realm = try! Realm()
                 try! realm.write {
@@ -286,9 +247,53 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     self.settingsTableView.reloadData()
                 }))
                 self.present(resultAlert, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+
+    func presentAlertRelatedDeleteTypeInDidSelectRowAt(title: String, message: String, completionOfOkAction: @escaping () -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .destructive) { _ in
+            completionOfOkAction()
+        })
+        alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func processOfTaskTypeInDidSelectRowAt(taskType: TaskType) {
+        switch taskType {
+        case .endtimeOfTask:
+            let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
+            let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
+            customAlertVC.pickerMode = .endtimeOfTask
+            customAlertVC.selectedEndtime = (endtimeValueOfTask)
+            UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
+        case .numberOfTask:
+            let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
+            let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
+            customAlertVC.pickerMode = .numberOfTask
+            customAlertVC.selectedNumber = numberValueOfTask
+            UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
+        case .priorityOfTask:
+            break
+        }
+    }
+
+    private func processOfOtherTypeInDidSelectRowAt(otherType: OtherType) {
+        switch otherType {
+        case .help:
+            performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
+        case .share:
+            let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
+            let shareURL = URL(string: "https://www.apple.com/jp/watch/")!
+            let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
+            present(activityVc, animated: true, completion: nil)
+        case .developerAccount:
+            let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForDeveloperTwitter)!))
+            present(webPage, animated: true, completion: nil)
+        case .contact:
+            let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForGoogleForm)!))
+            present(webPage, animated: true, completion: nil)
         }
     }
 

@@ -37,6 +37,7 @@ class GraphView: UIView {
 
     private var isThereSameDayOfWeek = false
 
+    @available(*, unavailable)
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }
@@ -85,22 +86,40 @@ class GraphView: UIView {
         }
 
         // X軸線を描画
+        drawXAxisPath(rect: rect)
+        // Y軸線を描画
+        drawYAxisPath(rect: rect)
+        // Y軸の値、値を示す線、を描画
+        drawYLinePath(rect: rect)
+        // 始点を描画
+        drawAllLinePath()
+
+        // ???
+        if originLabelText != nil {
+            addSubViewOriginLabel()
+        }
+    }
+
+    private func drawXAxisPath(rect: CGRect) {
+        // X軸線を描画
         let xAxisPath = CGMutablePath()
         xAxisPath.move(to: CGPoint(x: padding, y: rect.size.height - 31))
         xAxisPath.addLine(to: CGPoint(x: axisWidth, y: rect.size.height - 31))
         context!.addPath(xAxisPath)
         context!.setStrokeColor(UIColor.black.cgColor)
         context!.strokePath()
+    }
 
-        // Y軸線を描画
+    private func drawYAxisPath(rect: CGRect) {
         let yAxisPath = CGMutablePath()
         yAxisPath.move(to: CGPoint(x: padding, y: 10))
         yAxisPath.addLine(to: CGPoint(x: padding, y: rect.size.height - 31))
         context!.addPath(yAxisPath)
         context!.setStrokeColor(UIColor.black.cgColor)
         context!.strokePath()
+    }
 
-        // Y軸の値、値を示す線、を描画
+    private func drawYLinePath(rect: CGRect) {
         let yLabelInterval = Int(everest / 5)
         for i in 0...5 {
             let label = axisLabel(title: String(format: "%d", i * yLabelInterval))
@@ -117,8 +136,9 @@ class GraphView: UIView {
                 context!.strokePath()
             }
         }
+    }
 
-        // 始点を描画
+    func drawAllLinePath() {
         let pointPath = CGMutablePath()
         let firstPoint = data[0][data[0].keys.first!]
         let initialY: CGFloat = ceil((CGFloat(firstPoint!) * (axisHeight / everest))) - 10
@@ -126,9 +146,9 @@ class GraphView: UIView {
         pointPath.move(to: CGPoint(x: initialX, y: graphHeight - initialY))
 
         // 始点以降の処理
-        for (_, value) in data.enumerated() {
+        for eachData in data {
             // x軸のラベル、頂点の丸、を描画
-            plotPoint(point: [value.keys.first!: value.values.first!], path: pointPath)
+            plotPoint(point: [eachData.keys.first!: eachData.values.first!], path: pointPath)
         }
         // 線を結ぶ頂点を登録
         context!.addPath(pointPath)
@@ -138,18 +158,17 @@ class GraphView: UIView {
         context!.setStrokeColor(UIColor.black.cgColor)
         // 線を引く
         context!.strokePath()
+    }
 
-        // ???
-        if originLabelText != nil {
-            let originLabel = UILabel()
-            originLabel.text = originLabelText
-            originLabel.textAlignment = .center
-            originLabel.font = labelFont
-            originLabel.textColor = UIColor.black
-            originLabel.backgroundColor = backgroundColor
-            originLabel.frame = CGRect(x: -2, y: graphHeight + 20, width: 40, height: 20)
-            addSubview(originLabel)
-        }
+    private func addSubViewOriginLabel() {
+        let originLabel = UILabel()
+        originLabel.text = originLabelText
+        originLabel.textAlignment = .center
+        originLabel.font = labelFont
+        originLabel.textColor = UIColor.black
+        originLabel.backgroundColor = backgroundColor
+        originLabel.frame = CGRect(x: -2, y: graphHeight + 20, width: 40, height: 20)
+        addSubview(originLabel)
     }
 
     // Plot a point on the graph
@@ -213,7 +232,9 @@ class GraphView: UIView {
         // 今月のグラフを表示してる場合
         // 今週:7個、今年:12個
         if data.count > 12 {
-            guard let pointByNum = Int(point.keys.first!) else { return }
+            guard let pointByNum = Int(point.keys.first!) else {
+                return
+            }
             if pointByNum % 2 == 0 {
                 addSubview(xLabel)
             }

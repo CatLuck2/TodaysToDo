@@ -58,9 +58,9 @@ class AnalyticsViewController: UIViewController {
                     // dataの各要素をそれぞれ取り出す
                     for i in 0..<data.count {
                         // 取り出した要素のキーと値を取り出す
-                        for (_, value) in data[i].enumerated() {
+                        for eachData in data[i] {
                             // day1の曜日と合致するか確認
-                            if value.key == df.getDayOfWeekByStr(date: day1) {
+                            if eachData.key == df.getDayOfWeekByStr(date: day1) {
                                 // 合致した曜日の値を更新
                                 data[i][df.getDayOfWeekByStr(date: day1)] = day2.numberOfCompletedTask
                             }
@@ -84,9 +84,9 @@ class AnalyticsViewController: UIViewController {
                     // dataの各要素をそれぞれ取り出す
                     for i in 0..<data.count {
                         // 取り出した要素のキーと値を取り出す
-                        for (_, value) in data[i].enumerated() {
+                        for eachData in data[i] {
                             // day1の日と合致するか確認
-                            if value.key == df.getDayOfMonthByStr(date: day1) {
+                            if eachData.key == df.getDayOfMonthByStr(date: day1) {
                                 // 合致した日の値を更新
                                 data[i][df.getDayOfMonthByStr(date: day1)]
                                     = day2.numberOfCompletedTask
@@ -110,9 +110,9 @@ class AnalyticsViewController: UIViewController {
             // dataの各要素をそれぞれ取り出す
             for i in 0..<data.count {
                 // 取り出した要素のキーと値を取り出す
-                for (_, value) in data[i].enumerated() {
+                for eachData in data[i] {
                     // day1の日と合致するか確認
-                    if value.key == df.getMonthOfYearByStr(date: monthDate.monthOfYear) {
+                    if eachData.key == df.getMonthOfYearByStr(date: monthDate.monthOfYear) {
                         // 合致した日の値を更新
                         data[i][df.getMonthOfYearByStr(date: monthDate.monthOfYear)]
                             = monthDate.total
