@@ -16,7 +16,7 @@ class GraphView: UIView {
     private var df = DateFormatter()
     private var graphType: GraphType!
     private var data = [[String: Int]]()
-    private var context: CGContext?
+    private var context: CGContext!
     private let padding: CGFloat = 30
     private var graphWidth: CGFloat = 0
     private var graphHeight: CGFloat = 0
@@ -103,18 +103,18 @@ class GraphView: UIView {
         let xAxisPath = CGMutablePath()
         xAxisPath.move(to: CGPoint(x: padding, y: rect.size.height - 31))
         xAxisPath.addLine(to: CGPoint(x: axisWidth, y: rect.size.height - 31))
-        context!.addPath(xAxisPath)
-        context!.setStrokeColor(UIColor.black.cgColor)
-        context!.strokePath()
+        context.addPath(xAxisPath)
+        context.setStrokeColor(UIColor.black.cgColor)
+        context.strokePath()
     }
 
     private func drawYAxisPath(rect: CGRect) {
         let yAxisPath = CGMutablePath()
         yAxisPath.move(to: CGPoint(x: padding, y: 10))
         yAxisPath.addLine(to: CGPoint(x: padding, y: rect.size.height - 31))
-        context!.addPath(yAxisPath)
-        context!.setStrokeColor(UIColor.black.cgColor)
-        context!.strokePath()
+        context.addPath(yAxisPath)
+        context.setStrokeColor(UIColor.black.cgColor)
+        context.strokePath()
     }
 
     private func drawYLinePath(rect: CGRect) {
@@ -128,10 +128,10 @@ class GraphView: UIView {
                 let line = CGMutablePath()
                 line.move(to: CGPoint(x: padding + 1, y: floor(rect.size.height - padding) - (CGFloat(i) * (axisHeight / 5))))
                 line.addLine(to: CGPoint(x: axisWidth, y: floor(rect.size.height - padding) - (CGFloat(i) * (axisHeight / 5))))
-                context!.addPath(line)
-                context!.setLineWidth(1)
-                context!.setStrokeColor(linesColor.cgColor)
-                context!.strokePath()
+                context.addPath(line)
+                context.setLineWidth(1)
+                context.setStrokeColor(linesColor.cgColor)
+                context.strokePath()
             }
         }
     }
@@ -149,13 +149,13 @@ class GraphView: UIView {
             plotPoint(point: [eachData.keys.first!: eachData.values.first!], path: pointPath)
         }
         // 線を結ぶ頂点を登録
-        context!.addPath(pointPath)
+        context.addPath(pointPath)
         // 線の幅
-        context!.setLineWidth(2)
+        context.setLineWidth(2)
         // 線の色
-        context!.setStrokeColor(UIColor.black.cgColor)
+        context.setStrokeColor(UIColor.black.cgColor)
         // 線を引く
-        context!.strokePath()
+        context.strokePath()
     }
 
     private func addSubViewOriginLabel() {

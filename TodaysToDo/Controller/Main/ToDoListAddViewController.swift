@@ -189,7 +189,10 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     //: ドラッグしたアイテムを返す
     func dragItem(for indexPath: IndexPath) -> UIDragItem {
         let text = newItemList[indexPath.row].1
-        let provider = NSItemProvider(object: text! as NSItemProviderWriting)
+        guard let nsItemProviderWriting = text as NSItemProviderWriting? else {
+            return UIDragItem(itemProvider: NSItemProvider(object: "" as NSItemProviderWriting))
+        }
+        let provider = NSItemProvider(object: nsItemProviderWriting)
         return UIDragItem(itemProvider: provider)
     }
 
@@ -229,8 +232,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         for num in 0..<newItemList.count {
             let indexPath = IndexPath(row: num, section: 0)
             // inputのセルだけをチェック
-            if let inputCell = self.todoListTableView.cellForRow(at: indexPath) as? ToDoItemCell {
-                if inputCell.todoItemTextField.text!.isEmpty {
+            if let inputCell = self.todoListTableView.cellForRow(at: indexPath) as? ToDoItemCell, let inputCellText = inputCell.todoItemTextField.text {
+                if inputCellText.isEmpty {
                     let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                     present(alert, animated: true, completion: nil)

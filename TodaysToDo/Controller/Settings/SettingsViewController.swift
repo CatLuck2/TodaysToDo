@@ -50,7 +50,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // UserDefaultからタスク項目の値を取得
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
-        endtimeValueOfTask = settingsValueOfTask.endTimeOfTask as! (Int, Int)
+        guard let endTimeOfTaskHour = settingsValueOfTask.endTimeOfTask.x, let endtimeOfTaskMinute = settingsValueOfTask.endTimeOfTask.y else {
+            return
+        }
+        self.endtimeValueOfTask = (endTimeOfTaskHour, endtimeOfTaskMinute)
         numberValueOfTask = settingsValueOfTask.numberOfTask
         isExecutedPriorityOfTask = settingsValueOfTask.priorityOfTask
         settingsTableView.reloadData()
@@ -167,7 +170,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             case .endtimeOfTask:
                 cell.detailTextLabel?.text = "\(endtimeValueOfTask.0):" + getStringOfMinutes(number: endtimeValueOfTask.1)
             case .numberOfTask:
-                cell.detailTextLabel?.text = "\(numberValueOfTask!)"
+                if let num = numberValueOfTask {
+                    cell.detailTextLabel?.text = "\(num)"
+                }
             case .priorityOfTask:
                 let switchView = UISwitch()
                 switchView.addTarget(self, action: #selector(toggleSwitchInCell(_:)), for: .valueChanged)
@@ -257,8 +262,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         case .endtimeOfTask:
             let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
             let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
-            customAlertVC.pickerMode = .endtimeOfTask
-            customAlertVC.selectedEndtime = (endtimeValueOfTask)
+            customAlertVC.setInitializeFromAnotherVC(pickerMode: .endtimeOfTask, selectedEndTime: (endtimeValueOfTask))
             UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
         case .numberOfTask:
             let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
@@ -277,25 +281,36 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
         case .share:
             let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
-            let shareURL = URL(string: "https://www.apple.com/jp/watch/")!
+            guard let shareURL = URL(string: "https://www.apple.com/jp/watch/") else {
+                return
+            }
             let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
             present(activityVc, animated: true, completion: nil)
         case .developerAccount:
-            let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForDeveloperTwitter)!))
+            guard let webPageURL = URL(string: IdentifierType.urlForDeveloperTwitter) else {
+                return
+            }
+            let webPage = SFSafariViewController(url: webPageURL)
             present(webPage, animated: true, completion: nil)
         case .contact:
-            let webPage = SFSafariViewController(url: (URL(string: IdentifierType.urlForGoogleForm)!))
-            present(webPage, animated: true, completion: nil)
+            guard let contactPageURL = URL(string: IdentifierType.urlForGoogleForm) else {
+                return
+            }
+            let contactPage = SFSafariViewController(url: contactPageURL)
+            present(contactPage, animated: true, completion: nil)
         }
     }
 
     @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {
-        if let customAlertVC = unwindSegue.source as? CustomAlertViewController {
-            switch customAlertVC.pickerMode! {
+        if let customAlertVC = unwindSegue.source as? CustomAlertViewController,
+           let pickerMode = customAlertVC.pickerMode,
+           let selectedEndTime = customAlertVC.selectedEndTime,
+           let selectedNumber = customAlertVC.selectedNumber {
+            switch pickerMode {
             case .endtimeOfTask:
-                endtimeValueOfTask = customAlertVC.selectedEndtime!
+                self.endtimeValueOfTask = selectedEndTime
             case .numberOfTask:
-                numberValueOfTask = customAlertVC.selectedNumber!
+                self.numberValueOfTask = selectedNumber
             }
             // UserDefaultに保存
             let sv = SettingsValue()

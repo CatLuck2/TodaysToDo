@@ -47,7 +47,10 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate, UITextDropDelegate {
 
     @objc
     func textFieldChange(_ textField: UITextField) {
-        customCellDelegate!.textFieldDidSelected(textField)
+        guard let delegate = self.customCellDelegate else {
+            return
+        }
+        delegate.textFieldDidSelected(textField)
     }
 
     @objc

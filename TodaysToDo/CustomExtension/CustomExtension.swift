@@ -12,8 +12,11 @@ extension DateFormatter {
     func getCurrentDate() -> Date {
         dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdkHms", options: 0, locale: Locale(identifier: "ja_JP"))
         timeZone = TimeZone(identifier: "UTC")!
-        let st = string(from: Date())
-        return date(from: st)!
+        if let currentDate = date(from: string(from: Date())) {
+            return currentDate
+        } else {
+            return Date(timeIntervalSince1970: 0)
+        }
     }
     func getDayOfWeekByStr(date: Date) -> String {
         // Localeがないと日で出力されない
@@ -41,27 +44,41 @@ extension Calendar {
         var days: [Date]! = []
 
         let gregorian = Calendar(identifier: .gregorian)
-        let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date()))!
-        let startOfWeek = gregorian.date(byAdding: .day, value: 1, to: sunday)!
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: Date())) else {
+            return [] as [Date]
+        }
+        guard let startOfWeek = gregorian.date(byAdding: .day, value: 1, to: sunday) else {
+            return [] as [Date]
+        }
 
         for d in 0...6 {
-            let day = date(byAdding: .day, value: d, to: startOfWeek)
-            days.append(day!)
+            guard let day = date(byAdding: .day, value: d, to: startOfWeek) else {
+                return [] as [Date]
+            }
+            days.append(day)
         }
         return days
     }
     func getFirstDayOfMonth(date: Date) -> Date {
         let components = dateComponents([.year, .month], from: date)
-        let startOfMonth = self.date(from: components)
-        return startOfMonth!
+        guard let startOfMonth = self.date(from: components) else {
+            return Date(timeIntervalSince1970: 0)
+        }
+        return startOfMonth
     }
     func getAllDaysOfMonth(date: Date) -> [Date] {
         var days: [Date]! = []
-        let rangeOfThisMonth = self.range(of: .day, in: .month, for: date)
-        let startOfMonth = self.date(from: dateComponents([.year, .month], from: date))!
-        for d in 0..<rangeOfThisMonth!.last! {
-            let day = self.date(byAdding: .day, value: d, to: startOfMonth)
-            days.append(day!)
+        guard let rangeOfThisMonth = self.range(of: .day, in: .month, for: date) else {
+            return [] as [Date]
+        }
+        guard let startOfMonth = self.date(from: dateComponents([.year, .month], from: date)) else {
+            return [] as [Date]
+        }
+        for d in 0..<rangeOfThisMonth.count {
+            guard let day = self.date(byAdding: .day, value: d, to: startOfMonth) else {
+                return [] as [Date]
+            }
+            days.append(day)
         }
         return days
     }
@@ -72,7 +89,10 @@ extension Calendar {
             var dataComponent = DateComponents()
             dataComponent.year = component(.year, from: date)
             dataComponent.month = month
-            months.append(self.date(from: dataComponent)!)
+            guard let dateMonth = self.date(from: dataComponent) else {
+                return [] as [Date]
+            }
+            months.append(dateMonth)
         }
         return months
     }

@@ -28,7 +28,10 @@ class MainViewController: UIViewController {
             // 今日は既にタスクが終了している
             setEndTaskOfTodayLayout()
             // StackViewのタップジェスチャーを削除
-            for gesture in todoListStackView.gestureRecognizers! {
+            guard let gesutres = todoListStackView.gestureRecognizers else {
+                return
+            }
+            for gesture in gesutres {
                 if let recognizer = gesture as? UITapGestureRecognizer {
                     todoListStackView.removeGestureRecognizer(recognizer)
                 }
@@ -209,7 +212,10 @@ class MainViewController: UIViewController {
             // 今日は既にタスクが終了している
             setEndTaskOfTodayLayout()
             // StackViewのタップジェスチャーを削除
-            for gesture in todoListStackView.gestureRecognizers! {
+            guard let gesutres = todoListStackView.gestureRecognizers else {
+                return
+            }
+            for gesture in gesutres {
                 if let recognizer = gesture as? UITapGestureRecognizer {
                     todoListStackView.removeGestureRecognizer(recognizer)
                 }
@@ -242,7 +248,10 @@ class MainViewController: UIViewController {
         // UserDefaultから設定項目の値を取得
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
-        let triggerDate = DateComponents(hour: settingsValueOfTask.endTimeOfTask.x!, minute: settingsValueOfTask.endTimeOfTask.y!)
+        guard let endTimeOfTaskHour = settingsValueOfTask.endTimeOfTask.x, let endTimeOfTaskMinute = settingsValueOfTask.endTimeOfTask.y else {
+            return
+        }
+        let triggerDate = DateComponents(hour: endTimeOfTaskHour, minute: endTimeOfTaskMinute)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
