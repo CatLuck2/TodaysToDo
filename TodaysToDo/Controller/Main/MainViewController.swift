@@ -28,7 +28,10 @@ class MainViewController: UIViewController {
             // 今日は既にタスクが終了している
             setEndTaskOfTodayLayout()
             // StackViewのタップジェスチャーを削除
-            for gesture in todoListStackView.gestureRecognizers! {
+            guard let gesutres = todoListStackView.gestureRecognizers else {
+                return
+            }
+            for gesture in gesutres {
                 if let recognizer = gesture as? UITapGestureRecognizer {
                     todoListStackView.removeGestureRecognizer(recognizer)
                 }
@@ -60,9 +63,11 @@ class MainViewController: UIViewController {
 
     // タスク終了後のレイアウトを構築
     private func setEndTaskOfTodayLayout() {
-        todoListStackView.backgroundColor = .white
-        todoListStackView.layer.borderWidth = 0
-        todoListStackView.layer.cornerRadius = 0
+        if #available(iOS 14, *) {
+            todoListStackView.backgroundColor = .white
+            todoListStackView.layer.borderWidth = 0
+            todoListStackView.layer.cornerRadius = 0
+        }
         todoListStackView.spacing = 30.0
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
@@ -88,16 +93,22 @@ class MainViewController: UIViewController {
 
     // タスクリストのレイアウトを調整
     private func setTodoListForAdd() {
-        todoListStackView.backgroundColor = .lightGray
-        todoListStackView.layer.borderWidth = 1
-        todoListStackView.layer.cornerRadius = 5
-        todoListStackView.spacing = 0
-        // todoListStackViewの子要素を全て削除
+        // todoListStackViewの子要素を全て削除l
         let subviews = todoListStackView.subviews
         for subview in subviews {
             subview.removeFromSuperview()
         }
         let view = UIView()
+        if #available(iOS 14, *) {
+            todoListStackView.backgroundColor = .lightGray
+            todoListStackView.layer.borderWidth = 1
+            todoListStackView.layer.cornerRadius = 5
+        } else {
+            view.backgroundColor = .lightGray
+            view.layer.borderWidth = 1
+            view.layer.cornerRadius = 5
+        }
+        todoListStackView.spacing = 0
         view.heightAnchor.constraint(equalToConstant: 59).isActive = true
         view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -120,8 +131,6 @@ class MainViewController: UIViewController {
         // UserDefaultから設定項目のデータを取得
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
-        // 枠線
-        todoListStackView.layer.borderWidth = 1
         // todoListStackViewの子要素を全て削除
         let subviews = todoListStackView.subviews
         for subview in subviews {
@@ -135,8 +144,20 @@ class MainViewController: UIViewController {
                 // viewの背景色にヒートマップ的な色を指定
                 let rgbPercentage: CGFloat = ((CGFloat(n) / CGFloat(numberOfItems)))
                 view.backgroundColor = UIColor(red: 1.0, green: rgbPercentage, blue: 0.0, alpha: 1)
+                view.layer.cornerRadius = 5
             } else {
-                todoListStackView.backgroundColor = .lightGray
+                if #available(iOS 14, *) {
+                    todoListStackView.backgroundColor = .lightGray
+                } else {
+                    view.backgroundColor = .lightGray
+                }
+            }
+            if #available(iOS 14, *) {
+                todoListStackView.layer.borderWidth = 1
+                todoListStackView.layer.cornerRadius = 5
+            } else {
+                view.layer.borderWidth = 1
+                view.layer.cornerRadius = 5
             }
             view.heightAnchor.constraint(equalToConstant: 59).isActive = true
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -181,20 +202,32 @@ class MainViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Popup", bundle: nil)
         let popupVC = storyboard.instantiateViewController(withIdentifier: "segueToPopup") as! PopupViewController
         UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
-        // Notificationを削除
-        NotificationCenter.default.removeObserver(self)
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        if unwindSegue.identifier == IdentifierType.unwindToMainVCFromAdd {
-            //            procutionNotification()
+        switch unwindSegue.identifier {
+        case IdentifierType.unwindToMainVCFromAdd: //追加画面からunwind
             self.setTodoListForAdd()
+        case IdentifierType.unwindSegueFromPopupToMain: //ポップアップからunwind
+            // 今日は既にタスクが終了している
+            setEndTaskOfTodayLayout()
+            // StackViewのタップジェスチャーを削除
+            guard let gesutres = todoListStackView.gestureRecognizers else {
+                return
+            }
+            for gesture in gesutres {
+                if let recognizer = gesture as? UITapGestureRecognizer {
+                    todoListStackView.removeGestureRecognizer(recognizer)
+                }
+            }
+        default:
+            break
         }
     }
 
     /// テスト用のNotification
     func testNotification() {
-        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
+        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
         content.title = "アラート"
@@ -215,7 +248,10 @@ class MainViewController: UIViewController {
         // UserDefaultから設定項目の値を取得
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
-        let triggerDate = DateComponents(hour: settingsValueOfTask.endTimeOfTask.x!, minute: settingsValueOfTask.endTimeOfTask.y!)
+        guard let endTimeOfTaskHour = settingsValueOfTask.endTimeOfTask.x, let endTimeOfTaskMinute = settingsValueOfTask.endTimeOfTask.y else {
+            return
+        }
+        let triggerDate = DateComponents(hour: endTimeOfTaskHour, minute: endTimeOfTaskMinute)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
         let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default

@@ -12,8 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UNUserNotificationCenter.current().requestAuthorization(
-            options: [.alert, .sound, .badge]) { [self]
-            granted, _ in
+            options: [.alert, .sound, .badge]) { [self] granted, _ in
             if granted {
                 UNUserNotificationCenter.current().delegate = self
             }
@@ -48,7 +47,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if #available(iOS 14.0, *) {
             completionHandler([[.banner, .list, .sound]])
         } else {
-            completionHandler([[.banner, .alert, .sound]])
+            completionHandler([[.badge, .alert, .sound]])
         }
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

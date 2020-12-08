@@ -24,11 +24,11 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
             }
             switch storyboardName {
             case "Main":
-                viewController.tabBarItem = UITabBarItem(title: "メイン", image: UIImage(systemName: "note"), tag: 0)
+                viewController.tabBarItem = UITabBarItem(title: "メイン", image: UIImage(systemName: "list.bullet"), tag: 0)
             case "Analytics":
-                viewController.tabBarItem = UITabBarItem(title: "統計", image: UIImage(systemName: "list.dash"), tag: 1)
+                viewController.tabBarItem = UITabBarItem(title: "統計", image: UIImage(systemName: "chart.bar.fill"), tag: 1)
             case "Settings":
-                viewController.tabBarItem = UITabBarItem(title: "設定", image: UIImage(systemName: "gearshape"), tag: 2)
+                viewController.tabBarItem = UITabBarItem(title: "設定", image: UIImage(systemName: "gear"), tag: 2)
             default:
                 break
             }

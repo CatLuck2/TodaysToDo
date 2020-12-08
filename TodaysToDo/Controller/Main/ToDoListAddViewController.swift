@@ -8,18 +8,22 @@
 import UIKit
 import RealmSwift
 
-class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate {
+private enum CellType {
+    case input // タスク名を入力するセル
+    case add   // inputのセルを追加するセル
+}
 
-    private enum CellType {
-        case input // タスク名を入力するセル
-        case add   // inputのセルを追加するセル
-    }
+class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
 
+    @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!
+    // ToDoItemCellのデリゲート
+    private let notification = NotificationCenter.default
     // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
     // (0, 1) = (Cell.Type, String?)
     private var newItemList: [(CellType, String?)]! = []
     private var limitedNumberOfCell: Int!
+    private var frameOfSelectedTextField = CGRect(x: 0, y: 0, width: 0, height: 0)
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -39,6 +43,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // tableView関連
+        todoListTableView.isScrollEnabled = false
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         todoListTableView.dropDelegate = self
@@ -47,8 +53,52 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         todoListTableView.tableFooterView = UIView()
         todoListTableView.register(UINib(nibName: "NewToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.newItemcCellID)
         todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForTodoItemID)
+
+        // 自動スクロール関連
+        scrollView.delegate = self
+        scrollView.isScrollEnabled = false
+        // キーボードが出現
+        notification.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        // キーボードが非表示
+        notification.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
+    /// キーボード関連
+    @objc
+    func keyboardWillAppear(_ notification: Notification) {
+        // キーボードの情報を取得
+        guard let keyboardInfo = notification.userInfo else {
+            return
+        }
+        // キーボードのFrameを取得
+        let keyboardFrame = (keyboardInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        // textFieldの上端のy
+        let screenHeight = UIScreen.main.bounds.height
+        let textFieldTopY = screenHeight - keyboardFrame.size.height
+        // textFieldの下端のy
+        let originY = frameOfSelectedTextField.origin.y
+        let height = frameOfSelectedTextField.height
+        let textFieldBottomY = originY + height
+        // textFieldとキーボードが重なる領域
+        let overlap = textFieldBottomY - textFieldTopY
+        // 重なってなければ、スクロール
+        if overlap >= 0 {
+            scrollView.contentOffset.y = overlap + 50
+        }
+    }
+
+    @objc
+    func keyboardWillHide(_ notification: Notification) {
+        // 画面の位置を元に戻す
+        scrollView.contentOffset.y = 0
+    }
+
+    /// デリゲートメソッド
+    func textFieldDidSelected(_ textField: UITextField) {
+        frameOfSelectedTextField = textField.convert(textField.frame, to: self.view)
+    }
+
+    /// tableView関連
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         newItemList.count
     }
@@ -57,6 +107,8 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
         switch newItemList[indexPath.row].0 {
         case .input:
             let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForTodoItemID) as! ToDoItemCell
+            // デリゲートを設定
+            inputCell.customCellDelegate = self
             // textFieldの値が変更されるたびに呼ばれる
             inputCell.textFieldValueSender = { sender in
                 // as! String以外でWarningを消す方法がわからなかった
@@ -137,7 +189,10 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     //: ドラッグしたアイテムを返す
     func dragItem(for indexPath: IndexPath) -> UIDragItem {
         let text = newItemList[indexPath.row].1
-        let provider = NSItemProvider(object: text as! NSItemProviderWriting)
+        guard let nsItemProviderWriting = text as NSItemProviderWriting? else {
+            return UIDragItem(itemProvider: NSItemProvider(object: "" as NSItemProviderWriting))
+        }
+        let provider = NSItemProvider(object: nsItemProviderWriting)
         return UIDragItem(itemProvider: provider)
     }
 
@@ -174,15 +229,16 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBAction private func addTodoItemButton(_ sender: UIBarButtonItem) {
         // タスク未入力の項目があったらアラート
-        // newItemListの末尾は必ず.addなので、.addを除いた要素を確認するため、newItemList.count-1
-        for num in 0..<newItemList.count - 1 {
+        for num in 0..<newItemList.count {
             let indexPath = IndexPath(row: num, section: 0)
-            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
-            if cell.todoItemTextField.text!.isEmpty {
-                let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
-                return
+            // inputのセルだけをチェック
+            if let inputCell = self.todoListTableView.cellForRow(at: indexPath) as? ToDoItemCell, let inputCellText = inputCell.todoItemTextField.text {
+                if inputCellText.isEmpty {
+                    let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    present(alert, animated: true, completion: nil)
+                    return
+                }
             }
         }
 

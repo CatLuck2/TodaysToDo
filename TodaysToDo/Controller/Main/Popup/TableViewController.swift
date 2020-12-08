@@ -24,6 +24,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         todoListTableView.allowsMultipleSelection = true
+        todoListTableView.isScrollEnabled = false
         todoListTableView.tableFooterView = UIView()
 
         // UserDefaultからデータを取得

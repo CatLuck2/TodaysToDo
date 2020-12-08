@@ -16,6 +16,8 @@ class AnalyticsViewController: UIViewController {
     @IBOutlet private weak var rateCompletedTaskLabel: UILabel!
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
+    private let df = DateFormatter()
+    private var calendar = Calendar.current
     // グラフ
     var graphView = GraphView()
     var width: CGFloat = 0
@@ -29,6 +31,9 @@ class AnalyticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+
         width = self.view.frame.width
         height = graphContentView.frame.height
         graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
@@ -41,28 +46,23 @@ class AnalyticsViewController: UIViewController {
     }
 
     private func createWeekDatas() -> [[String: Int]] {
-        var data = [
-            ["日": 0],
-            ["月": 0],
-            ["火": 0],
-            ["水": 0],
-            ["木": 0],
-            ["金": 0],
-            ["土": 0]
-        ]
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        for day1 in Date().allDaysOfWeek {
+        var data: [[String: Int]] = []
+        // [["日": 0] ~ ["土": 0]]を格納
+        for day in Calendar.current.getAllDaysOfWeek {
+            data.append([df.getDayOfWeekByStr(date: day): 0])
+        }
+
+        for day1 in calendar.getAllDaysOfWeek {
             for day2 in RealmResults.sharedInstance[0].weekList {
                 if calendar.isDate(day1, inSameDayAs: day2.date!) {
                     // dataの各要素をそれぞれ取り出す
                     for i in 0..<data.count {
                         // 取り出した要素のキーと値を取り出す
-                        for (_, value) in data[i].enumerated() {
+                        for eachData in data[i] {
                             // day1の曜日と合致するか確認
-                            if value.key == day1.dayOfWeekByStr {
+                            if eachData.key == df.getDayOfWeekByStr(date: day1) {
                                 // 合致した曜日の値を更新
-                                data[i][day1.dayOfWeekByStr] = day2.numberOfCompletedTask
+                                data[i][df.getDayOfWeekByStr(date: day1)] = day2.numberOfCompletedTask
                             }
                         }
                     }
@@ -73,23 +73,22 @@ class AnalyticsViewController: UIViewController {
     }
 
     private func createMonthDatas() -> [[String: Int]] {
+
         var data = [[String: Int]]()
-        for day in Date().allDaysOfMonth {
-            data.append([day.dayOfMonthByStr: 0])
+        for day in calendar.getAllDaysOfMonth(date: Date()) {
+            data.append([df.getDayOfMonthByStr(date: day): 0])
         }
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone(identifier: "UTC")!
-        for day1 in Date().allDaysOfMonth {
+        for day1 in calendar.getAllDaysOfMonth(date: Date()) {
             for day2 in RealmResults.sharedInstance[0].monthList {
                 if calendar.isDate(day1, inSameDayAs: day2.date!) {
                     // dataの各要素をそれぞれ取り出す
                     for i in 0..<data.count {
                         // 取り出した要素のキーと値を取り出す
-                        for (_, value) in data[i].enumerated() {
+                        for eachData in data[i] {
                             // day1の日と合致するか確認
-                            if value.key == day1.dayOfMonthByStr {
+                            if eachData.key == df.getDayOfMonthByStr(date: day1) {
                                 // 合致した日の値を更新
-                                data[i][day1.dayOfMonthByStr]
+                                data[i][df.getDayOfMonthByStr(date: day1)]
                                     = day2.numberOfCompletedTask
                             }
                         }
@@ -101,29 +100,21 @@ class AnalyticsViewController: UIViewController {
     }
 
     private func createYearDatas() -> [[String: Int]] {
-        var data = [
-            ["1": 0],
-            ["2": 0],
-            ["3": 0],
-            ["4": 0],
-            ["5": 0],
-            ["6": 0],
-            ["7": 0],
-            ["8": 0],
-            ["9": 0],
-            ["10": 0],
-            ["11": 0],
-            ["12": 0]
-        ]
+        var data: [[String: Int]] = []
+        // [["1": 0] ~ ["12": 0]]]を格納
+        for month in 1...12 {
+            data.append(["\(month)": 0])
+        }
+
         for monthDate in RealmResults.sharedInstance[0].yearList {
             // dataの各要素をそれぞれ取り出す
             for i in 0..<data.count {
                 // 取り出した要素のキーと値を取り出す
-                for (_, value) in data[i].enumerated() {
+                for eachData in data[i] {
                     // day1の日と合致するか確認
-                    if value.key == monthDate.monthOfYear.monthOfYearByStr {
+                    if eachData.key == df.getMonthOfYearByStr(date: monthDate.monthOfYear) {
                         // 合致した日の値を更新
-                        data[i][monthDate.monthOfYear.monthOfYearByStr]
+                        data[i][df.getMonthOfYearByStr(date: monthDate.monthOfYear)]
                             = monthDate.total
                     }
                 }

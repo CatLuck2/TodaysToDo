@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CWP-Q1-mZi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CWP-Q1-mZi">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,10 +17,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4gT-lC-10k">
-                                <rect key="frame" x="30" y="149" width="354" height="598"/>
+                                <rect key="frame" x="30" y="114" width="354" height="629"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="caU-tq-NXl">
-                                        <rect key="frame" x="38.5" y="289.5" width="277.5" height="19.5"/>
+                                        <rect key="frame" x="38.5" y="305" width="277.5" height="19.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="達成できたタスクをチェックしよう！" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNb-Bi-eP8">
                                                 <rect key="frame" x="0.0" y="0.0" width="277.5" height="19.5"/>
@@ -46,8 +46,8 @@
                         <viewLayoutGuide key="safeArea" id="fFm-I4-S8B"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="fFm-I4-S8B" firstAttribute="bottom" secondItem="4gT-lC-10k" secondAttribute="bottom" constant="66" id="1U4-oq-duS"/>
-                            <constraint firstItem="4gT-lC-10k" firstAttribute="top" secondItem="fFm-I4-S8B" secondAttribute="top" constant="105" id="iD7-nv-duZ"/>
+                            <constraint firstItem="fFm-I4-S8B" firstAttribute="bottom" secondItem="4gT-lC-10k" secondAttribute="bottom" constant="70" id="1U4-oq-duS"/>
+                            <constraint firstItem="4gT-lC-10k" firstAttribute="top" secondItem="fFm-I4-S8B" secondAttribute="top" constant="70" id="iD7-nv-duZ"/>
                             <constraint firstItem="4gT-lC-10k" firstAttribute="leading" secondItem="fFm-I4-S8B" secondAttribute="leading" constant="30" id="nH4-q9-Rmh"/>
                             <constraint firstItem="fFm-I4-S8B" firstAttribute="trailing" secondItem="4gT-lC-10k" secondAttribute="trailing" constant="30" id="rDU-i9-Jlz"/>
                         </constraints>
@@ -55,8 +55,10 @@
                     <navigationItem key="navigationItem" id="O7X-86-VbJ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="popupBottomAnchor" destination="1U4-oq-duS" id="fmv-dO-Ktq"/>
                         <outlet property="popupParentView" destination="4gT-lC-10k" id="RQI-ac-wNV"/>
                         <outlet property="popupStackView" destination="caU-tq-NXl" id="WKW-Hd-jSo"/>
+                        <outlet property="popupTopAnchor" destination="iD7-nv-duZ" id="KM3-cK-v6C"/>
                         <segue destination="lWv-2t-UMH" kind="unwind" identifier="unwindSegueFromPopupToMain" unwindAction="unwindToMainVC:" id="Mqi-8y-Mdu"/>
                     </connections>
                 </viewController>
