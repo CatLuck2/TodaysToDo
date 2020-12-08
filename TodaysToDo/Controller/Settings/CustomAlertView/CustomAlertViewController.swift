@@ -51,9 +51,10 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
         pickerView.dataSource = self
     }
 
-    func setInitializeFromAnotherVC(pickerMode: PickerMode, selectedEndTime: (Int, Int)) {
+    func setInitializeFromAnotherVC(pickerMode: PickerMode, selectedEndTime: (Int, Int), selectedNumber: Int) {
         self.pickerMode = pickerMode
         self.selectedEndTime = selectedEndTime
+        self.selectedNumber = selectedNumber
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

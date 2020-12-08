@@ -258,17 +258,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     private func processOfTaskTypeInDidSelectRowAt(taskType: TaskType) {
+        let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
+        let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
+
         switch taskType {
         case .endtimeOfTask:
-            let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
-            let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
-            customAlertVC.setInitializeFromAnotherVC(pickerMode: .endtimeOfTask, selectedEndTime: (endtimeValueOfTask))
+            customAlertVC.setInitializeFromAnotherVC(pickerMode: .endtimeOfTask, selectedEndTime: (self.endtimeValueOfTask), selectedNumber: self.numberValueOfTask)
             UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
         case .numberOfTask:
-            let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
-            let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
-            customAlertVC.pickerMode = .numberOfTask
-            customAlertVC.selectedNumber = numberValueOfTask
+            customAlertVC.setInitializeFromAnotherVC(pickerMode: .numberOfTask, selectedEndTime: (self.endtimeValueOfTask), selectedNumber: self.numberValueOfTask)
             UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
         case .priorityOfTask:
             break
