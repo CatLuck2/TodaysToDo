@@ -8,7 +8,6 @@ target 'TodaysToDo' do
   # Pods for TodaysToDo
   pod 'RealmSwift','<= 5.4.0'
   pod 'SwiftLint'
-  pod 'SwiftFormat/CLI'
 
 end
 
