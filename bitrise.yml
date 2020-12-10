@@ -1,0 +1,45 @@
+---
+format_version: '8'
+default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
+project_type: ios
+workflows:
+  Deploy iTunes Connect:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@4: {}
+    - certificate-and-profile-installer@1: {}
+    - set-xcode-build-number@1:
+        inputs:
+        - build_short_version_string: $RELEASE_VERSION
+        - build_version: $RELEASE_BUILDNUMBER
+        - plist_path: TodaysToDo/info.plist
+    - xcode-archive@2.1:
+        inputs:
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
+        - export_method: $BITRISE_EXPORT_METHOD
+    - deploy-to-itunesconnect-deliver@2:
+        inputs:
+        - itunescon_user: $Apple_ID
+        - password: $Apple_PassWord
+    - slack@3:
+        inputs:
+        - webhook_url: $SLACK_WEBHOOK_URL
+app:
+  envs:
+  - opts:
+      is_expand: false
+    BITRISE_PROJECT_PATH: TodaysToDo.xcworkspace
+  - opts:
+      is_expand: false
+    BITRISE_SCHEME: TodaysToDo
+  - opts:
+      is_expand: false
+    BITRISE_EXPORT_METHOD: app-store
+  - opts:
+      is_expand: false
+    RELEASE_BUILDNUMBER: '1'
+  - opts:
+      is_expand: false
+    RELEASE_VERSION: '1.0'
