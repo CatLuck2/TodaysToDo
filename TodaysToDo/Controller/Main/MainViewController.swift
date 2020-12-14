@@ -187,7 +187,6 @@ class MainViewController: UIViewController {
         } else {
             if RealmResults.sharedInstance[0].todoList.indices.contains(0) == true {
                 // 既にデータがある
-                testNotification()
                 performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: RealmResults.sharedInstance)
             } else {
                 // タスクリストがない
@@ -207,6 +206,7 @@ class MainViewController: UIViewController {
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
         switch unwindSegue.identifier {
         case IdentifierType.unwindToMainVCFromAdd: //追加画面からunwind
+            completeTaskNotification()
             self.setTodoListForAdd()
         case IdentifierType.unwindSegueFromPopupToMain: //ポップアップからunwind
             // 今日は既にタスクが終了している
@@ -225,25 +225,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    /// テスト用のNotification
-    func testNotification() {
-        let testTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-        let content = UNMutableNotificationContent()
-        content.sound = UNNotificationSound.default
-        content.title = "アラート"
-        content.body = "タスク完了日時になりました"
-        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: testTrigger)
-        center.add(request) { (error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-        // Notificationを登録
-        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
-    }
-
-    /// 本番用のNotification
-    func procutionNotification() {
+    func completeTaskNotification() {
         // UNUserNotificationを登録
         // UserDefaultから設定項目の値を取得
         let sv = SettingsValue()
