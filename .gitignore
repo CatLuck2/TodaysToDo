@@ -4,6 +4,8 @@
 
 ## User settings
 xcuserdata/
+*.xcodeproj/*
+*.xcodeproj/project.pbxproj
 .DS_Store
 
 ## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
@@ -22,6 +24,9 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
+
+## CocoaPod
+Pods/*
 
 ## Obj-C/Swift specific
 *.hmap

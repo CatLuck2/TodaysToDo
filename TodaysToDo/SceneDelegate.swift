@@ -11,12 +11,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+
+        // 初回起動かをチェック
+        let ud = UserDefaults.standard
+        let isFirstLaurnch = ud.bool(forKey: IdentifierType.isFirstLaurnch)
+        if isFirstLaurnch {
+            // 2回目
+        } else {
+            // 初回
+            // 初回起動したことを示す値をUserDefaultに登録
+            ud.set(true, forKey: IdentifierType.isFirstLaurnch)
+            // 1日のタスクが終了したかを示す値をUserDefaultに登録
+            ud.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
+            // 設定項目のデフォルト値を設定
+            let sv = SettingsValue()
+            sv.saveSettingsValue(endTime: (23, 0), number: 5, priority: false)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,6 +62,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
 }
-

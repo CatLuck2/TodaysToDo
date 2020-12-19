@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Lrq-VJ-8Xq">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Analytics View Controller-->
+        <scene sceneID="NF5-oS-mec">
+            <objects>
+                <viewController id="Lrq-VJ-8Xq" customClass="AnalyticsViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kP5-pT-gX7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pPR-S2-S9t">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="xXk-iB-x6E">
+                                        <rect key="frame" x="0.0" y="20" width="414" height="470.5"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="QjY-8w-UDq" userLabel="StackContentView1">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="343.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タスク達成数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WWb-y8-Zz1">
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fUX-Fr-VNG">
+                                                        <rect key="frame" x="0.0" y="35.5" width="414" height="32"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="31" id="iJo-10-8ja"/>
+                                                        </constraints>
+                                                        <segments>
+                                                            <segment title="今週"/>
+                                                            <segment title="今月"/>
+                                                            <segment title="今年"/>
+                                                        </segments>
+                                                        <connections>
+                                                            <action selector="graphSegment:" destination="Lrq-VJ-8Xq" eventType="valueChanged" id="Sdu-cj-U91"/>
+                                                        </connections>
+                                                    </segmentedControl>
+                                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vqz-ML-iPV">
+                                                        <rect key="frame" x="0.0" y="81.5" width="414" height="262"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mFl-de-6jn">
+                                                                <rect key="frame" x="0.0" y="0.0" width="414" height="262"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" priority="250" constant="414" id="CIB-Kt-0NC"/>
+                                                                    <constraint firstAttribute="height" constant="262" id="VVu-W3-q6C"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="mFl-de-6jn" firstAttribute="height" secondItem="Vqz-ML-iPV" secondAttribute="height" id="Mz8-Xl-bkg"/>
+                                                            <constraint firstItem="mFl-de-6jn" firstAttribute="leading" secondItem="Vqz-ML-iPV" secondAttribute="leading" id="ZVO-6h-hfB"/>
+                                                            <constraint firstItem="mFl-de-6jn" firstAttribute="top" secondItem="Vqz-ML-iPV" secondAttribute="top" id="an6-Rk-spD"/>
+                                                            <constraint firstAttribute="bottom" secondItem="mFl-de-6jn" secondAttribute="bottom" id="dK8-jc-uMW"/>
+                                                            <constraint firstAttribute="trailing" secondItem="mFl-de-6jn" secondAttribute="trailing" id="ztm-l9-1T2"/>
+                                                        </constraints>
+                                                        <viewLayoutGuide key="contentLayoutGuide" id="Kvw-e1-1Pd"/>
+                                                        <viewLayoutGuide key="frameLayoutGuide" id="tGH-qs-2wa"/>
+                                                    </scrollView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="fUX-Fr-VNG" firstAttribute="leading" secondItem="QjY-8w-UDq" secondAttribute="leading" id="2bi-1f-hEk"/>
+                                                    <constraint firstAttribute="trailing" secondItem="fUX-Fr-VNG" secondAttribute="trailing" id="6kj-He-Hy5"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Vqz-ML-iPV" secondAttribute="bottom" id="RhB-oS-Gev"/>
+                                                    <constraint firstItem="fUX-Fr-VNG" firstAttribute="top" secondItem="WWb-y8-Zz1" secondAttribute="bottom" constant="15" id="ZQU-zw-hsK"/>
+                                                    <constraint firstItem="Vqz-ML-iPV" firstAttribute="top" secondItem="fUX-Fr-VNG" secondAttribute="bottom" constant="15" id="v77-nh-mtB"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="80" translatesAutoresizingMaskIntoConstraints="NO" id="pmc-3G-9kn" userLabel="StackContentView2">
+                                                <rect key="frame" x="63" y="383.5" width="288" height="87"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="J9u-ov-uSE" userLabel="StackContentView2-1">
+                                                        <rect key="frame" x="0.0" y="0.0" width="104" height="87"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100個" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XC9-AQ-54N">
+                                                                <rect key="frame" x="0.0" y="0.0" width="104" height="36"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TC5-a1-QNM">
+                                                                <rect key="frame" x="0.0" y="46" width="104" height="41"/>
+                                                                <string key="text">タスク達成数</string>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jJB-dl-6YJ" userLabel="StackContentView2-2">
+                                                        <rect key="frame" x="184" y="0.0" width="104" height="87"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="83%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjs-VI-QKl">
+                                                                <rect key="frame" x="0.0" y="0.0" width="104" height="36"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7L-bu-7cv">
+                                                                <rect key="frame" x="0.0" y="46" width="104" height="41"/>
+                                                                <string key="text">タスク達成率
+</string>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="QjY-8w-UDq" secondAttribute="trailing" id="tta-WL-fL4"/>
+                                            <constraint firstItem="QjY-8w-UDq" firstAttribute="leading" secondItem="xXk-iB-x6E" secondAttribute="leading" id="zBy-ap-Szt"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="xXk-iB-x6E" firstAttribute="leading" secondItem="pPR-S2-S9t" secondAttribute="leading" id="3rG-T2-hTf"/>
+                                    <constraint firstAttribute="bottom" secondItem="xXk-iB-x6E" secondAttribute="bottom" constant="3.5" id="7DG-hu-cXf"/>
+                                    <constraint firstItem="xXk-iB-x6E" firstAttribute="width" secondItem="pPR-S2-S9t" secondAttribute="width" id="KFF-Ky-UGl"/>
+                                    <constraint firstAttribute="trailing" secondItem="xXk-iB-x6E" secondAttribute="trailing" id="LxL-1L-t5I"/>
+                                    <constraint firstItem="xXk-iB-x6E" firstAttribute="top" secondItem="pPR-S2-S9t" secondAttribute="top" constant="20" id="jSM-g4-97a"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="HBV-Mc-ekH"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="Ryn-Xq-buq"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="spp-q1-WKv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="pPR-S2-S9t" firstAttribute="leading" secondItem="spp-q1-WKv" secondAttribute="leading" id="1pI-NI-yxB"/>
+                            <constraint firstItem="pPR-S2-S9t" firstAttribute="bottom" secondItem="spp-q1-WKv" secondAttribute="bottom" id="Gpd-yp-AHH"/>
+                            <constraint firstItem="pPR-S2-S9t" firstAttribute="trailing" secondItem="spp-q1-WKv" secondAttribute="trailing" id="OFs-Bk-buO"/>
+                            <constraint firstItem="pPR-S2-S9t" firstAttribute="top" secondItem="spp-q1-WKv" secondAttribute="top" id="THl-z1-r0h"/>
+                        </constraints>
+                    </view>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="graphContentView" destination="mFl-de-6jn" id="eAl-9v-hP6"/>
+                        <outlet property="graphContentViewWidth" destination="CIB-Kt-0NC" id="JtS-Fm-PGg"/>
+                        <outlet property="graphScrollView" destination="Vqz-ML-iPV" id="3mz-3I-MeA"/>
+                        <outlet property="graphSegment" destination="fUX-Fr-VNG" id="YZ5-Pi-iIS"/>
+                        <outlet property="rateCompletedTaskLabel" destination="Xjs-VI-QKl" id="G7f-ej-i3J"/>
+                        <outlet property="totalCompletedTaskLabel" destination="XC9-AQ-54N" id="VrV-0O-DFY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Kq-G7-QR3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="144.64285714285714"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
