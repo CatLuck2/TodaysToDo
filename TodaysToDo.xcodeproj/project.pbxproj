@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		612DCB6C258DA7AF004E9368 /* ToDoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612DCB6B258DA7AF004E9368 /* ToDoListViewController.swift */; };
 		6132E1DD256A51270044D3D9 /* CustomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6132E1DC256A51270044D3D9 /* CustomExtension.swift */; };
 		613D1A66254713EA00DCCAAB /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613D1A65254713EA00DCCAAB /* PopupViewController.swift */; };
 		613D1A712547252A00DCCAAB /* Popup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 613D1A702547252A00DCCAAB /* Popup.storyboard */; };
@@ -70,6 +71,7 @@
 
 /* Begin PBXFileReference section */
 		215F549D927F5D709CF247AC /* Pods-TodaysToDo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysToDo.release.xcconfig"; path = "Target Support Files/Pods-TodaysToDo/Pods-TodaysToDo.release.xcconfig"; sourceTree = "<group>"; };
+		612DCB6B258DA7AF004E9368 /* ToDoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewController.swift; sourceTree = "<group>"; };
 		6132E1DC256A51270044D3D9 /* CustomExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomExtension.swift; sourceTree = "<group>"; };
 		613D1A65254713EA00DCCAAB /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		613D1A702547252A00DCCAAB /* Popup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Popup.storyboard; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				61AF3AE02531FCB5001BE560 /* MainViewController.swift */,
 				6169D050253BD5C80032DA92 /* ToDoListAddViewController.swift */,
 				61E6E1BA25381D3800052F14 /* ToDoListEditViewController.swift */,
+				612DCB6B258DA7AF004E9368 /* ToDoListViewController.swift */,
 				617FC6D8254B025F005DC7FF /* Popup */,
 				613D1A57254469DC00DCCAAB /* Cell */,
 			);
@@ -618,6 +621,7 @@
 				61E6E1BB25381D3800052F14 /* ToDoListEditViewController.swift in Sources */,
 				61AF3AE12531FCB5001BE560 /* MainViewController.swift in Sources */,
 				61C9C90D252D45CD00CA32A4 /* SceneDelegate.swift in Sources */,
+				612DCB6C258DA7AF004E9368 /* ToDoListViewController.swift in Sources */,
 				61E3A2912553F6F200258DC5 /* HelpViewController.swift in Sources */,
 				61B6004C2556727D000168C9 /* SettingsCustomCell.swift in Sources */,
 				61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */,

@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -63,7 +62,7 @@
         <!--タスク追加-->
         <scene sceneID="gxY-d7-aLk">
             <objects>
-                <viewController id="8gS-4e-3g5" customClass="ToDoListAddViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8gS-4e-3g5" customClass="ToDoListViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yDT-8J-9fr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -102,19 +101,19 @@
                     <navigationItem key="navigationItem" title="タスク追加" id="4d7-uL-8xP">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="2Hv-iq-tv1">
                             <connections>
-                                <action selector="cancelButton:" destination="8gS-4e-3g5" id="gtA-KU-hgC"/>
+                                <action selector="cancelButton:" destination="8gS-4e-3g5" id="h5T-7v-XwT"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Add" id="7xg-vs-EMC">
                             <connections>
-                                <action selector="addTodoItemButton:" destination="8gS-4e-3g5" id="zBP-Te-JW2"/>
+                                <action selector="addTodoItemButton:" destination="8gS-4e-3g5" id="BuG-hf-YGb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="scrollView" destination="oH0-RI-EdI" id="ipp-Ld-BrO"/>
-                        <outlet property="todoListTableView" destination="L5W-NM-XVL" id="4Q6-tk-Zp2"/>
+                        <outlet property="scrollView" destination="oH0-RI-EdI" id="OIq-RE-fOq"/>
+                        <outlet property="todoListTableView" destination="L5W-NM-XVL" id="gKZ-md-XB8"/>
                         <segue destination="LBR-0W-WWR" kind="unwind" identifier="unwindToMainVCFromAdd" unwindAction="unwindToMainVC:" id="du4-0z-lWL"/>
                     </connections>
                 </viewController>
@@ -126,7 +125,7 @@
         <!--タスク編集-->
         <scene sceneID="OkK-W8-947">
             <objects>
-                <viewController id="NA3-HU-lyz" customClass="ToDoListEditViewController" customModule="TodaysToDo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="NA3-HU-lyz" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="515-UM-BBe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -164,22 +163,10 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="タスク編集" id="hlf-wH-Frz">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="SzK-ek-QJh">
-                            <connections>
-                                <action selector="cancelButton:" destination="NA3-HU-lyz" id="bmg-rB-DW3"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="uHZ-Zi-e6d">
-                            <connections>
-                                <action selector="updateTodoItemButton:" destination="NA3-HU-lyz" id="gsl-9W-IGx"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="SzK-ek-QJh"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="uHZ-Zi-e6d"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="scrollView" destination="EdV-ht-hSW" id="Pgs-RS-NCS"/>
-                        <outlet property="todoListTableView" destination="E6n-3z-iPQ" id="Vtd-wd-j2p"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hs9-zb-Evb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,6 +8,11 @@
 import UIKit
 import RealmSwift
 
+private enum CellType {
+    case input // タスク名を入力するセル
+    case add   // inputのセルを追加するセル
+}
+
 class ToDoListEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDropDelegate, UITableViewDragDelegate, UIScrollViewDelegate, customCellDelagete {
 
     @IBOutlet private weak var scrollView: UIScrollView!
