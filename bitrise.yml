@@ -1,0 +1,25 @@
+---
+format_version: '8'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: ios
+workflows:
+  primary:
+    steps:
+    - xcode-test@2: {}
+app:
+  envs:
+  - opts:
+      is_expand: false
+    BITRISE_PROJECT_PATH: TodaysToDo.xcworkspace
+  - opts:
+      is_expand: false
+    BITRISE_SCHEME: TodaysToDo
+  - opts:
+      is_expand: false
+    BITRISE_EXPORT_METHOD: app-store
+  - opts:
+      is_expand: false
+    RELEASE_BUILDNUMBER: '1'
+  - opts:
+      is_expand: false
+    RELEASE_VERSION: '1.0'

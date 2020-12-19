@@ -8,6 +8,13 @@ target 'TodaysToDo' do
   # Pods for TodaysToDo
   pod 'RealmSwift','<= 5.4.0'
   pod 'SwiftLint'
-  pod 'SwiftFormat/CLI'
 
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+    end
+  end
 end
