@@ -15,10 +15,9 @@ enum IdentifierType {
     static let cellForHelp = "cellForHelp"
     static let cellForSettings = "cellForSettings"
     // segueID
-    static let segueToEditFromMain = "toEdit"
-    static let segueToAddFromMain = "toAdd"
+    static let segueToToDoListVCFromMain = "toToDoList"
     static let unwindSegueFromPopupToMain = "unwindSegueFromPopupToMain"
-    static let unwindToMainVCFromAdd = "unwindToMainVCFromAdd"
+    static let unwindToMainVCFromToDoListVC = "unwindToMainVCFromToDoListVC"
     static let segueToHelp = "settingHelp"
     static let segueToContact = "settingContact"
     static let unwindToSettingsVCFromCustomAlert = "unwindToSettingsVCFromCustomAlert"
