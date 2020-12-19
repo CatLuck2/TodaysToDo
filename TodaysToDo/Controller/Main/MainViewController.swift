@@ -180,19 +180,7 @@ class MainViewController: UIViewController {
 
     @objc
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
-        // タスクリストがあれば追加画面へ、無ければ編集画面へ
-        if RealmResults.sharedInstance.isEmpty == true {
-            // Realmにデータがない
-            performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
-        } else {
-            if RealmResults.sharedInstance[0].todoList.indices.contains(0) == true {
-                // 既にデータがある
-                performSegue(withIdentifier: IdentifierType.segueToEditFromMain, sender: RealmResults.sharedInstance)
-            } else {
-                // タスクリストがない
-                performSegue(withIdentifier: IdentifierType.segueToAddFromMain, sender: nil)
-            }
-        }
+        performSegue(withIdentifier: IdentifierType.segueToToDoListVCFromMain, sender: nil)
     }
 
     @objc
@@ -205,7 +193,7 @@ class MainViewController: UIViewController {
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
         switch unwindSegue.identifier {
-        case IdentifierType.unwindToMainVCFromAdd: //追加画面からunwind
+        case IdentifierType.unwindToMainVCFromToDoListVC://追加画面からunwind
             completeTaskNotification()
             self.setTodoListForAdd()
         case IdentifierType.unwindSegueFromPopupToMain: //ポップアップからunwind

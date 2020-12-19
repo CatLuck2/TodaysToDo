@@ -1,8 +1,8 @@
 //
-//  ToDoListAddViewController.swift
+//  ToDoListViewController.swift
 //  TodaysToDo
 //
-//  Created by Nekokichi on 2020/10/18.
+//  Created by Nekokichi on 2020/12/19.
 //
 
 import UIKit
@@ -13,10 +13,11 @@ private enum CellType {
     case add   // inputのセルを追加するセル
 }
 
-class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
+class ToDoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
 
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!
+
     // ToDoItemCellのデリゲート
     private let notification = NotificationCenter.default
     // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
@@ -25,23 +26,58 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
     private var limitedNumberOfCell: Int!
     private var frameOfSelectedTextField = CGRect(x: 0, y: 0, width: 0, height: 0)
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
         limitedNumberOfCell = settingsValueOfTask.numberOfTask
 
-        switch limitedNumberOfCell {
-        case 1: // 設定数が1
-            newItemList = [(CellType.input, "")]
-        default: // 設定数が2~5
-            newItemList = [(CellType.input, ""), (CellType.add, nil)]
+        if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
+            switch limitedNumberOfCell {
+            case 1: // 設定数が1
+                newItemList = [(CellType.input, "")]
+            default: // 設定数が2~5
+                if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
+                    newItemList = [(CellType.input, ""), (CellType.add, nil)]
+                } else {
+                    for _ in 0...RealmResults.sharedInstance[0].todoList.count-1 {
+                        // todoListの要素数だけ、Inputを生成
+                        newItemList.append((CellType.input, ""))
+                    }
+                    // 最後にAddを追加
+                    if limitedNumberOfCell != 5 {
+                        newItemList.append((CellType.add, nil))
+                    }
+                }
+            }
+        } else {
+            switch RealmResults.sharedInstance[0].todoList.count {
+            case 1: // 設定数が1
+                newItemList = [(CellType.input, "")]
+            default: // 設定数が2~5
+                if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
+                    newItemList = [(CellType.input, ""), (CellType.add, nil)]
+                } else {
+                    for _ in 0...RealmResults.sharedInstance[0].todoList.count-1 {
+                        // todoListの要素数だけ、Inputを生成
+                        newItemList.append((CellType.input, ""))
+                    }
+                    // 最後にAddを追加
+                    if RealmResults.sharedInstance[0].todoList.count != 5 {
+                        newItemList.append((CellType.add, nil))
+                    }
+                }
+            }
         }
-    }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        if RealmResults.sharedInstance.isEmpty == false {
+            if RealmResults.sharedInstance[0].todoList.isEmpty == false {
+                for i in 0...RealmResults.sharedInstance[0].todoList.count-1 {
+                    newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
+                }
+            }
+        }
 
         // tableView関連
         todoListTableView.isScrollEnabled = false
@@ -263,11 +299,12 @@ class ToDoListAddViewController: UIViewController, UITableViewDelegate, UITableV
                 realm.add(model, update: .all)
             } else {
                 // 次回
+                RealmResults.sharedInstance[0].todoList.removeAll()
                 RealmResults.sharedInstance[0].todoList.append(objectsIn: textFieldValueArray)
             }
         }
 
-        performSegue(withIdentifier: IdentifierType.unwindToMainVCFromAdd, sender: nil)
+        performSegue(withIdentifier: IdentifierType.unwindToMainVCFromToDoListVC, sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIBarButtonItem) {
