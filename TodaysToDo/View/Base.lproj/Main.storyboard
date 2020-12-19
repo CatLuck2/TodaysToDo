@@ -52,7 +52,7 @@
                     <connections>
                         <outlet property="todoListStackView" destination="88a-s2-nlb" id="vb3-2E-HLf"/>
                         <segue destination="DIQ-qt-KNS" kind="presentation" identifier="toEdit" modalPresentationStyle="fullScreen" id="oeV-N3-E6W"/>
-                        <segue destination="Y1B-yh-gG9" kind="presentation" identifier="toAdd" modalPresentationStyle="fullScreen" id="qZW-IH-x5u"/>
+                        <segue destination="Y1B-yh-gG9" kind="presentation" identifier="toToDoList" modalPresentationStyle="fullScreen" id="qZW-IH-x5u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -114,7 +114,7 @@
                     <connections>
                         <outlet property="scrollView" destination="oH0-RI-EdI" id="OIq-RE-fOq"/>
                         <outlet property="todoListTableView" destination="L5W-NM-XVL" id="gKZ-md-XB8"/>
-                        <segue destination="LBR-0W-WWR" kind="unwind" identifier="unwindToMainVCFromAdd" unwindAction="unwindToMainVC:" id="du4-0z-lWL"/>
+                        <segue destination="LBR-0W-WWR" kind="unwind" identifier="unwindToMainVCFromToDoListVC" unwindAction="unwindToMainVC:" id="du4-0z-lWL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lxQ-vn-HeV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

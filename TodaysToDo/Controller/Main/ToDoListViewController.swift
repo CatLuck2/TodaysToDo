@@ -304,7 +304,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
 
-        performSegue(withIdentifier: IdentifierType.unwindToMainVCFromAdd, sender: nil)
+        performSegue(withIdentifier: IdentifierType.unwindToMainVCFromToDoListVC, sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIBarButtonItem) {
