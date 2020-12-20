@@ -141,8 +141,11 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch newItemList[indexPath.row].0 {
-        case .input:
-            let inputCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForTodoItemID) as! ToDoItemCell
+        case .input:¥
+            guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell, for: indexPath) else {
+                return UITableViewCell()
+            }
+
             // デリゲートを設定
             inputCell.customCellDelegate = self
             // textFieldの値が変更されるたびに呼ばれる
@@ -156,7 +159,9 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             inputCell.todoItemTextField.text = itemName
             return inputCell
         case .add:
-            let addCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.newItemcCellID) as! NewToDoItemCell
+            guard let addCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.newItemcCellID) else {
+                return UITableViewCell()
+            }
             return addCell
         }
     }

@@ -33,7 +33,9 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForHelp, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.cellForHelp, for: indexPath) else {
+            return UITableViewCell()
+        }
         cell.textLabel?.text = helpTitles[indexPath.row]
         return cell
     }
