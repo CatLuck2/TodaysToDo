@@ -387,11 +387,12 @@
 			buildConfigurationList = 61C9C931252D45CF00CA32A4 /* Build configuration list for PBXNativeTarget "TodaysToDo" */;
 			buildPhases = (
 				B7C2A49E366904D3E2CD6E06 /* [CP] Check Pods Manifest.lock */,
-				61C9C903252D45CD00CA32A4 /* Sources */,
 				61C9C904252D45CD00CA32A4 /* Frameworks */,
 				61C9C905252D45CD00CA32A4 /* Resources */,
+				612DCBCD258F0635004E9368 /* ShellScript */,
 				61C9C940252D775A00CA32A4 /* ShellScript */,
 				6C881B5D148122E2786B1418 /* [CP] Embed Pods Frameworks */,
+				61C9C903252D45CD00CA32A4 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -522,6 +523,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		612DCBCD258F0635004E9368 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		61C9C940252D775A00CA32A4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -539,7 +557,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
 		};
 		61C9C941252D776400CA32A4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

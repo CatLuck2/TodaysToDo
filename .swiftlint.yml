@@ -181,6 +181,8 @@ included:
 excluded:
   - Pods
   - Generated
+  - "**/*/*.generated.swift"
+  - "*.generated.swift"
 
 line_length:
   warning: 300
