@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
     private var request: UNNotificationRequest!

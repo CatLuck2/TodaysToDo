@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AnalyticsViewController: UIViewController {
+final class AnalyticsViewController: UIViewController {
 
     @IBOutlet private weak var graphSegment: UISegmentedControl!
     @IBOutlet private weak var graphScrollView: UIScrollView!
@@ -19,9 +19,9 @@ class AnalyticsViewController: UIViewController {
     private let df = DateFormatter()
     private var calendar = Calendar.current
     // グラフ
-    var graphView = GraphView()
-    var width: CGFloat = 0
-    var height: CGFloat = 0
+    private var graphView = GraphView()
+    private var width: CGFloat = 0
+    private var height: CGFloat = 0
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

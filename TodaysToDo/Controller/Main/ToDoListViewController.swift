@@ -13,7 +13,7 @@ private enum CellType {
     case add   // inputのセルを追加するセル
 }
 
-class ToDoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
+final class ToDoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
 
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!

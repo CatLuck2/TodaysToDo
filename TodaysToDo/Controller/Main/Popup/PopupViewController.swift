@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class PopupViewController: UIViewController {
+final class PopupViewController: UIViewController {
 
     @IBOutlet private weak var popupParentView: UIView!
     @IBOutlet private weak var popupStackView: UIStackView!
@@ -42,7 +42,7 @@ class PopupViewController: UIViewController {
         setAutoLayoutAndUIInStackView()
     }
 
-    func setAutoLayoutAndUIInStackView() {
+    private func setAutoLayoutAndUIInStackView() {
         tableViewController = TableViewController()
         addChild(tableViewController)
         tableViewController.view.layer.borderWidth = 1
@@ -100,7 +100,7 @@ class PopupViewController: UIViewController {
         }
     }
 
-    func saveSortedTaskListDataByPeriodsToRealm() {
+    private func saveSortedTaskListDataByPeriodsToRealm() {
         // タイムゾーンを指定
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(identifier: "UTC")!

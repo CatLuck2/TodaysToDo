@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!

@@ -12,7 +12,7 @@ enum PickerMode {
     case numberOfTask
 }
 
-class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+final class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var messageLabel: UILabel!

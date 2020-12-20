@@ -32,7 +32,7 @@ private enum DeleteAllType: Int {
     case deleteAll //全データ削除
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var settingsTableView: UITableView!
 
@@ -202,16 +202,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 try! realm.write {
                     RealmResults.sharedInstance[0].todoList.removeAll()
                 }
-                // 通知類を削除
-                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
-                // 削除したことをアラートで表示
-                let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
-                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
-                    self.settingsTableView.reloadData()
-                }))
-                self.present(resultAlert, animated: true, completion: nil)
+                self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
             }
         case .deleteAll:
             presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") {
@@ -220,23 +211,27 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 try! realm.write {
                     realm.deleteAll()
                 }
-                // 通知類を削除
-                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+                self.processAfterDeletedData(alertMessage: "全データを削除しました")
                 // UserDefaultの日付をデフォルト値にリセット
                 UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
-                // 削除したことを通知
-                let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
-                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
-                    self.settingsTableView.reloadData()
-                }))
-                self.present(resultAlert, animated: true, completion: nil)
             }
         }
     }
 
-    func presentAlertRelatedDeleteTypeInDidSelectRowAt(title: String, message: String, completionOfOkAction: @escaping () -> Void) {
+    private func processAfterDeletedData(alertMessage: String)  {
+        // 通知類を削除
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+        // 削除したことを通知
+        let resultAlert = UIAlertController(title: "削除", message: alertMessage, preferredStyle: .alert)
+        resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+            self.settingsTableView.reloadData()
+        }))
+        self.present(resultAlert, animated: true, completion: nil)
+    }
+
+    private func presentAlertRelatedDeleteTypeInDidSelectRowAt(title: String, message: String, completionOfOkAction: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .destructive) { _ in
             completionOfOkAction()

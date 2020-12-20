@@ -17,7 +17,7 @@ enum HelpType {
 import UIKit
 import AVKit
 
-class HelpDetailViewController: UIViewController {
+final class HelpDetailViewController: UIViewController {
 
     @IBOutlet private weak var helpDetailTextView: UITextView!
     @IBOutlet private weak var helpDetailPlayerView: PlayerView!

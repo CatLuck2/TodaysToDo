@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var helpTableView: UITableView!
 

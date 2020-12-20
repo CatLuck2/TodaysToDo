@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SettingsValue: NSObject, NSSecureCoding {
+final class SettingsValue: NSObject, NSSecureCoding {
 
     static var supportsSecureCoding: Bool = true
 
