@@ -58,53 +58,30 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         limitedNumberOfCell = settingsValueOfTask.numberOfTask
 
         if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
-            self.title = "タスクを追加"
-            completeButton.title = "追加"
-
-            switch limitedNumberOfCell {
-            case 1: // 設定数が1
-                newItemList = [(CellType.input, "")]
-            default: // 設定数が2~5
-                if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
-                    newItemList = [(CellType.input, ""), (CellType.add, nil)]
-                } else {
-                    for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
-                        // todoListの要素数だけ、Inputを生成
-                        newItemList.append((CellType.input, ""))
-                    }
-                    // 最後にAddを追加
-                    if limitedNumberOfCell != 5 {
-                        newItemList.append((CellType.add, nil))
-                    }
-                }
+            newItemList = [(CellType.input, "")]
+            if limitedNumberOfCell != 1 {
+                newItemList.append((CellType.add, nil))
             }
         } else {
-            self.title = "タスクを編集"
-            completeButton.title = "更新"
-
-            switch limitedNumberOfCell {
-            case 1: // 設定数が1
-                newItemList = [(CellType.input, "")]
-            default: // 設定数が2~5
-                if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
-                    newItemList = [(CellType.input, ""), (CellType.add, nil)]
-                } else {
-                    for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
-                        // todoListの要素数だけ、Inputを生成
-                        newItemList.append((CellType.input, ""))
-                    }
-                    // 最後にAddを追加
-                    if RealmResults.sharedInstance[0].todoList.count != 5 {
-                        newItemList.append((CellType.add, nil))
-                    }
-                }
+            for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
+                // todoListの要素数だけ、Inputを生成
+                newItemList.append((CellType.input, ""))
             }
-        }
-
-        if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
             for i in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
                 newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
             }
+            // 最後にAddを追加
+            if newItemList.count != 5 {
+                newItemList.append((CellType.add, nil))
+            }
+        }
+
+        if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
+            self.title = "タスクを追加"
+            completeButton.title = "追加"
+        } else {
+            self.title = "タスクを編集"
+            completeButton.title = "更新"
         }
     }
 

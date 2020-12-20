@@ -53,18 +53,6 @@ class MainViewController: UIViewController {
             // 既にデータがある
             setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
         }
-
-//        if RealmResults.sharedInstance.isEmpty == true {
-//
-//        } else {
-//            // Realmに最低1回は保存したことがある
-//            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
-//
-//            } else {
-//                // 既にデータがある
-//                setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
-//            }
-//        }
     }
 
     override func viewDidLoad() {
