@@ -258,8 +258,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     private func processOfTaskTypeInDidSelectRowAt(taskType: TaskType) {
-        let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
-        let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
+        guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
+            return
+        }
 
         switch taskType {
         case .endtimeOfTask:

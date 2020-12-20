@@ -186,8 +186,9 @@ class MainViewController: UIViewController {
     @objc
     private func displayPopup(_ notification: Notification) {
         //ポップアップを表示
-        let storyboard = UIStoryboard(name: "Popup", bundle: nil)
-        let popupVC = storyboard.instantiateViewController(withIdentifier: "segueToPopup") as! PopupViewController
+        guard let popupVC = R.storyboard.popup.instantiateInitialViewController() else {
+            return
+        }
         UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
     }
 
