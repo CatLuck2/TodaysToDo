@@ -161,7 +161,7 @@ class PopupViewController: UIViewController {
         saveTaskListDataAndAverageToRealm()
         saveSortedTaskListDataByPeriodsToRealm()
 
-        performSegue(withIdentifier: IdentifierType.unwindSegueFromPopupToMain, sender: nil)
+        performSegue(withIdentifier: R.segue.popupViewController.unwindSegueFromPopupToMain, sender: nil)
     }
 
 }

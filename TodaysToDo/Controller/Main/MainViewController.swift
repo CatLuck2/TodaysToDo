@@ -180,7 +180,7 @@ class MainViewController: UIViewController {
 
     @objc
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
-        performSegue(withIdentifier: IdentifierType.segueToToDoListVCFromMain, sender: nil)
+        performSegue(withIdentifier: R.segue.mainViewController.toToDoList, sender: nil)
     }
 
     @objc
@@ -193,11 +193,16 @@ class MainViewController: UIViewController {
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        switch unwindSegue.identifier {
-        case IdentifierType.unwindToMainVCFromToDoListVC://追加画面からunwind
+        guard let destinationVC = R.segue.toDoListViewController.unwindToMainVCFromToDoListVC(segue: unwindSegue)?.destination else {
+            return
+        }
+
+        if destinationVC is ToDoListViewController {
             completeTaskNotification()
             self.setTodoListForAdd()
-        case IdentifierType.unwindSegueFromPopupToMain: //ポップアップからunwind
+        }
+
+        if destinationVC is PopupViewController {
             // 今日は既にタスクが終了している
             setEndTaskOfTodayLayout()
             // StackViewのタップジェスチャーを削除
@@ -209,8 +214,6 @@ class MainViewController: UIViewController {
                     todoListStackView.removeGestureRecognizer(recognizer)
                 }
             }
-        default:
-            break
         }
     }
 

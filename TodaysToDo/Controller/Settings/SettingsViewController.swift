@@ -277,7 +277,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     private func processOfOtherTypeInDidSelectRowAt(otherType: OtherType) {
         switch otherType {
         case .help:
-            performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
+            performSegue(withIdentifier: R.segue.settingsViewController.settingHelp, sender: nil)
         case .share:
             let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
             guard let shareURL = URL(string: "https://www.apple.com/jp/watch/") else {
@@ -301,7 +301,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {
-        if let customAlertVC = unwindSegue.source as? CustomAlertViewController,
+        if let customAlertVC = R.segue.customAlertViewController.unwindToSettingsVCFromCustomAlert(segue: unwindSegue)?.source,
            let pickerMode = customAlertVC.pickerMode,
            let selectedEndTime = customAlertVC.selectedEndTime,
            let selectedNumber = customAlertVC.selectedNumber {

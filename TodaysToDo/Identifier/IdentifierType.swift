@@ -15,13 +15,7 @@ enum IdentifierType {
     static let cellForHelp = "cellForHelp"
     static let cellForSettings = "cellForSettings"
     // segueID
-    static let segueToToDoListVCFromMain = "toToDoList"
-    static let unwindSegueFromPopupToMain = "unwindSegueFromPopupToMain"
-    static let unwindToMainVCFromToDoListVC = "unwindToMainVCFromToDoListVC"
-    static let segueToHelp = "settingHelp"
     static let segueToContact = "settingContact"
-    static let unwindToSettingsVCFromCustomAlert = "unwindToSettingsVCFromCustomAlert"
-    static let segueToHelpDetail = "segueToHelpDetail"
     // storyboardID
     static let segueToCustomAlert = "segueToCustomAlert"
     // Realmのモデルで使用するID

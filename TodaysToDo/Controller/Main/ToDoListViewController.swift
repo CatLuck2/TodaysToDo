@@ -141,7 +141,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch newItemList[indexPath.row].0 {
-        case .input:¥
+        case .input:
             guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell, for: indexPath) else {
                 return UITableViewCell()
             }
@@ -309,7 +309,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
 
-        performSegue(withIdentifier: IdentifierType.unwindToMainVCFromToDoListVC, sender: nil)
+        performSegue(withIdentifier: R.segue.toDoListViewController.unwindToMainVCFromToDoListVC, sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIBarButtonItem) {

@@ -41,31 +41,30 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: IdentifierType.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
+        performSegue(withIdentifier: R.segue.helpViewController.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == IdentifierType.segueToHelpDetail {
-            let helpDetailVC = segue.destination as! HelpDetailViewController
+        if let segueInfo = R.segue.helpViewController.segueToHelpDetail(segue: segue) {
 
             guard let dataForHelpDetail = sender as? [String: Any] else {
                 return
             }
-            helpDetailVC.navigationTitle = dataForHelpDetail["naigationTitle"] as! String
+            segueInfo.destination.navigationTitle = dataForHelpDetail["naigationTitle"] as! String
 
             switch dataForHelpDetail["indexPathRow"] as! Int {
             case 0:
-                helpDetailVC.helpTypeValue = .whatIsTodaysTodo
+                segueInfo.destination.helpTypeValue = .whatIsTodaysTodo
             case 1:
-                helpDetailVC.helpTypeValue = .tutorialCreateTask
+                segueInfo.destination.helpTypeValue = .tutorialCreateTask
             case 2:
-                helpDetailVC.helpTypeValue = .tutorialEditAndDeleteTask
+                segueInfo.destination.helpTypeValue = .tutorialEditAndDeleteTask
             case 3:
-                helpDetailVC.helpTypeValue = .whatIsEndTime
+                segueInfo.destination.helpTypeValue = .whatIsEndTime
             case 4:
-                helpDetailVC.helpTypeValue = .tutorialEndTime
+                segueInfo.destination.helpTypeValue = .tutorialEndTime
             case 5:
-                helpDetailVC.helpTypeValue = .whatIsPriority
+                segueInfo.destination.helpTypeValue = .whatIsPriority
             default:
                 break
             }
