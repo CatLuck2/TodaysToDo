@@ -41,7 +41,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
                 if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
                     newItemList = [(CellType.input, ""), (CellType.add, nil)]
                 } else {
-                    for _ in 0...RealmResults.sharedInstance[0].todoList.count-1 {
+                    for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
                         // todoListの要素数だけ、Inputを生成
                         newItemList.append((CellType.input, ""))
                     }
@@ -52,14 +52,14 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         } else {
-            switch RealmResults.sharedInstance[0].todoList.count {
+            switch limitedNumberOfCell {
             case 1: // 設定数が1
                 newItemList = [(CellType.input, "")]
             default: // 設定数が2~5
                 if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
                     newItemList = [(CellType.input, ""), (CellType.add, nil)]
                 } else {
-                    for _ in 0...RealmResults.sharedInstance[0].todoList.count-1 {
+                    for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
                         // todoListの要素数だけ、Inputを生成
                         newItemList.append((CellType.input, ""))
                     }
@@ -73,7 +73,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 
         if RealmResults.sharedInstance.isEmpty == false {
             if RealmResults.sharedInstance[0].todoList.isEmpty == false {
-                for i in 0...RealmResults.sharedInstance[0].todoList.count-1 {
+                for i in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
                     newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
                 }
             }
