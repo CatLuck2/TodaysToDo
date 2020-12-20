@@ -38,9 +38,9 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
 
     // セクションタイトル
     // [[一般],[アラート],[そのほか]]
-    private let settingsSectionTitle = ["タスク", "その他", "タスクデータ削除", "全データ削除"]
+    private let settingsSectionTitle = ["タスク", "その他", "タスクリスト削除", "全データ削除"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクデータを削除"], ["全データを削除"]]
+    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクリストを削除"], ["全データを削除"]]
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
@@ -218,16 +218,16 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
 
-    private func processAfterDeletedData(alertMessage: String)  {
+    private func processAfterDeletedData(alertMessage: String) {
         // 通知類を削除
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
         // 削除したことを通知
         let resultAlert = UIAlertController(title: "削除", message: alertMessage, preferredStyle: .alert)
-        resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
+        resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel) { _ in
             self.settingsTableView.reloadData()
-        }))
+        })
         self.present(resultAlert, animated: true, completion: nil)
     }
 
@@ -241,6 +241,13 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     private func processOfTaskTypeInDidSelectRowAt(taskType: TaskType) {
+        if RealmResults.isEmptyOfTodoList == false {
+            let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+
         guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
             return
         }
