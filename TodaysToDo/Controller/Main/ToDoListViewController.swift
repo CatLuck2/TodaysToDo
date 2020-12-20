@@ -17,6 +17,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
 
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!
+    @IBOutlet private weak var completeButton: UIBarButtonItem!
 
     // ToDoItemCellのデリゲート
     private let notification = NotificationCenter.default
@@ -29,11 +30,37 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // tableView関連
+        todoListTableView.isScrollEnabled = false
+        todoListTableView.delegate = self
+        todoListTableView.dataSource = self
+        todoListTableView.dropDelegate = self
+        todoListTableView.dragDelegate = self
+        todoListTableView.dragInteractionEnabled = true
+        todoListTableView.tableFooterView = UIView()
+        todoListTableView.register(R.nib.newToDoItemCell)
+        todoListTableView.register(R.nib.toDoItemCell)
+
+        // 自動スクロール関連
+        scrollView.delegate = self
+        scrollView.isScrollEnabled = false
+        // キーボードが出現
+        notification.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        // キーボードが非表示
+        notification.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        setupToDoListVC()
+    }
+
+    private func setupToDoListVC() {
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
         limitedNumberOfCell = settingsValueOfTask.numberOfTask
 
         if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
+            self.title = "タスクを追加"
+            completeButton.title = "追加"
+
             switch limitedNumberOfCell {
             case 1: // 設定数が1
                 newItemList = [(CellType.input, "")]
@@ -52,6 +79,9 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         } else {
+            self.title = "タスクを編集"
+            completeButton.title = "更新"
+
             switch limitedNumberOfCell {
             case 1: // 設定数が1
                 newItemList = [(CellType.input, "")]
@@ -76,25 +106,6 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
                 newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
             }
         }
-
-        // tableView関連
-        todoListTableView.isScrollEnabled = false
-        todoListTableView.delegate = self
-        todoListTableView.dataSource = self
-        todoListTableView.dropDelegate = self
-        todoListTableView.dragDelegate = self
-        todoListTableView.dragInteractionEnabled = true
-        todoListTableView.tableFooterView = UIView()
-        todoListTableView.register(R.nib.newToDoItemCell)
-        todoListTableView.register(R.nib.toDoItemCell)
-
-        // 自動スクロール関連
-        scrollView.delegate = self
-        scrollView.isScrollEnabled = false
-        // キーボードが出現
-        notification.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        // キーボードが非表示
-        notification.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     /// キーボード関連
