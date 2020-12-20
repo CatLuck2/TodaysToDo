@@ -7,7 +7,8 @@ target 'TodaysToDo' do
 
   # Pods for TodaysToDo
   pod 'RealmSwift','<= 5.4.0'
-  pod 'SwiftLint'
+  pod 'SwiftLint' 
+  pod 'R.swift', '~> 5.3.1'
 
 end
 
