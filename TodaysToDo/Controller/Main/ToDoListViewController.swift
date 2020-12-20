@@ -159,7 +159,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             inputCell.todoItemTextField.text = itemName
             return inputCell
         case .add:
-            guard let addCell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.newItemcCellID) else {
+            guard let addCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.newAddItemCell.identifier) else {
                 return UITableViewCell()
             }
             return addCell

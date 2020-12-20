@@ -6,18 +6,7 @@
 //
 
 enum IdentifierType {
-    // inputのセルID
-    static let cellForTodoItemID = "todoItemCell"
-    static let cellForSettingsID = "cellForSettingsID"
-    // セルID
-    static let newItemcCellID = "newAddItemCell"
-    static let celllForPopup = "cell"
-    static let cellForHelp = "cellForHelp"
-    static let cellForSettings = "cellForSettings"
-    // segueID
-    static let segueToContact = "settingContact"
-    // storyboardID
-    static let segueToCustomAlert = "segueToCustomAlert"
+    static let cellForPopup = "cell"
     // Realmのモデルで使用するID
     static let realmModelID = "todoList"
     // URL
