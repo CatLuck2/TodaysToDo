@@ -87,8 +87,8 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         todoListTableView.dragDelegate = self
         todoListTableView.dragInteractionEnabled = true
         todoListTableView.tableFooterView = UIView()
-        todoListTableView.register(UINib(nibName: "NewToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.newItemcCellID)
-        todoListTableView.register(UINib(nibName: "ToDoItemCell", bundle: Bundle.main), forCellReuseIdentifier: IdentifierType.cellForTodoItemID)
+        todoListTableView.register(R.nib.newToDoItemCell)
+        todoListTableView.register(R.nib.toDoItemCell)
 
         // 自動スクロール関連
         scrollView.delegate = self
