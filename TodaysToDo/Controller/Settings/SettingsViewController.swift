@@ -112,19 +112,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return settingsMenuTitle[1].count
         case .deleteTask:
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return 0
-            }
-            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
                 return 0
             }
             return settingsMenuTitle[2].count
         case .deleteAll:
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return 0
-            }
-            if RealmResults.sharedInstance[0].taskListDatas.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTaskListDatas {
                 return 0
             }
             return settingsMenuTitle[3].count
@@ -135,18 +129,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         switch section {
         case 2: //タスクデータ削除
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return nil
-            }
-            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
                 return nil
             }
         case 3: //全データ削除
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return nil
-            }
-            if RealmResults.sharedInstance[0].taskListDatas.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTaskListDatas {
                 return nil
             }
         default:

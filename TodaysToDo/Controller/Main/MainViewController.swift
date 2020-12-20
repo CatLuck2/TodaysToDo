@@ -41,19 +41,30 @@ class MainViewController: UIViewController {
 
         // StackViewにタップジェスチャーを追加
         todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
-        if RealmResults.sharedInstance.isEmpty == true {
+        if RealmResults.isEmptyOfDataInRealm {
             // Realmに1度も保存してない
             setTodoListForAdd()
-        } else {
-            // Realmに最低1回は保存したことがある
-            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
-                // タスクリストがない
-                setTodoListForAdd()
-            } else {
-                // 既にデータがある
-                setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
-            }
+            return
         }
+        if RealmResults.isEmptyOfTodoList {
+            // タスクリストがない
+            setTodoListForAdd()
+        } else {
+            // 既にデータがある
+            setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
+        }
+
+//        if RealmResults.sharedInstance.isEmpty == true {
+//
+//        } else {
+//            // Realmに最低1回は保存したことがある
+//            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+//
+//            } else {
+//                // 既にデータがある
+//                setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
+//            }
+//        }
     }
 
     override func viewDidLoad() {

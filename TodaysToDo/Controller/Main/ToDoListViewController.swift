@@ -33,12 +33,12 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         let settingsValueOfTask = sv.readSettingsValue()
         limitedNumberOfCell = settingsValueOfTask.numberOfTask
 
-        if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
+        if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
             switch limitedNumberOfCell {
             case 1: // 設定数が1
                 newItemList = [(CellType.input, "")]
             default: // 設定数が2~5
-                if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
+                if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
                     newItemList = [(CellType.input, ""), (CellType.add, nil)]
                 } else {
                     for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
@@ -56,7 +56,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             case 1: // 設定数が1
                 newItemList = [(CellType.input, "")]
             default: // 設定数が2~5
-                if RealmResults.sharedInstance.isEmpty == true || RealmResults.sharedInstance[0].todoList.isEmpty == true {
+                if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
                     newItemList = [(CellType.input, ""), (CellType.add, nil)]
                 } else {
                     for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
@@ -71,11 +71,9 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
 
-        if RealmResults.sharedInstance.isEmpty == false {
-            if RealmResults.sharedInstance[0].todoList.isEmpty == false {
-                for i in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
-                    newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
-                }
+        if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
+            for i in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
+                newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
             }
         }
 
@@ -297,7 +295,7 @@ class ToDoListViewController: UIViewController, UITableViewDelegate, UITableView
         let realm = try! Realm()
         try! realm.write {
             // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
-            if RealmResults.sharedInstance.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm {
                 // 初回
                 let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
                 let model = ToDoModel(value: newTodoListForRealm)
