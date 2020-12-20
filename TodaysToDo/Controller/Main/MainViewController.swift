@@ -204,7 +204,7 @@ class MainViewController: UIViewController {
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        guard let destinationVC = R.segue.toDoListViewController.unwindToMainVCFromToDoListVC(segue: unwindSegue)?.destination else {
+        guard let destinationVC = R.segue.toDoListViewController.unwindToMainVCFromToDoListVC(segue: unwindSegue)?.source else {
             return
         }
 
