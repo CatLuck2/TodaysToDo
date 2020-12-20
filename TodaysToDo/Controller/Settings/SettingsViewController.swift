@@ -156,7 +156,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettingsID.identifier)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
         guard let sectionType = SectionType(rawValue: indexPath.section) else {
             return cell
         }
