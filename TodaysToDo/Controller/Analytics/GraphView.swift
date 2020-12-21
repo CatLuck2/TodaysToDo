@@ -25,13 +25,13 @@ class GraphView: UIView {
     private var everest: CGFloat = 0
 
     // Graph Styles
-    var showLines = true
-    var showPoints = true
-    var linesColor = UIColor.lightGray
-    var labelFont = UIFont.systemFont(ofSize: 10)
+    private var showLines = true
+    private var showPoints = true
+    private var linesColor = UIColor.lightGray
+    private var labelFont = UIFont.systemFont(ofSize: 10)
 
-    var xMargin: CGFloat = 20
-    var originLabelText: String?
+    private var xMargin: CGFloat = 20
+    private var originLabelText: String?
 
     private var isThereSameDayOfWeek = false
 

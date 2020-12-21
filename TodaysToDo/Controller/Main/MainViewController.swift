@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
     private var request: UNNotificationRequest!
@@ -41,18 +41,17 @@ class MainViewController: UIViewController {
 
         // StackViewにタップジェスチャーを追加
         todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
-        if RealmResults.sharedInstance.isEmpty == true {
+        if RealmResults.isEmptyOfDataInRealm {
             // Realmに1度も保存してない
             setTodoListForAdd()
+            return
+        }
+        if RealmResults.isEmptyOfTodoList {
+            // タスクリストがない
+            setTodoListForAdd()
         } else {
-            // Realmに最低1回は保存したことがある
-            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
-                // タスクリストがない
-                setTodoListForAdd()
-            } else {
-                // 既にデータがある
-                setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
-            }
+            // 既にデータがある
+            setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
         }
     }
 
@@ -180,23 +179,26 @@ class MainViewController: UIViewController {
 
     @objc
     private func setTapGestureInTodoListView(_ sender: UITapGestureRecognizer) {
-        performSegue(withIdentifier: IdentifierType.segueToToDoListVCFromMain, sender: nil)
+        performSegue(withIdentifier: R.segue.mainViewController.toToDoList, sender: nil)
     }
 
     @objc
     private func displayPopup(_ notification: Notification) {
         //ポップアップを表示
-        let storyboard = UIStoryboard(name: "Popup", bundle: nil)
-        let popupVC = storyboard.instantiateViewController(withIdentifier: "segueToPopup") as! PopupViewController
+        guard let popupVC = R.storyboard.popup.instantiateInitialViewController() else {
+            return
+        }
         UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        switch unwindSegue.identifier {
-        case IdentifierType.unwindToMainVCFromToDoListVC://追加画面からunwind
+        if R.segue.toDoListViewController.unwindToMainVCFromToDoListVC(segue: unwindSegue) != nil {
+
             completeTaskNotification()
             self.setTodoListForAdd()
-        case IdentifierType.unwindSegueFromPopupToMain: //ポップアップからunwind
+        }
+
+        if R.segue.popupViewController.unwindSegueFromPopupToMain(segue: unwindSegue) != nil {
             // 今日は既にタスクが終了している
             setEndTaskOfTodayLayout()
             // StackViewのタップジェスチャーを削除
@@ -208,8 +210,6 @@ class MainViewController: UIViewController {
                     todoListStackView.removeGestureRecognizer(recognizer)
                 }
             }
-        default:
-            break
         }
     }
 
