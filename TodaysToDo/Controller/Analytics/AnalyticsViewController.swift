@@ -54,17 +54,15 @@ final class AnalyticsViewController: UIViewController {
 
         for day1 in calendar.getAllDaysOfWeek {
             for day2 in RealmResults.sharedInstance[0].weekList {
-                if calendar.isDate(day1, inSameDayAs: day2.date!) {
-                    // dataの各要素をそれぞれ取り出す
-                    for i in 0..<data.count {
-                        // 取り出した要素のキーと値を取り出す
-                        for eachData in data[i] {
-                            // day1の曜日と合致するか確認
-                            if eachData.key == df.getDayOfWeekByStr(date: day1) {
-                                // 合致した曜日の値を更新
-                                data[i][df.getDayOfWeekByStr(date: day1)] = day2.numberOfCompletedTask
-                            }
-                        }
+                if !calendar.isDate(day1, inSameDayAs: day2.date!) {
+                    continue
+                }
+                // dataの各要素をそれぞれ取り出す
+                for i in 0..<data.count {
+                    // day1の曜日と合致するか確認
+                    if data[i].keys.first == df.getDayOfWeekByStr(date: day1) {
+                        // 合致した曜日の値を更新
+                        data[i][df.getDayOfWeekByStr(date: day1)] = day2.numberOfCompletedTask
                     }
                 }
             }
@@ -79,18 +77,15 @@ final class AnalyticsViewController: UIViewController {
         }
         for day1 in calendar.getAllDaysOfMonth(date: Date()) {
             for day2 in RealmResults.sharedInstance[0].monthList {
-                if calendar.isDate(day1, inSameDayAs: day2.date!) {
-                    // dataの各要素をそれぞれ取り出す
-                    for i in 0..<data.count {
-                        // 取り出した要素のキーと値を取り出す
-                        for eachData in data[i] {
-                            // day1の日と合致するか確認
-                            if eachData.key == df.getDayOfMonthByStr(date: day1) {
-                                // 合致した日の値を更新
-                                data[i][df.getDayOfMonthByStr(date: day1)]
-                                    = day2.numberOfCompletedTask
-                            }
-                        }
+                if !calendar.isDate(day1, inSameDayAs: day2.date!) {
+                    continue
+                }
+                // dataの各要素をそれぞれ取り出す
+                for i in 0..<data.count {
+                    if data[i].keys.first == df.getDayOfMonthByStr(date: day1) {
+                        // 合致した日の値を更新
+                        data[i][df.getDayOfMonthByStr(date: day1)]
+                            = day2.numberOfCompletedTask
                     }
                 }
             }
@@ -108,14 +103,10 @@ final class AnalyticsViewController: UIViewController {
         for monthDate in RealmResults.sharedInstance[0].yearList {
             // dataの各要素をそれぞれ取り出す
             for i in 0..<data.count {
-                // 取り出した要素のキーと値を取り出す
-                for eachData in data[i] {
-                    // day1の日と合致するか確認
-                    if eachData.key == df.getMonthOfYearByStr(date: monthDate.monthOfYear) {
-                        // 合致した日の値を更新
-                        data[i][df.getMonthOfYearByStr(date: monthDate.monthOfYear)]
-                            = monthDate.total
-                    }
+                if data[i].keys.first == df.getMonthOfYearByStr(date: monthDate.monthOfYear) {
+                    // 合致した日の値を更新
+                    data[i][df.getMonthOfYearByStr(date: monthDate.monthOfYear)]
+                        = monthDate.total
                 }
             }
         }
