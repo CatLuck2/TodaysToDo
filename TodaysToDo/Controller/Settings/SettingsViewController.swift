@@ -36,6 +36,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
 
     @IBOutlet private weak var settingsTableView: UITableView!
 
+    private let realm = try! Realm()
     // セクションタイトル
     // [[一般],[アラート],[そのほか]]
     private let settingsSectionTitle = ["タスク", "その他", "タスクリスト削除", "全データ削除"]
@@ -196,18 +197,16 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
             }
             processOfOtherTypeInDidSelectRowAt(otherType: otherType)
         case .deleteTask:
-            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") {
+            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
                 // タスクリストを削除
-                let realm = try! Realm()
                 try! realm.write {
                     RealmResults.sharedInstance[0].todoList.removeAll()
                 }
                 self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
             }
         case .deleteAll:
-            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") {
+            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
                 // Realmの全データを削除
-                let realm = try! Realm()
                 try! realm.write {
                     realm.deleteAll()
                 }

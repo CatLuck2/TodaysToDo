@@ -19,6 +19,7 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var completeButton: UIBarButtonItem!
 
+    private let realm = try! Realm()
     // ToDoItemCellのデリゲート
     private let notification = NotificationCenter.default
     // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
@@ -280,16 +281,17 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         }
 
         // Realmへ保存する
-        let realm = try! Realm()
-        try! realm.write {
-            // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
-            if RealmResults.isEmptyOfDataInRealm {
-                // 初回
-                let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
-                let model = ToDoModel(value: newTodoListForRealm)
+        // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
+        if RealmResults.isEmptyOfDataInRealm {
+            // 初回
+            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
+            let model = ToDoModel(value: newTodoListForRealm)
+            try! realm.write {
                 realm.add(model, update: .all)
-            } else {
-                // 次回
+            }
+        } else {
+            // 次回
+            try! realm.write {
                 RealmResults.sharedInstance[0].todoList.removeAll()
                 RealmResults.sharedInstance[0].todoList.append(objectsIn: textFieldValueArray)
             }
