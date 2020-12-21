@@ -105,48 +105,55 @@ final class PopupViewController: UIViewController {
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(identifier: "UTC")!
 
-        // 今週
-        // 今週の各日付、タスクの日付を比較していく]
+        // 初期化
         try! realm.write {
             RealmResults.sharedInstance[0].weekList.removeAll()
-            for day in calendar.getAllDaysOfWeek {
-                for taskData in RealmResults.sharedInstance[0].taskListDatas {
-                    // 今週の中の日付が存在する？
-                    if calendar.isDate(taskData.date!, inSameDayAs: day) {
-                        RealmResults.sharedInstance[0].weekList.append(taskData)
-                    }
+            RealmResults.sharedInstance[0].monthList.removeAll()
+            RealmResults.sharedInstance[0].yearList.removeAll()
+        }
+
+        // 今週
+        // 今週の各日付、タスクの日付を比較していく
+        for day in calendar.getAllDaysOfWeek {
+            for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                // 今週の中の日付が存在する？
+                if !calendar.isDate(taskData.date!, inSameDayAs: day) {
+                    continue
+                }
+                try! realm.write {
+                    RealmResults.sharedInstance[0].weekList.append(taskData)
                 }
             }
         }
 
         // 今月
-        try! realm.write {
-            RealmResults.sharedInstance[0].monthList.removeAll()
-            for day in calendar.getAllDaysOfMonth(date: Date()) {
-                for taskData in RealmResults.sharedInstance[0].taskListDatas {
-                    // 今週の中の日付が存在する？
-                    if calendar.isDate(taskData.date!, inSameDayAs: day) {
-                        RealmResults.sharedInstance[0].monthList.append(taskData)
-                    }
+        for day in calendar.getAllDaysOfMonth(date: Date()) {
+            for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                // 今週の中の日付が存在する？
+                if !calendar.isDate(taskData.date!, inSameDayAs: day) {
+                    continue
+                }
+                try! realm.write {
+                    RealmResults.sharedInstance[0].monthList.append(taskData)
                 }
             }
         }
 
         // 今年
-        try! realm.write {
-            RealmResults.sharedInstance[0].yearList.removeAll()
-            for month in calendar.getAllMonthsOfYear(date: Date()) {
-                var totalOfInMonth: Int! = 0
-                for taskData in RealmResults.sharedInstance[0].taskListDatas {
-                    // 同じ月が存在する？
-                    if calendar.isDate(month, equalTo: taskData.date!, toGranularity: .month) {
-                        // 合致する月のタスクデータのチェック数を足していく
-                        totalOfInMonth += taskData.numberOfCompletedTask
-                    }
+        for month in calendar.getAllMonthsOfYear(date: Date()) {
+            var totalOfInMonth: Int! = 0
+            for taskData in RealmResults.sharedInstance[0].taskListDatas {
+                // 同じ月が存在する？
+                if !calendar.isDate(month, equalTo: taskData.date!, toGranularity: .month) {
+                    continue
                 }
-                let yearModel = TotalOfCompletedTaskInYear()
-                yearModel.monthOfYear = month
-                yearModel.total = totalOfInMonth
+                // 合致する月のタスクデータのチェック数を足していく
+                totalOfInMonth += taskData.numberOfCompletedTask
+            }
+            let yearModel = TotalOfCompletedTaskInYear()
+            yearModel.monthOfYear = month
+            yearModel.total = totalOfInMonth
+            try! realm.write {
                 RealmResults.sharedInstance[0].yearList.append(yearModel)
             }
         }
