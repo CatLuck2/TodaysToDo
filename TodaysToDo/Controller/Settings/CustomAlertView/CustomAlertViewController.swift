@@ -12,7 +12,7 @@ enum PickerMode {
     case numberOfTask
 }
 
-class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+final class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var messageLabel: UILabel!
@@ -86,7 +86,7 @@ class CustomAlertViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     @IBAction private func okButton(_ sender: UIButton) {
-        performSegue(withIdentifier: IdentifierType.unwindToSettingsVCFromCustomAlert, sender: nil)
+        performSegue(withIdentifier: R.segue.customAlertViewController.unwindToSettingsVCFromCustomAlert, sender: nil)
     }
 
     @IBAction private func cancelButton(_ sender: UIButton) {

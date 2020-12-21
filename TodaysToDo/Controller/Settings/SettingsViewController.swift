@@ -32,15 +32,16 @@ private enum DeleteAllType: Int {
     case deleteAll //全データ削除
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var settingsTableView: UITableView!
 
+    private let realm = try! Realm()
     // セクションタイトル
     // [[一般],[アラート],[そのほか]]
-    private let settingsSectionTitle = ["タスク", "その他", "タスクデータ削除", "全データ削除"]
+    private let settingsSectionTitle = ["タスク", "その他", "タスクリスト削除", "全データ削除"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクデータを削除"], ["全データを削除"]]
+    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクリストを削除"], ["全データを削除"]]
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
@@ -112,19 +113,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             return settingsMenuTitle[1].count
         case .deleteTask:
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return 0
-            }
-            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
                 return 0
             }
             return settingsMenuTitle[2].count
         case .deleteAll:
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return 0
-            }
-            if RealmResults.sharedInstance[0].taskListDatas.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTaskListDatas {
                 return 0
             }
             return settingsMenuTitle[3].count
@@ -135,18 +130,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         switch section {
         case 2: //タスクデータ削除
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return nil
-            }
-            if RealmResults.sharedInstance[0].todoList.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
                 return nil
             }
         case 3: //全データ削除
             // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.sharedInstance.indices.contains(0) == false {
-                return nil
-            }
-            if RealmResults.sharedInstance[0].taskListDatas.isEmpty == true {
+            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTaskListDatas {
                 return nil
             }
         default:
@@ -156,7 +145,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: "cellForSettingsID")
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
         guard let sectionType = SectionType(rawValue: indexPath.section) else {
             return cell
         }
@@ -208,47 +197,40 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             processOfOtherTypeInDidSelectRowAt(otherType: otherType)
         case .deleteTask:
-            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") {
+            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
                 // タスクリストを削除
-                let realm = try! Realm()
                 try! realm.write {
                     RealmResults.sharedInstance[0].todoList.removeAll()
                 }
-                // 通知類を削除
-                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
-                // 削除したことをアラートで表示
-                let resultAlert = UIAlertController(title: "削除", message: "タスクリストを削除しました", preferredStyle: .alert)
-                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
-                    self.settingsTableView.reloadData()
-                }))
-                self.present(resultAlert, animated: true, completion: nil)
+                self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
             }
         case .deleteAll:
-            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") {
+            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
                 // Realmの全データを削除
-                let realm = try! Realm()
                 try! realm.write {
                     realm.deleteAll()
                 }
-                // 通知類を削除
-                UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+                self.processAfterDeletedData(alertMessage: "全データを削除しました")
                 // UserDefaultの日付をデフォルト値にリセット
                 UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
-                // 削除したことを通知
-                let resultAlert = UIAlertController(title: "削除", message: "全データを削除しました", preferredStyle: .alert)
-                resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in
-                    self.settingsTableView.reloadData()
-                }))
-                self.present(resultAlert, animated: true, completion: nil)
             }
         }
     }
 
-    func presentAlertRelatedDeleteTypeInDidSelectRowAt(title: String, message: String, completionOfOkAction: @escaping () -> Void) {
+    private func processAfterDeletedData(alertMessage: String) {
+        // 通知類を削除
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "notification"), object: nil)
+        // 削除したことを通知
+        let resultAlert = UIAlertController(title: "削除", message: alertMessage, preferredStyle: .alert)
+        resultAlert.addAction(UIAlertAction(title: "OK", style: .cancel) { _ in
+            self.settingsTableView.reloadData()
+        })
+        self.present(resultAlert, animated: true, completion: nil)
+    }
+
+    private func presentAlertRelatedDeleteTypeInDidSelectRowAt(title: String, message: String, completionOfOkAction: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .destructive) { _ in
             completionOfOkAction()
@@ -258,8 +240,16 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     private func processOfTaskTypeInDidSelectRowAt(taskType: TaskType) {
-        let storyboard = UIStoryboard(name: "CustomAlert", bundle: nil)
-        let customAlertVC = storyboard.instantiateViewController(withIdentifier: "segueToCustomAlert") as! CustomAlertViewController
+        if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
+            let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+
+        guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
+            return
+        }
 
         switch taskType {
         case .endtimeOfTask:
@@ -276,7 +266,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     private func processOfOtherTypeInDidSelectRowAt(otherType: OtherType) {
         switch otherType {
         case .help:
-            performSegue(withIdentifier: IdentifierType.segueToHelp, sender: nil)
+            performSegue(withIdentifier: R.segue.settingsViewController.settingHelp, sender: nil)
         case .share:
             let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
             guard let shareURL = URL(string: "https://www.apple.com/jp/watch/") else {
@@ -300,7 +290,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {
-        if let customAlertVC = unwindSegue.source as? CustomAlertViewController,
+        if let customAlertVC = R.segue.customAlertViewController.unwindToSettingsVCFromCustomAlert(segue: unwindSegue)?.source,
            let pickerMode = customAlertVC.pickerMode,
            let selectedEndTime = customAlertVC.selectedEndTime,
            let selectedNumber = customAlertVC.selectedNumber {

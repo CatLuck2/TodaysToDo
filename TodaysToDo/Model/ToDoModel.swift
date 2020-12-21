@@ -49,4 +49,28 @@ class TotalOfCompletedTaskInYear: Object {
 // Realmのデータ（全ファイルで共有）
 enum RealmResults {
     static var sharedInstance: Results<ToDoModel> = realm.objects(ToDoModel.self)
+    // Realmに1つでも値か空の変数が保存されてる？
+    static var isEmptyOfDataInRealm: Bool {
+        RealmResults.sharedInstance.isEmpty
+    }
+    // sharedInstance[0]の中に値がある？
+    static var isEmptyOfTodoList: Bool {
+        RealmResults.sharedInstance[0].todoList.isEmpty
+    }
+
+    static var isEmptyOfTaskListDatas: Bool {
+        RealmResults.sharedInstance[0].taskListDatas.isEmpty
+    }
+
+    static var isEmptyOfWeekList: Bool {
+        RealmResults.sharedInstance[0].weekList.isEmpty
+    }
+
+    static var isEmptyOfMonthList: Bool {
+        RealmResults.sharedInstance[0].monthList.isEmpty
+    }
+
+    static var isEmptyOfYearList: Bool {
+        RealmResults.sharedInstance[0].yearList.isEmpty
+    }
 }
