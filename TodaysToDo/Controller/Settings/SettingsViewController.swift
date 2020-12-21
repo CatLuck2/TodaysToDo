@@ -241,7 +241,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     private func processOfTaskTypeInDidSelectRowAt(taskType: TaskType) {
-        if RealmResults.isEmptyOfTodoList == false {
+        if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
             let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)

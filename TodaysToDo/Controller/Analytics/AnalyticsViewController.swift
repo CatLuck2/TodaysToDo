@@ -73,7 +73,6 @@ final class AnalyticsViewController: UIViewController {
     }
 
     private func createMonthDatas() -> [[String: Int]] {
-
         var data = [[String: Int]]()
         for day in calendar.getAllDaysOfMonth(date: Date()) {
             data.append([df.getDayOfMonthByStr(date: day): 0])
