@@ -63,11 +63,11 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
                 newItemList.append((CellType.add, nil))
             }
         } else {
-            for _ in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
+            for _ in 0..<RealmResults.sharedInstance[0].todoList.count {
                 // todoListの要素数だけ、Inputを生成
                 newItemList.append((CellType.input, ""))
             }
-            for i in 0...RealmResults.sharedInstance[0].todoList.count - 1 {
+            for i in 0..<RealmResults.sharedInstance[0].todoList.count {
                 newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
             }
             // 最後にAddを追加
