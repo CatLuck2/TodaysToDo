@@ -192,16 +192,13 @@ final class MainViewController: UIViewController {
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
-        guard let destinationVC = R.segue.toDoListViewController.unwindToMainVCFromToDoListVC(segue: unwindSegue)?.source else {
-            return
-        }
+        if R.segue.toDoListViewController.unwindToMainVCFromToDoListVC(segue: unwindSegue) != nil {
 
-        if destinationVC is ToDoListViewController {
             completeTaskNotification()
             self.setTodoListForAdd()
         }
 
-        if destinationVC is PopupViewController {
+        if R.segue.popupViewController.unwindSegueFromPopupToMain(segue: unwindSegue) != nil {
             // 今日は既にタスクが終了している
             setEndTaskOfTodayLayout()
             // StackViewのタップジェスチャーを削除
