@@ -5,9 +5,18 @@
 //  Created by Nekokichi on 2020/11/05.
 //
 
+enum HelpType {
+    case whatIsTodaysTodo
+    case tutorialCreateTask
+    case tutorialEditAndDeleteTask
+    case whatIsEndTime
+    case tutorialEndTime
+    case whatIsPriority
+}
+
 import UIKit
 
-class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var helpTableView: UITableView!
 
@@ -18,6 +27,15 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
         "タスク終了時刻とは？",
         "タスク終了時刻後の流れ",
         "タスク優先順位とは？"
+    ]
+
+    private let helpTypes: [HelpType] = [
+        .whatIsTodaysTodo,
+        .tutorialCreateTask,
+        .tutorialEditAndDeleteTask,
+        .whatIsEndTime,
+        .tutorialEndTime,
+        .whatIsPriority
     ]
 
     override func viewDidLoad() {
@@ -33,40 +51,28 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForHelp, for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.cellForHelp, for: indexPath) else {
+            return UITableViewCell()
+        }
         cell.textLabel?.text = helpTitles[indexPath.row]
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: IdentifierType.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
+        performSegue(withIdentifier: R.segue.helpViewController.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == IdentifierType.segueToHelpDetail {
-            let helpDetailVC = segue.destination as! HelpDetailViewController
+        if let segueInfo = R.segue.helpViewController.segueToHelpDetail(segue: segue) {
 
-            guard let dataForHelpDetail = sender as? [String: Any] else {
+            guard let dataForHelpDetail = sender as? [String: Any],
+                  let navigationTitle = dataForHelpDetail["naigationTitle"] as? String,
+                  let row = dataForHelpDetail["indexPathRow"] as? Int
+                  else {
                 return
             }
-            helpDetailVC.navigationTitle = dataForHelpDetail["naigationTitle"] as! String
-
-            switch dataForHelpDetail["indexPathRow"] as! Int {
-            case 0:
-                helpDetailVC.helpTypeValue = .whatIsTodaysTodo
-            case 1:
-                helpDetailVC.helpTypeValue = .tutorialCreateTask
-            case 2:
-                helpDetailVC.helpTypeValue = .tutorialEditAndDeleteTask
-            case 3:
-                helpDetailVC.helpTypeValue = .whatIsEndTime
-            case 4:
-                helpDetailVC.helpTypeValue = .tutorialEndTime
-            case 5:
-                helpDetailVC.helpTypeValue = .whatIsPriority
-            default:
-                break
-            }
+            segueInfo.destination.navigationTitle = navigationTitle
+            segueInfo.destination.setHelpTypeValue(helpType: helpTypes[row])
         }
     }
 }

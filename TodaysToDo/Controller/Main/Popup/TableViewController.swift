@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!
@@ -20,7 +20,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        todoListTableView.register(UITableViewCell.self, forCellReuseIdentifier: IdentifierType.celllForPopup)
+        todoListTableView.register(UITableViewCell.self, forCellReuseIdentifier: IdentifierType.cellForPopup)
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         todoListTableView.allowsMultipleSelection = true
@@ -68,26 +68,27 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.celllForPopup, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForPopup, for: indexPath)
         cell.textLabel?.text = RealmResults.sharedInstance[0].todoList[indexPath.row]
         cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
 
-        // チェック可能状態を読み込む
-        if isExecutedPriorityOfTask {
-            if statesOfTasks[indexPath.row] {
-                cell.selectionStyle = .default
-                cell.textLabel?.alpha = 1.0
-            } else {
-                cell.selectionStyle = .none
-                cell.textLabel?.alpha = 0.5
-            }
+        // チェックマーク状態を読み込む
+        if isChecked[indexPath.row] {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
         }
 
-        // チェックマーク状態を読み込む
-        if !isChecked[indexPath.row] {
-            cell.accessoryType = .none
-        } else if isChecked[indexPath.row] {
-            cell.accessoryType = .checkmark
+        // チェック可能状態を読み込む
+        if !isExecutedPriorityOfTask {
+            return cell
+        }
+        if statesOfTasks[indexPath.row] {
+            cell.selectionStyle = .default
+            cell.textLabel?.alpha = 1.0
+        } else {
+            cell.selectionStyle = .none
+            cell.textLabel?.alpha = 0.5
         }
 
         return cell
@@ -95,46 +96,48 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         // チェック可能状態を読み込む
-        if isExecutedPriorityOfTask {
-            if statesOfTasks[indexPath.row] {
-                return indexPath
-            } else {
-                return nil
-            }
+        if !isExecutedPriorityOfTask {
+            return indexPath
         }
-
-        return indexPath
+        if statesOfTasks[indexPath.row] {
+            return indexPath
+        } else {
+            return nil
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
         // チェックマークを付ける/外す
-        if let cell = tableView.cellForRow(at: indexPath) {
-            if cell.accessoryType == .checkmark {
-                // 外す
-                cell.accessoryType = .none
-                isChecked[indexPath.row] = false
-                // タップしたセル以降のセルの各状態をfalseに変更
-                if isExecutedPriorityOfTask {
-                    if statesOfTasks.count - 1 >= indexPath.row + 1 {
-                        for row in indexPath.row + 1...statesOfTasks.count - 1 {
-                            isChecked[row] = false
-                            statesOfTasks[row] = false
-                        }
-                        tableView.reloadData()
-                    }
+        if cell.accessoryType == .checkmark {
+            // 外す
+            cell.accessoryType = .none
+            isChecked[indexPath.row] = false
+            if !isExecutedPriorityOfTask {
+                return
+            }
+            // タップしたセル以降のセルの各状態をfalseに変更
+            if statesOfTasks.count - 1 >= indexPath.row + 1 {
+                for row in indexPath.row + 1...statesOfTasks.count - 1 {
+                    isChecked[row] = false
+                    statesOfTasks[row] = false
                 }
-            } else {
-                // つける
-                cell.accessoryType = .checkmark
-                isChecked[indexPath.row] = true
-                // (indexPath.row + 1)番目のセルをチェック可能にする
-                if isExecutedPriorityOfTask {
-                    if statesOfTasks.count - 1 >= indexPath.row + 1 {
-                        statesOfTasks[indexPath.row + 1] = true
-                        tableView.reloadData()
-                    }
-                }
+                tableView.reloadData()
+            }
+        } else {
+            // つける
+            cell.accessoryType = .checkmark
+            isChecked[indexPath.row] = true
+            if !isExecutedPriorityOfTask {
+                return
+            }
+            // (indexPath.row + 1)番目のセルをチェック可能にする
+            if statesOfTasks.count - 1 >= indexPath.row + 1 {
+                statesOfTasks[indexPath.row + 1] = true
+                tableView.reloadData()
             }
         }
     }
