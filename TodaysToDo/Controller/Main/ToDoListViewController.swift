@@ -72,7 +72,7 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
                 newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
             }
             // 最後にAddを追加
-            if newItemList.count != 5 {
+            if RealmResults.sharedInstance[0].todoList.count < limitedNumberOfCell {
                 newItemList.append((CellType.add, nil))
             }
         }
