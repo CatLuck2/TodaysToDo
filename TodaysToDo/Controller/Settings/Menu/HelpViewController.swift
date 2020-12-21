@@ -5,6 +5,15 @@
 //  Created by Nekokichi on 2020/11/05.
 //
 
+enum HelpType {
+    case whatIsTodaysTodo
+    case tutorialCreateTask
+    case tutorialEditAndDeleteTask
+    case whatIsEndTime
+    case tutorialEndTime
+    case whatIsPriority
+}
+
 import UIKit
 
 final class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -18,6 +27,15 @@ final class HelpViewController: UIViewController, UITableViewDelegate, UITableVi
         "タスク終了時刻とは？",
         "タスク終了時刻後の流れ",
         "タスク優先順位とは？"
+    ]
+
+    private let helpTypes: [HelpType] = [
+        .whatIsTodaysTodo,
+        .tutorialCreateTask,
+        .tutorialEditAndDeleteTask,
+        .whatIsEndTime,
+        .tutorialEndTime,
+        .whatIsPriority
     ]
 
     override func viewDidLoad() {
@@ -47,27 +65,14 @@ final class HelpViewController: UIViewController, UITableViewDelegate, UITableVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let segueInfo = R.segue.helpViewController.segueToHelpDetail(segue: segue) {
 
-            guard let dataForHelpDetail = sender as? [String: Any] else {
+            guard let dataForHelpDetail = sender as? [String: Any],
+                  let navigationTitle = dataForHelpDetail["naigationTitle"] as? String,
+                  let row = dataForHelpDetail["indexPathRow"] as? Int
+                  else {
                 return
             }
-            segueInfo.destination.navigationTitle = dataForHelpDetail["naigationTitle"] as! String
-
-            switch dataForHelpDetail["indexPathRow"] as! Int {
-            case 0:
-                segueInfo.destination.helpTypeValue = .whatIsTodaysTodo
-            case 1:
-                segueInfo.destination.helpTypeValue = .tutorialCreateTask
-            case 2:
-                segueInfo.destination.helpTypeValue = .tutorialEditAndDeleteTask
-            case 3:
-                segueInfo.destination.helpTypeValue = .whatIsEndTime
-            case 4:
-                segueInfo.destination.helpTypeValue = .tutorialEndTime
-            case 5:
-                segueInfo.destination.helpTypeValue = .whatIsPriority
-            default:
-                break
-            }
+            segueInfo.destination.navigationTitle = navigationTitle
+            segueInfo.destination.setHelpTypeValue(helpType: helpTypes[row])
         }
     }
 }
