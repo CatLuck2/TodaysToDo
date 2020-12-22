@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class AnalyticsViewController: UIViewController {
 
@@ -16,6 +18,7 @@ final class AnalyticsViewController: UIViewController {
     @IBOutlet private weak var rateCompletedTaskLabel: UILabel!
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
+    private let dispose = DisposeBag()
     private let df = DateFormatter()
     private var calendar = Calendar.current
     // グラフ
@@ -31,6 +34,11 @@ final class AnalyticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        graphSegment.rx.selectedSegmentIndex.asObservable()
+            .subscribe(onNext: { index in
+                self.processOfSegmentControl(index: index)
+            }).disposed(by: dispose)
 
         calendar.timeZone = TimeZone(identifier: "UTC")!
 
@@ -125,12 +133,12 @@ final class AnalyticsViewController: UIViewController {
         rateCompletedTaskLabel.text = "\(RealmResults.sharedInstance[0].percentOfComplete)%"
     }
 
-    @IBAction private func graphSegment(_ sender: UISegmentedControl) {
+    private func processOfSegmentControl(index: Int) {
         // 既存のグラフを削除
         for view in graphContentView.subviews {
             view.removeFromSuperview()
         }
-        switch graphSegment.selectedSegmentIndex {
+        switch index {
         case 0: //今週
             graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
         case 1: //今月
@@ -142,5 +150,4 @@ final class AnalyticsViewController: UIViewController {
         }
         graphContentView.addSubview(graphView)
     }
-
 }

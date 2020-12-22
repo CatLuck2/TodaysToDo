@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 enum PickerMode {
     case endtimeOfTask
@@ -17,7 +19,10 @@ final class CustomAlertViewController: UIViewController, UIPickerViewDelegate, U
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var messageLabel: UILabel!
     @IBOutlet private weak var pickerView: UIPickerView!
+    @IBOutlet private weak var okButton: UIButton!
+    @IBOutlet private weak var cancelButton: UIButton!
 
+    private let dispose = DisposeBag()
     private var pickerTitleArray: [[Int]] = []
     var pickerMode: PickerMode!
     var selectedEndTime: (Int, Int)!
@@ -49,6 +54,15 @@ final class CustomAlertViewController: UIViewController, UIPickerViewDelegate, U
         super.viewDidLoad()
         pickerView.delegate = self
         pickerView.dataSource = self
+
+        okButton.rx.tap
+            .subscribe(onNext: {
+                self.performSegue(withIdentifier: R.segue.customAlertViewController.unwindToSettingsVCFromCustomAlert, sender: nil)
+            }).disposed(by: dispose)
+        cancelButton.rx.tap
+            .subscribe(onNext: {
+                self.dismiss(animated: true, completion: nil)
+            }).disposed(by: dispose)
     }
 
     func setInitializeFromAnotherVC(pickerMode: PickerMode, selectedEndTime: (Int, Int), selectedNumber: Int) {
@@ -83,14 +97,6 @@ final class CustomAlertViewController: UIViewController, UIPickerViewDelegate, U
         case .none:
             break
         }
-    }
-
-    @IBAction private func okButton(_ sender: UIButton) {
-        performSegue(withIdentifier: R.segue.customAlertViewController.unwindToSettingsVCFromCustomAlert, sender: nil)
-    }
-
-    @IBAction private func cancelButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
     }
 
 }

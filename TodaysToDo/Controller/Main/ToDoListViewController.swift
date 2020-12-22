@@ -7,6 +7,8 @@
 
 import UIKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 private enum CellType {
     case input // タスク名を入力するセル
@@ -18,7 +20,9 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var completeButton: UIBarButtonItem!
+    @IBOutlet private weak var cancelButton: UIBarButtonItem!
 
+    private let dispose = DisposeBag()
     private let realm = try! Realm()
     // ToDoItemCellのデリゲート
     private let notification = NotificationCenter.default
@@ -30,6 +34,15 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        completeButton.rx.tap
+            .subscribe(onNext: {
+                self.completeButtonAction()
+            }).disposed(by: dispose)
+        cancelButton.rx.tap
+            .subscribe(onNext: {
+                self.dismiss(animated: true, completion: nil)
+            }).disposed(by: dispose)
 
         // tableView関連
         todoListTableView.isScrollEnabled = false
@@ -255,7 +268,7 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         newItemList.insert(prefecture, at: destinationPath)
     }
 
-    @IBAction private func addTodoItemButton(_ sender: UIBarButtonItem) {
+    private func completeButtonAction() {
         // タスク未入力の項目があったらアラート
         for num in 0..<newItemList.count {
             let indexPath = IndexPath(row: num, section: 0)
@@ -298,10 +311,6 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         }
 
         performSegue(withIdentifier: R.segue.toDoListViewController.unwindToMainVCFromToDoListVC, sender: nil)
-    }
-
-    @IBAction private func cancelButton(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
     }
 
 }

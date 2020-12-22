@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qUy-3G-LeJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qUy-3G-LeJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -60,9 +61,6 @@
                                                                         <integer key="value" value="5"/>
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
-                                                                <connections>
-                                                                    <action selector="cancelButton:" destination="qUy-3G-LeJ" eventType="touchUpInside" id="jGc-lF-7FL"/>
-                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -88,9 +86,6 @@
                                                                         <integer key="value" value="5"/>
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
-                                                                <connections>
-                                                                    <action selector="okButton:" destination="qUy-3G-LeJ" eventType="touchUpInside" id="yaF-xQ-daZ"/>
-                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -124,7 +119,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cancelButton" destination="HB0-lC-0Sg" id="2F9-Pi-cZp"/>
                         <outlet property="messageLabel" destination="RGB-xq-3mB" id="MaZ-UV-D6E"/>
+                        <outlet property="okButton" destination="Cuf-Un-xvp" id="aoJ-rB-QY3"/>
                         <outlet property="pickerView" destination="oG4-1d-rNx" id="uRS-pD-WYv"/>
                         <outlet property="titleLabel" destination="bMd-ZA-Ot5" id="zo4-xe-JZc"/>
                         <segue destination="7E5-lw-S2i" kind="unwind" identifier="unwindToSettingsVCFromCustomAlert" unwindAction="unwindToSettingVC:" id="GwT-cm-UIr"/>
