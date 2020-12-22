@@ -7,11 +7,23 @@ PODS:
   - Realm/Headers (5.4.0)
   - RealmSwift (5.4.0):
     - Realm (= 5.4.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxOptional (4.1.0):
+    - RxCocoa (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
   - SwiftLint (0.41.0)
 
 DEPENDENCIES:
   - R.swift (~> 5.3.1)
   - RealmSwift (<= 5.4.0)
+  - RxCocoa
+  - RxOptional
+  - RxSwift
   - SwiftLint
 
 SPEC REPOS:
@@ -20,6 +32,10 @@ SPEC REPOS:
     - R.swift.Library
     - Realm
     - RealmSwift
+    - RxCocoa
+    - RxOptional
+    - RxRelay
+    - RxSwift
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -27,8 +43,12 @@ SPEC CHECKSUMS:
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   Realm: 8949757d76e2451a53d727954c607e49c2542b77
   RealmSwift: 0b7d7121e842724188123c6086831ae6d2952050
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
 
-PODFILE CHECKSUM: bca762b888c70e8bd3a2ce77c86966312333adc6
+PODFILE CHECKSUM: e7b2d043d7197327c4afc93e11f4004534a8c797
 
 COCOAPODS: 1.9.3

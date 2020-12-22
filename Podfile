@@ -9,7 +9,9 @@ target 'TodaysToDo' do
   pod 'RealmSwift','<= 5.4.0'
   pod 'SwiftLint' 
   pod 'R.swift', '~> 5.3.1'
-
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxOptional'
 end
 
 post_install do |installer|
