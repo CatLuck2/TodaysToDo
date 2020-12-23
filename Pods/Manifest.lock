@@ -1,4 +1,5 @@
 PODS:
+  - Differentiator (4.0.1)
   - R.swift (5.3.1):
     - R.swift.Library (~> 5.3.0)
   - R.swift.Library (5.3.0)
@@ -10,6 +11,10 @@ PODS:
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
+  - RxDataSources (4.0.1):
+    - Differentiator (~> 4.0)
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
   - RxOptional (4.1.0):
     - RxCocoa (~> 5)
     - RxSwift (~> 5)
@@ -22,33 +27,38 @@ DEPENDENCIES:
   - R.swift (~> 5.3.1)
   - RealmSwift (<= 5.4.0)
   - RxCocoa
+  - RxDataSources
   - RxOptional
   - RxSwift
   - SwiftLint
 
 SPEC REPOS:
   trunk:
+    - Differentiator
     - R.swift
     - R.swift.Library
     - Realm
     - RealmSwift
     - RxCocoa
+    - RxDataSources
     - RxOptional
     - RxRelay
     - RxSwift
     - SwiftLint
 
 SPEC CHECKSUMS:
+  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   R.swift: 56ec7e3aef34b9eee47a659e42462db2c1cc5ac3
   R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
   Realm: 8949757d76e2451a53d727954c607e49c2542b77
   RealmSwift: 0b7d7121e842724188123c6086831ae6d2952050
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
 
-PODFILE CHECKSUM: e7b2d043d7197327c4afc93e11f4004534a8c797
+PODFILE CHECKSUM: 47050f2e790055105d89ad647f1aa0f11f953d65
 
 COCOAPODS: 1.9.3

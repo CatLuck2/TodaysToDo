@@ -12,6 +12,7 @@ target 'TodaysToDo' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxOptional'
+  pod 'RxDataSources'
 end
 
 post_install do |installer|
