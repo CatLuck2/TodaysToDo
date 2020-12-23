@@ -11,43 +11,51 @@ import Accounts
 import SafariServices
 import RxSwift
 import RxCocoa
+import RxDataSources
 
-// セクション用
-private enum SectionType: Int {
-    case task, other, deleteTask, deleteAll //タスク,その他、データ削除、全データ削除
-}
-// タスク用
-private enum TaskType: Int {
-    case endtimeOfTask, numberOfTask, priorityOfTask //終了時刻、設定数、優先順位
-}
-// その他メニュー用
-private enum OtherType: Int {
-    case help, share, developerAccount, contact //ヘルプ、シェア、開発者Twitter、お問い合わせ
-}
-// タスクリスト削除
-private enum DeleteTaskType: Int {
-    case deleteTask //タスクリストを削除
-}
-
-// 全データ削除
-private enum DeleteAllType: Int {
-    case deleteAll //全データ削除
-}
-
-final class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     @IBOutlet private weak var settingsTableView: UITableView!
 
     private let dispose = DisposeBag()
     private let realm = try! Realm()
     // セクションタイトル
-    // [[一般],[アラート],[そのほか]]
     private let settingsSectionTitle = ["タスク", "その他", "タスクリスト削除", "全データ削除"]
     // 各セクションのメニュー
-    private let settingsMenuTitle = [["終了時刻", "設定数", "優先順位"], ["ヘルプ", "共有", "開発者のTwitter", "お問い合わせ"], ["タスクリストを削除"], ["全データを削除"]]
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
+    private lazy var dataSource = RxTableViewSectionedReloadDataSource<SettingsSectionModel>(configureCell: configureCell)
+    private lazy var configureCell:RxTableViewSectionedReloadDataSource<SettingsSectionModel>.ConfigureCell = { [self] (dataSource, tableView, indexPath, _) in
+        let item = dataSource[indexPath]
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
+        cell.textLabel?.text = item.title
+        switch item {
+        case .endtimeOfTask:
+            cell.detailTextLabel?.text = "\(self.endtimeValueOfTask.0):" + self.getStringOfMinutes(number: self.endtimeValueOfTask.1)
+            return cell
+        case .numberOfTask:
+            if let num = self.numberValueOfTask {
+                cell.detailTextLabel?.text = "\(num)"
+            }
+            return cell
+        case .priorityOfTask:
+            let switchView = UISwitch()
+            switchView.addTarget(self, action: #selector(self.toggleSwitchInCell(_:)), for: .valueChanged)
+            // switchViewの初期値
+            switchView.isOn = self.isExecutedPriorityOfTask
+            cell.accessoryView = switchView
+            return cell
+        case .help, .share, .developerAccount, .contact:
+            return cell
+        case .deleteTask:
+            cell.textLabel?.textColor = .red
+            return cell
+        case .deleteAll:
+            cell.textLabel?.textColor = .red
+            return cell
+        }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -63,48 +71,13 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
         settingsTableView.reloadData()
     }
 
+    private var viewModel: SettingsViewModel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        settingsTableView.delegate = self
-        settingsTableView.dataSource = self
+        setupTableView()
+        setupViewModel()
         settingsTableView.tableFooterView = UIView()
-
-        settingsTableView.rx.itemSelected
-            .subscribe(onNext: { [self] indexPath in
-                guard let sectionType = SectionType(rawValue: indexPath.section) else {
-                    return
-                }
-                switch sectionType {
-                case .task:
-                    guard let taskType = TaskType(rawValue: indexPath.row) else {
-                        return
-                    }
-                    processOfTaskTypeInDidSelectRowAt(taskType: taskType)
-                case .other:
-                    guard let otherType = OtherType(rawValue: indexPath.row) else {
-                        return
-                    }
-                    processOfOtherTypeInDidSelectRowAt(otherType: otherType)
-                case .deleteTask:
-                    presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
-                        // タスクリストを削除
-                        try! realm.write {
-                            RealmResults.sharedInstance[0].todoList.removeAll()
-                        }
-                        self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
-                    }
-                case .deleteAll:
-                    presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
-                        // Realmの全データを削除
-                        try! realm.write {
-                            realm.deleteAll()
-                        }
-                        self.processAfterDeletedData(alertMessage: "全データを削除しました")
-                        // UserDefaultの日付をデフォルト値にリセット
-                        UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
-                    }
-                }
-            }).disposed(by: dispose)
     }
 
     private func getStringOfMinutes(number: Int) -> String {
@@ -138,87 +111,96 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
         sv.saveSettingsValue(endTime: self.endtimeValueOfTask, number: self.numberValueOfTask, priority: self.isExecutedPriorityOfTask)
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        settingsSectionTitle.count
+    private func setupViewModel() {
+        viewModel = SettingsViewModel()
+        viewModel.items
+            .bind(to: settingsTableView.rx.items(dataSource: dataSource))
+            .disposed(by: dispose)
+        viewModel.setup()
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionType = SectionType(rawValue: section) else {
-            return 0
+    private func setupTableView() {
+        settingsTableView.rx.setDelegate(self)
+            .disposed(by: dispose)
+        dataSource.titleForHeaderInSection = { dataSource, indexPath in
+            dataSource[indexPath].model.title
         }
-        switch sectionType {
-        case .task:
-            return settingsMenuTitle[0].count
-        case .other:
-            return settingsMenuTitle[1].count
+        settingsTableView.rx.modelSelected(SettingsItem.self)
+            .subscribe(onNext: { [self] model in
+                switch model {
+                case .endtimeOfTask, .numberOfTask, .priorityOfTask,
+                     .help, .share, .developerAccount, .contact:
+                    processOfTaskTypeInModelSelected(item: model)
+                case .deleteTask:
+                    presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
+                        // タスクリストを削除
+                        try! realm.write {
+                            RealmResults.sharedInstance[0].todoList.removeAll()
+                        }
+                        self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
+                    }
+                case .deleteAll:
+                    presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
+                        // Realmの全データを削除
+                        try! realm.write {
+                            realm.deleteAll()
+                        }
+                        self.processAfterDeletedData(alertMessage: "全データを削除しました")
+                        // UserDefaultの日付をデフォルト値にリセット
+                        UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
+                    }
+                }
+            }).disposed(by: dispose)
+    }
+
+    private func processOfTaskTypeInModelSelected(item: SettingsItem) {
+        if item == .endtimeOfTask || item == .numberOfTask || item == .priorityOfTask {
+            if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
+                let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return
+            }
+        }
+        guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
+            return
+        }
+
+        switch item {
+        case .endtimeOfTask:
+            customAlertVC.setInitializeFromAnotherVC(pickerMode: .endtimeOfTask, selectedEndTime: (self.endtimeValueOfTask), selectedNumber: self.numberValueOfTask)
+            UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
+        case .numberOfTask:
+            customAlertVC.setInitializeFromAnotherVC(pickerMode: .numberOfTask, selectedEndTime: (self.endtimeValueOfTask), selectedNumber: self.numberValueOfTask)
+            UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
+        case .priorityOfTask:
+            break
+        case .help:
+            performSegue(withIdentifier: R.segue.settingsViewController.settingHelp, sender: nil)
+        case .share:
+            let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
+            guard let shareURL = URL(string: "https://www.apple.com/jp/watch/") else {
+                return
+            }
+            let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
+            present(activityVc, animated: true, completion: nil)
+        case .developerAccount:
+            guard let webPageURL = URL(string: IdentifierType.urlForDeveloperTwitter) else {
+                return
+            }
+            let webPage = SFSafariViewController(url: webPageURL)
+            present(webPage, animated: true, completion: nil)
+        case .contact:
+            guard let contactPageURL = URL(string: IdentifierType.urlForGoogleForm) else {
+                return
+            }
+            let contactPage = SFSafariViewController(url: contactPageURL)
+            present(contactPage, animated: true, completion: nil)
         case .deleteTask:
-            // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
-                return 0
-            }
-            return settingsMenuTitle[2].count
+            break
         case .deleteAll:
-            // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTaskListDatas {
-                return 0
-            }
-            return settingsMenuTitle[3].count
-        }
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 2: //タスクデータ削除
-            // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
-                return nil
-            }
-        case 3: //全データ削除
-            // Realmに何のデータも無ければ、データ削除のセクションは非表示
-            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTaskListDatas {
-                return nil
-            }
-        default:
             break
         }
-        return settingsSectionTitle[section]
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
-        guard let sectionType = SectionType(rawValue: indexPath.section) else {
-            return cell
-        }
-        switch sectionType {
-        case .task:
-            cell.textLabel?.text = settingsMenuTitle[0][indexPath.row]
-            guard let taskType = TaskType(rawValue: indexPath.row) else {
-                return cell
-            }
-            switch taskType {
-            case .endtimeOfTask:
-                cell.detailTextLabel?.text = "\(endtimeValueOfTask.0):" + getStringOfMinutes(number: endtimeValueOfTask.1)
-            case .numberOfTask:
-                if let num = numberValueOfTask {
-                    cell.detailTextLabel?.text = "\(num)"
-                }
-            case .priorityOfTask:
-                let switchView = UISwitch()
-                switchView.addTarget(self, action: #selector(toggleSwitchInCell(_:)), for: .valueChanged)
-                // switchViewの初期値
-                switchView.isOn = self.isExecutedPriorityOfTask
-                cell.accessoryView = switchView
-            }
-        case .other:
-            cell.textLabel?.text = settingsMenuTitle[1][indexPath.row]
-        case .deleteTask:
-            cell.textLabel?.textColor = .black
-            cell.textLabel?.text = settingsMenuTitle[2][indexPath.row]
-        case .deleteAll:
-            cell.textLabel?.textColor = .red
-            cell.textLabel?.text = settingsMenuTitle[3][indexPath.row]
-        }
-        return cell
     }
 
     private func processAfterDeletedData(alertMessage: String) {
@@ -241,56 +223,6 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
         })
         alert.addAction(UIAlertAction(title: "キャンセル", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
-    }
-
-    private func processOfTaskTypeInDidSelectRowAt(taskType: TaskType) {
-        if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
-            let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            present(alert, animated: true, completion: nil)
-            return
-        }
-
-        guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
-            return
-        }
-
-        switch taskType {
-        case .endtimeOfTask:
-            customAlertVC.setInitializeFromAnotherVC(pickerMode: .endtimeOfTask, selectedEndTime: (self.endtimeValueOfTask), selectedNumber: self.numberValueOfTask)
-            UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
-        case .numberOfTask:
-            customAlertVC.setInitializeFromAnotherVC(pickerMode: .numberOfTask, selectedEndTime: (self.endtimeValueOfTask), selectedNumber: self.numberValueOfTask)
-            UIApplication.topViewController()?.present(customAlertVC, animated: true, completion: nil)
-        case .priorityOfTask:
-            break
-        }
-    }
-
-    private func processOfOtherTypeInDidSelectRowAt(otherType: OtherType) {
-        switch otherType {
-        case .help:
-            performSegue(withIdentifier: R.segue.settingsViewController.settingHelp, sender: nil)
-        case .share:
-            let shareText = "今日のタスクに集中して取り組めるアプリ - TodaysTodo"
-            guard let shareURL = URL(string: "https://www.apple.com/jp/watch/") else {
-                return
-            }
-            let activityVc = UIActivityViewController(activityItems: [shareText, shareURL], applicationActivities: nil)
-            present(activityVc, animated: true, completion: nil)
-        case .developerAccount:
-            guard let webPageURL = URL(string: IdentifierType.urlForDeveloperTwitter) else {
-                return
-            }
-            let webPage = SFSafariViewController(url: webPageURL)
-            present(webPage, animated: true, completion: nil)
-        case .contact:
-            guard let contactPageURL = URL(string: IdentifierType.urlForGoogleForm) else {
-                return
-            }
-            let contactPage = SFSafariViewController(url: contactPageURL)
-            present(contactPage, animated: true, completion: nil)
-        }
     }
 
     @IBAction private func unwindToSettingVC(_ unwindSegue: UIStoryboardSegue) {

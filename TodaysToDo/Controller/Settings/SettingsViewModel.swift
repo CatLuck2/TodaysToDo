@@ -11,7 +11,7 @@ import RxCocoa
 import RxDataSources
 
 class SettingsViewModel {
-    private let items = BehaviorRelay<[SettingsSectionModel]>(value: [])
+    let items = BehaviorRelay<[SettingsSectionModel]>(value: [])
 
     var itemsObservable: Observable<[SettingsSectionModel]> {
         items.asObservable()

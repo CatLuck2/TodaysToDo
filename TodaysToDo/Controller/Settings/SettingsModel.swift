@@ -12,14 +12,39 @@ import RxDataSources
 typealias SettingsSectionModel = SectionModel<SettingsSection, SettingsItem>
 
 enum SettingsSection {
-    case task, other, deleteTask, deleteAll
+    case task
+    case other
+    case deleteTask
+    case deleteAll
+
+    var headerHeight: CGFloat {
+        return 40.0
+    }
+
+    var title: String? {
+        switch self {
+        case .task:
+            return "タスク"
+        case .other:
+            return "その他"
+        case .deleteTask:
+            return "タスクリスト削除"
+        case .deleteAll:
+            return "全データ削除"
+        }
+    }
 }
 
 enum SettingsItem {
     // task
-    case endtimeOfTask, numberOfTask, priorityOfTask
+    case endtimeOfTask
+    case numberOfTask
+    case priorityOfTask
     // other
-    case help, share, developerAccount, contact
+    case help
+    case share
+    case developerAccount
+    case contact
     // deleteTask
     case deleteTask
     // deleteAll
@@ -44,7 +69,7 @@ enum SettingsItem {
         case .deleteTask:
             return "タスクリストを削除"
         case .deleteAll:
-            return "タスクリストを削除"
+            return "全データを削除"
         }
     }
 }
