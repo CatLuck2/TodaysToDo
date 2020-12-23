@@ -18,7 +18,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+final class HelpViewController: UIViewController {
 
     @IBOutlet private weak var helpTableView: UITableView!
 
@@ -31,39 +31,28 @@ final class HelpViewController: UIViewController, UITableViewDelegate, UITableVi
         "タスク終了時刻後の流れ",
         "タスク優先順位とは？"
     ]
-
-    private let helpTypes: [HelpType] = [
+    private let helpTypes = BehaviorRelay<[HelpType]>(value: [
         .whatIsTodaysTodo,
         .tutorialCreateTask,
         .tutorialEditAndDeleteTask,
         .whatIsEndTime,
         .tutorialEndTime,
         .whatIsPriority
-    ]
+    ])
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        helpTableView.delegate = self
-        helpTableView.dataSource = self
         helpTableView.tableFooterView = UIView()
+
+        helpTypes.asObservable()
+            .bind(to: helpTableView.rx.items(cellIdentifier: R.reuseIdentifier.cellForHelp.identifier)) { [self] row, element, cell in
+                cell.textLabel?.text = helpTitles[row]
+            }.disposed(by: dispose)
 
         helpTableView.rx.itemSelected
             .subscribe { [self] indexPath in
                 performSegue(withIdentifier: R.segue.helpViewController.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
             }.disposed(by: dispose)
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        helpTitles.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.cellForHelp, for: indexPath) else {
-            return UITableViewCell()
-        }
-        cell.textLabel?.text = helpTitles[indexPath.row]
-        return cell
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -76,7 +65,7 @@ final class HelpViewController: UIViewController, UITableViewDelegate, UITableVi
                 return
             }
             segueInfo.destination.navigationTitle = navigationTitle
-            segueInfo.destination.setHelpTypeValue(helpType: helpTypes[row])
+            segueInfo.destination.setHelpTypeValue(helpType: helpTypes.value[row])
         }
     }
 }
