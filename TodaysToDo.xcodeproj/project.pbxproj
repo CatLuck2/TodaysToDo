@@ -20,6 +20,8 @@
 		614BCDEF255F8D140068A2CA /* SettingsValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614BCDEE255F8D140068A2CA /* SettingsValue.swift */; };
 		6169D05B253DD9EF0032DA92 /* NewToDoItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */; };
 		6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169D062253E75F70032DA92 /* NewToDoItemCell.swift */; };
+		616CF6FC2593090B00F1F634 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616CF6FB2593090B00F1F634 /* SettingsModel.swift */; };
+		616CF70A25930F9000F1F634 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616CF70925930F9000F1F634 /* SettingsViewModel.swift */; };
 		617FC6E5254B034B005DC7FF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617FC6E3254B034B005DC7FF /* TableViewController.swift */; };
 		617FC6E6254B034B005DC7FF /* TableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 617FC6E4254B034B005DC7FF /* TableViewController.xib */; };
 		618EE4ED2539C6AE0085501C /* IdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618EE4EC2539C6AE0085501C /* IdentifierType.swift */; };
@@ -80,6 +82,8 @@
 		614BCDEE255F8D140068A2CA /* SettingsValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsValue.swift; sourceTree = "<group>"; };
 		6169D059253DD9EF0032DA92 /* NewToDoItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewToDoItemCell.xib; sourceTree = "<group>"; };
 		6169D062253E75F70032DA92 /* NewToDoItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoItemCell.swift; sourceTree = "<group>"; };
+		616CF6FB2593090B00F1F634 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		616CF70925930F9000F1F634 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		617FC6E3254B034B005DC7FF /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		617FC6E4254B034B005DC7FF /* TableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewController.xib; sourceTree = "<group>"; };
 		618EE4EC2539C6AE0085501C /* IdentifierType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierType.swift; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 			isa = PBXGroup;
 			children = (
 				61AF3AD62531F6FE001BE560 /* SettingsViewController.swift */,
+				616CF6FB2593090B00F1F634 /* SettingsModel.swift */,
+				616CF70925930F9000F1F634 /* SettingsViewModel.swift */,
 				614BCDEE255F8D140068A2CA /* SettingsValue.swift */,
 				61E3A29F2553F79C00258DC5 /* Menu */,
 				6193D8AA25568B4A00A148C1 /* CustomAlertView */,
@@ -623,7 +629,9 @@
 				61AF3AD72531F6FE001BE560 /* SettingsViewController.swift in Sources */,
 				6169D063253E75F70032DA92 /* NewToDoItemCell.swift in Sources */,
 				617FC6E5254B034B005DC7FF /* TableViewController.swift in Sources */,
+				616CF6FC2593090B00F1F634 /* SettingsModel.swift in Sources */,
 				613D1A66254713EA00DCCAAB /* PopupViewController.swift in Sources */,
+				616CF70A25930F9000F1F634 /* SettingsViewModel.swift in Sources */,
 				6146318C25734FA0004CC4E6 /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
