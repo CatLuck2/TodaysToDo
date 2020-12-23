@@ -9,6 +9,8 @@ import UIKit
 import RealmSwift
 import Accounts
 import SafariServices
+import RxSwift
+import RxCocoa
 
 // セクション用
 private enum SectionType: Int {
@@ -36,6 +38,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
 
     @IBOutlet private weak var settingsTableView: UITableView!
 
+    private let dispose = DisposeBag()
     private let realm = try! Realm()
     // セクションタイトル
     // [[一般],[アラート],[そのほか]]
@@ -65,6 +68,43 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
         settingsTableView.tableFooterView = UIView()
+
+        settingsTableView.rx.itemSelected
+            .subscribe(onNext: { [self] indexPath in
+                guard let sectionType = SectionType(rawValue: indexPath.section) else {
+                    return
+                }
+                switch sectionType {
+                case .task:
+                    guard let taskType = TaskType(rawValue: indexPath.row) else {
+                        return
+                    }
+                    processOfTaskTypeInDidSelectRowAt(taskType: taskType)
+                case .other:
+                    guard let otherType = OtherType(rawValue: indexPath.row) else {
+                        return
+                    }
+                    processOfOtherTypeInDidSelectRowAt(otherType: otherType)
+                case .deleteTask:
+                    presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
+                        // タスクリストを削除
+                        try! realm.write {
+                            RealmResults.sharedInstance[0].todoList.removeAll()
+                        }
+                        self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
+                    }
+                case .deleteAll:
+                    presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
+                        // Realmの全データを削除
+                        try! realm.write {
+                            realm.deleteAll()
+                        }
+                        self.processAfterDeletedData(alertMessage: "全データを削除しました")
+                        // UserDefaultの日付をデフォルト値にリセット
+                        UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
+                    }
+                }
+            }).disposed(by: dispose)
     }
 
     private func getStringOfMinutes(number: Int) -> String {
@@ -179,42 +219,6 @@ final class SettingsViewController: UIViewController, UITableViewDelegate, UITab
             cell.textLabel?.text = settingsMenuTitle[3][indexPath.row]
         }
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let sectionType = SectionType(rawValue: indexPath.section) else {
-            return
-        }
-        switch sectionType {
-        case .task:
-            guard let taskType = TaskType(rawValue: indexPath.row) else {
-                return
-            }
-            processOfTaskTypeInDidSelectRowAt(taskType: taskType)
-        case .other:
-            guard let otherType = OtherType(rawValue: indexPath.row) else {
-                return
-            }
-            processOfOtherTypeInDidSelectRowAt(otherType: otherType)
-        case .deleteTask:
-            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
-                // タスクリストを削除
-                try! realm.write {
-                    RealmResults.sharedInstance[0].todoList.removeAll()
-                }
-                self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
-            }
-        case .deleteAll:
-            presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
-                // Realmの全データを削除
-                try! realm.write {
-                    realm.deleteAll()
-                }
-                self.processAfterDeletedData(alertMessage: "全データを削除しました")
-                // UserDefaultの日付をデフォルト値にリセット
-                UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)
-            }
-        }
     }
 
     private func processAfterDeletedData(alertMessage: String) {

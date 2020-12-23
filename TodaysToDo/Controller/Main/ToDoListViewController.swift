@@ -55,6 +55,38 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         todoListTableView.register(R.nib.newToDoItemCell)
         todoListTableView.register(R.nib.toDoItemCell)
 
+        todoListTableView.rx.itemSelected
+            .subscribe(onNext: { [self] indexPath in
+                todoListTableView.deselectRow(at: indexPath, animated: true)
+                if newItemList[indexPath.row].0 != .add {
+                    return
+                }
+                // 最大要素数は5つ
+                // inputが3つ以下でinputセルを追加
+                // inputが4つなら、最後尾のinputをaddへ変更
+                if newItemList.count < limitedNumberOfCell {
+                    newItemList.insert((.input, ""), at: indexPath.row)
+                }
+                if newItemList.count == limitedNumberOfCell {
+                    newItemList[indexPath.row] = (CellType.input, "")
+                }
+                todoListTableView.reloadData()
+            }).disposed(by: dispose)
+
+        todoListTableView.rx.itemDeleted
+            .subscribe(onNext: { [self] indexPath in
+                let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
+                // textFieldの初期化
+                // セルの再利用でtextFieldの値が残るのを防ぐため
+                cell.resetTextField()
+                newItemList.remove(at: indexPath.row)
+                // 削除後、CellType.addのセルがあるか
+                if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
+                    newItemList.append((CellType.add, nil))
+                }
+                todoListTableView.reloadData()
+            }).disposed(by: dispose)
+
         // 自動スクロール関連
         scrollView.delegate = self
         scrollView.isScrollEnabled = false
@@ -166,22 +198,6 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
-        if newItemList[indexPath.row].0 == .add {
-            // 最大要素数は5つ
-            // inputが3つ以下でinputセルを追加
-            // inputが4つなら、最後尾のinputをaddへ変更
-            if newItemList.count < limitedNumberOfCell {
-                newItemList.insert((.input, ""), at: indexPath.row)
-            }
-            if newItemList.count == limitedNumberOfCell {
-                newItemList[indexPath.row] = (CellType.input, "")
-            }
-            todoListTableView.reloadData()
-        }
-    }
-
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         // 対象の要素が.addのとき
         if newItemList[indexPath.row].0 == .add {
@@ -192,21 +208,6 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
             return .none
         }
         return .delete
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
-            // textFieldの初期化
-            // セルの再利用でtextFieldの値が残るのを防ぐため
-            cell.resetTextField()
-            newItemList.remove(at: indexPath.row)
-            // 削除後、CellType.addのセルがあるか
-            if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
-                newItemList.append((CellType.add, nil))
-            }
-            tableView.reloadData()
-        }
     }
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

@@ -15,11 +15,14 @@ enum HelpType {
 }
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var helpTableView: UITableView!
 
+    private let dispose = DisposeBag()
     private let helpTitles = [
         "TodayTodoとは？",
         "タスク作成画面の操作方法",
@@ -44,6 +47,11 @@ final class HelpViewController: UIViewController, UITableViewDelegate, UITableVi
         helpTableView.delegate = self
         helpTableView.dataSource = self
         helpTableView.tableFooterView = UIView()
+
+        helpTableView.rx.itemSelected
+            .subscribe { [self] indexPath in
+                performSegue(withIdentifier: R.segue.helpViewController.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
+            }.disposed(by: dispose)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,10 +64,6 @@ final class HelpViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         cell.textLabel?.text = helpTitles[indexPath.row]
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: R.segue.helpViewController.segueToHelpDetail, sender: ["naigationTitle": helpTitles[indexPath.row], "indexPathRow": indexPath.row])
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!
+    private let dispose = DisposeBag()
     // チェックマーク状態の配列
     private var isChecked: [Bool] = []
     // チェック機能がONかどうか
@@ -26,6 +29,43 @@ final class TableViewController: UIViewController, UITableViewDelegate, UITableV
         todoListTableView.allowsMultipleSelection = true
         todoListTableView.isScrollEnabled = false
         todoListTableView.tableFooterView = UIView()
+
+        todoListTableView.rx.itemSelected
+            .subscribe(onNext: { [self] indexPath in
+                todoListTableView.deselectRow(at: indexPath as IndexPath, animated: true)
+                guard let cell = todoListTableView.cellForRow(at: indexPath) else {
+                    return
+                }
+                // チェックマークを付ける/外す
+                if cell.accessoryType == .checkmark {
+                    // 外す
+                    cell.accessoryType = .none
+                    isChecked[indexPath.row] = false
+                    if !isExecutedPriorityOfTask {
+                        return
+                    }
+                    // タップしたセル以降のセルの各状態をfalseに変更
+                    if statesOfTasks.count - 1 >= indexPath.row + 1 {
+                        for row in indexPath.row + 1...statesOfTasks.count - 1 {
+                            isChecked[row] = false
+                            statesOfTasks[row] = false
+                        }
+                        todoListTableView.reloadData()
+                    }
+                } else {
+                    // つける
+                    cell.accessoryType = .checkmark
+                    isChecked[indexPath.row] = true
+                    if !isExecutedPriorityOfTask {
+                        return
+                    }
+                    // (indexPath.row + 1)番目のセルをチェック可能にする
+                    if statesOfTasks.count - 1 >= indexPath.row + 1 {
+                        statesOfTasks[indexPath.row + 1] = true
+                        todoListTableView.reloadData()
+                    }
+                }
+            }).disposed(by: dispose)
 
         // UserDefaultからデータを取得
         let sv = SettingsValue()
@@ -103,42 +143,6 @@ final class TableViewController: UIViewController, UITableViewDelegate, UITableV
             return indexPath
         } else {
             return nil
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
-        guard let cell = tableView.cellForRow(at: indexPath) else {
-            return
-        }
-        // チェックマークを付ける/外す
-        if cell.accessoryType == .checkmark {
-            // 外す
-            cell.accessoryType = .none
-            isChecked[indexPath.row] = false
-            if !isExecutedPriorityOfTask {
-                return
-            }
-            // タップしたセル以降のセルの各状態をfalseに変更
-            if statesOfTasks.count - 1 >= indexPath.row + 1 {
-                for row in indexPath.row + 1...statesOfTasks.count - 1 {
-                    isChecked[row] = false
-                    statesOfTasks[row] = false
-                }
-                tableView.reloadData()
-            }
-        } else {
-            // つける
-            cell.accessoryType = .checkmark
-            isChecked[indexPath.row] = true
-            if !isExecutedPriorityOfTask {
-                return
-            }
-            // (indexPath.row + 1)番目のセルをチェック可能にする
-            if statesOfTasks.count - 1 >= indexPath.row + 1 {
-                statesOfTasks[indexPath.row + 1] = true
-                tableView.reloadData()
-            }
         }
     }
 
