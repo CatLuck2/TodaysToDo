@@ -9,13 +9,9 @@ import UIKit
 import RealmSwift
 import RxSwift
 import RxCocoa
+import RxDataSources
 
-private enum CellType {
-    case input // タスク名を入力するセル
-    case add   // inputのセルを追加するセル
-}
-
-final class ToDoListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
+final class ToDoListViewController: UIViewController, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
 
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!
@@ -23,12 +19,10 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet private weak var cancelButton: UIBarButtonItem!
 
     private let dispose = DisposeBag()
+    private let viewModel = ToDoListViewModel()
     private let realm = try! Realm()
     // ToDoItemCellのデリゲート
     private let notification = NotificationCenter.default
-    // .addの要素でテキストがないことを示すためにnilを設置したく、String?、にした
-    // (0, 1) = (Cell.Type, String?)
-    private var newItemList: [(CellType, String?)]! = []
     private var limitedNumberOfCell: Int!
     private var frameOfSelectedTextField = CGRect(x: 0, y: 0, width: 0, height: 0)
 
@@ -46,46 +40,12 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
 
         // tableView関連
         todoListTableView.isScrollEnabled = false
-        todoListTableView.delegate = self
-        todoListTableView.dataSource = self
         todoListTableView.dropDelegate = self
         todoListTableView.dragDelegate = self
         todoListTableView.dragInteractionEnabled = true
         todoListTableView.tableFooterView = UIView()
         todoListTableView.register(R.nib.newToDoItemCell)
         todoListTableView.register(R.nib.toDoItemCell)
-
-        todoListTableView.rx.itemSelected
-            .subscribe(onNext: { [self] indexPath in
-                todoListTableView.deselectRow(at: indexPath, animated: true)
-                if newItemList[indexPath.row].0 != .add {
-                    return
-                }
-                // 最大要素数は5つ
-                // inputが3つ以下でinputセルを追加
-                // inputが4つなら、最後尾のinputをaddへ変更
-                if newItemList.count < limitedNumberOfCell {
-                    newItemList.insert((.input, ""), at: indexPath.row)
-                }
-                if newItemList.count == limitedNumberOfCell {
-                    newItemList[indexPath.row] = (CellType.input, "")
-                }
-                todoListTableView.reloadData()
-            }).disposed(by: dispose)
-
-        todoListTableView.rx.itemDeleted
-            .subscribe(onNext: { [self] indexPath in
-                let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
-                // textFieldの初期化
-                // セルの再利用でtextFieldの値が残るのを防ぐため
-                cell.resetTextField()
-                newItemList.remove(at: indexPath.row)
-                // 削除後、CellType.addのセルがあるか
-                if newItemList.contains(where: { $0 == (CellType.add, nil) }) == false {
-                    newItemList.append((CellType.add, nil))
-                }
-                todoListTableView.reloadData()
-            }).disposed(by: dispose)
 
         // 自動スクロール関連
         scrollView.delegate = self
@@ -96,6 +56,71 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         notification.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         setupToDoListVC()
+        setupTableView()
+        setupViewModel()
+    }
+
+    private func setupViewModel() {
+        viewModel.itemList
+            .bind(to: todoListTableView.rx.items) { [self] tableView, row, _ in
+                switch viewModel.itemList.value[row].cellType {
+                case .input:
+                    guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell.identifier) as? ToDoItemCell else {
+                        return UITableViewCell()
+                    }
+                    // textFieldの値が変更されるたびに呼ばれる
+                    inputCell.textFieldValueSender = { sender in
+                        // as! String以外でWarningを消す方法がわからなかった
+                        viewModel.itemList.value[row].title = (sender as! String)
+                    }
+                    guard let itemName = viewModel.itemList.value[row].title else {
+                        return inputCell
+                    }
+                    inputCell.todoItemTextField.text = itemName
+                    return inputCell
+                case .add:
+                    guard let addCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.newAddItemCell.identifier) as? NewToDoItemCell else {
+                        return UITableViewCell()
+                    }
+                    return addCell
+                }
+            }.disposed(by: dispose)
+    }
+
+    private func setupTableView() {
+        todoListTableView.rx.setDelegate(self)
+            .disposed(by: dispose)
+        todoListTableView.rx.itemSelected
+            .subscribe(onNext: { [self] indexPath in
+                todoListTableView.deselectRow(at: indexPath, animated: true)
+                if viewModel.itemList.value[indexPath.row].cellType != .add {
+                    return
+                }
+                // 最大要素数は5つ
+                // inputが3つ以下でinputセルを追加
+                // inputが4つなら、最後尾のinputをaddへ変更
+                if viewModel.itemList.value.count < limitedNumberOfCell {
+                    viewModel.itemList.insert(model: ToDoListModel(cellType: .input, title: ""), index: indexPath.row)
+                }
+                if viewModel.itemList.value.count == limitedNumberOfCell {
+                    viewModel.itemList.update(model: ToDoListModel(cellType: .input, title: ""), index: indexPath.row)
+                }
+                todoListTableView.reloadData()
+            }).disposed(by: dispose)
+
+        todoListTableView.rx.itemDeleted
+            .subscribe(onNext: { [self] indexPath in
+                let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
+                // textFieldの初期化
+                // セルの再利用でtextFieldの値が残るのを防ぐため
+                cell.resetTextField()
+                viewModel.itemList.remove(index: indexPath.row)
+                // 削除後、CellType.addのセルがあるか
+                if viewModel.itemList.value.contains(where: { $0.cellType == .add }) == false {
+                    viewModel.itemList.add(model: ToDoListModel(cellType: .add, title: nil))
+                }
+                todoListTableView.reloadData()
+            }).disposed(by: dispose)
     }
 
     private func setupToDoListVC() {
@@ -104,22 +129,25 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         limitedNumberOfCell = settingsValueOfTask.numberOfTask
 
         if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
-            newItemList = [(CellType.input, "")]
+            var initialItemList = [ToDoListModel(cellType: .input, title: "")]
             if limitedNumberOfCell != 1 {
-                newItemList.append((CellType.add, nil))
+                initialItemList.append(ToDoListModel(cellType: .add, title: nil))
             }
+            viewModel.itemList.accept(initialItemList)
         } else {
+            var initialItemList = [ToDoListModel]()
             for _ in 0..<RealmResults.sharedInstance[0].todoList.count {
                 // todoListの要素数だけ、Inputを生成
-                newItemList.append((CellType.input, ""))
+                initialItemList.append(ToDoListModel(cellType: .input, title: ""))
             }
             for i in 0..<RealmResults.sharedInstance[0].todoList.count {
-                newItemList[i].1 = RealmResults.sharedInstance[0].todoList[i]
+                initialItemList[i].title = RealmResults.sharedInstance[0].todoList[i]
             }
             // 最後にAddを追加
             if RealmResults.sharedInstance[0].todoList.count < limitedNumberOfCell {
-                newItemList.append((CellType.add, nil))
+                initialItemList.append(ToDoListModel(cellType: .add, title: nil))
             }
+            viewModel.itemList.accept(initialItemList)
         }
 
         if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
@@ -166,45 +194,13 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         frameOfSelectedTextField = textField.convert(textField.frame, to: self.view)
     }
 
-    /// tableView関連
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        newItemList.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch newItemList[indexPath.row].0 {
-        case .input:
-            guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell, for: indexPath) else {
-                return UITableViewCell()
-            }
-
-            // デリゲートを設定
-            inputCell.customCellDelegate = self
-            // textFieldの値が変更されるたびに呼ばれる
-            inputCell.textFieldValueSender = { sender in
-                // as! String以外でWarningを消す方法がわからなかった
-                self.newItemList[indexPath.row].1 = (sender as! String)
-            }
-            guard let itemName = newItemList[indexPath.row].1 else {
-                return inputCell
-            }
-            inputCell.todoItemTextField.text = itemName
-            return inputCell
-        case .add:
-            guard let addCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.newAddItemCell.identifier) else {
-                return UITableViewCell()
-            }
-            return addCell
-        }
-    }
-
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         // 対象の要素が.addのとき
-        if newItemList[indexPath.row].0 == .add {
+        if viewModel.itemList.value[indexPath.row].cellType == .add {
             return .none
         }
         // 要素が[.input, .add]のとき
-        if newItemList.count == 2 {
+        if viewModel.itemList.value.count == 2 {
             return .none
         }
         return .delete
@@ -212,7 +208,7 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         // 追加用セルのドラッグを禁止
-        if newItemList[indexPath.row] == (CellType.add, nil) {
+        if viewModel.itemList.value[indexPath.row].cellType == .add {
             return [UIDragItem]()
         } else {
             return [dragItem(for: indexPath)]
@@ -221,7 +217,7 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
 
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         // 追加用セルの位置にドロップされないように制限
-        if newItemList[proposedDestinationIndexPath.row] == (CellType.add, nil) {
+        if viewModel.itemList.value[proposedDestinationIndexPath.row].cellType == .add {
             return sourceIndexPath
         } else {
             return proposedDestinationIndexPath
@@ -230,7 +226,7 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
 
     //: ドラッグしたアイテムを返す
     func dragItem(for indexPath: IndexPath) -> UIDragItem {
-        let text = newItemList[indexPath.row].1
+        let text = viewModel.itemList.value[indexPath.row].title
         guard let nsItemProviderWriting = text as NSItemProviderWriting? else {
             return UIDragItem(itemProvider: NSItemProvider(object: "" as NSItemProviderWriting))
         }
@@ -264,14 +260,16 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
 
     private func moveItem(sourcePath: Int, destinationPath: Int) {
         // ドラッグ元のアイテムを削除
-        let prefecture = newItemList.remove(at: sourcePath)
+        var array = viewModel.itemList.value
+        let element = array.remove(at: sourcePath)
         // ドラッグ先にアイテムを挿入
-        newItemList.insert(prefecture, at: destinationPath)
+        array.insert(element, at: destinationPath)
+        viewModel.itemList.accept(array)
     }
 
     private func completeButtonAction() {
         // タスク未入力の項目があったらアラート
-        for num in 0..<newItemList.count {
+        for num in 0..<viewModel.itemList.value.count {
             let indexPath = IndexPath(row: num, section: 0)
             // inputのセルだけをチェック
             if let inputCell = self.todoListTableView.cellForRow(at: indexPath) as? ToDoItemCell, let inputCellText = inputCell.todoItemTextField.text {
@@ -289,7 +287,7 @@ final class ToDoListViewController: UIViewController, UITableViewDelegate, UITab
         let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
         for num in 0..<numberOfCell {
             // String?をiflet文でアンラップ
-            if let todoItemText = newItemList[num].1 {
+            if let todoItemText = viewModel.itemList.value[num].title {
                 textFieldValueArray.append(todoItemText)
             }
         }
