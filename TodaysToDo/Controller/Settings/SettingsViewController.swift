@@ -65,7 +65,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
         self.endtimeValueOfTask = (endTimeOfTaskHour, endtimeOfTaskMinute)
         numberValueOfTask = settingsValueOfTask.numberOfTask
         isExecutedPriorityOfTask = settingsValueOfTask.priorityOfTask
-        settingsTableView.reloadData()
+        viewModel.setup()
     }
 
     private var viewModel: SettingsViewModel!
@@ -134,6 +134,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
                         try! realm.write {
                             RealmResults.sharedInstance[0].todoList.removeAll()
                         }
+                        viewModel.setup()
                         self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
                     }
                 case .deleteAll:
@@ -142,6 +143,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
                         try! realm.write {
                             realm.deleteAll()
                         }
+                        viewModel.setup()
                         self.processAfterDeletedData(alertMessage: "全データを削除しました")
                         // UserDefaultの日付をデフォルト値にリセット
                         UserDefaults.standard.set(Date(timeIntervalSince1970: -1.0), forKey: IdentifierType.dateWhenDidEndTask)

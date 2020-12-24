@@ -22,11 +22,57 @@ class SettingsViewModel {
     }
 
     private func setupItems() {
+        if RealmResults.isEmptyOfDataInRealm {
+            setupWithoutDeleteSection()
+        } else {
+            if RealmResults.isEmptyOfTaskListDatas {
+                if RealmResults.isEmptyOfTodoList {
+                    setupWithoutDeleteSection()
+                } else {
+                    setupWithoutDeleteAllDataSection()
+                }
+            } else {
+                if RealmResults.isEmptyOfTodoList {
+                    setupWithoutDeleteTaskSection()
+                } else {
+                    setupAllSection()
+                }
+            }
+        }
+    }
+
+    private func setupAllSection() {
         let sections: [SettingsSectionModel] = [
             taskSection(),
             otherSection(),
             deleteTaskSection(),
             deleteAllSection()
+        ]
+        items.accept(sections)
+    }
+
+    private func setupWithoutDeleteTaskSection() {
+        let sections: [SettingsSectionModel] = [
+            taskSection(),
+            otherSection(),
+            deleteAllSection()
+        ]
+        items.accept(sections)
+    }
+
+    private func setupWithoutDeleteAllDataSection() {
+        let sections: [SettingsSectionModel] = [
+            taskSection(),
+            otherSection(),
+            deleteTaskSection()
+        ]
+        items.accept(sections)
+    }
+
+    private func setupWithoutDeleteSection() {
+        let sections: [SettingsSectionModel] = [
+            taskSection(),
+            otherSection()
         ]
         items.accept(sections)
     }
