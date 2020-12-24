@@ -17,6 +17,8 @@ jobs:
     - name: Show Xcode version
       run: xcodebuild -version
       # Run build
+    - name: Keychain
+      run: security unlock-keychain -p "jojoyosu"
     - name: Build
       run: xcodebuild 
         -sdk iphonesimulator 
