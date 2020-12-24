@@ -18,15 +18,17 @@ jobs:
       run: xcodebuild -version
       # Run build
     - name: Build
-      run: xcodebuild
-            -scheme TodaysToDo
-            -sdk iphonesimulator
-            -configuration Debug
-            build
+      run: xcodebuild 
+        -sdk iphonesimulator 
+        -configuration Debug build 
       # Run unit test
-    - name: Run tests
-      run: xcodebuild
-            -scheme TodaysToDo
-            -sdk iphonesimulator
-            -destination 'platform=iOS Simulator,name=iPhone 11'
-            clean test
+    - name: Xcode test
+      run: set -o pipefail &&
+        xcodebuild
+        -sdk iphonesimulator
+        -configuration Debug
+        -workspace {TodaysToDo}.xcworkspace
+        -scheme {TodaysToDo}
+        -destination 'platform=iOS Simulator,name=iPhone 11 Pro Max'
+        clean test
+        | bundle exec xcpretty --report html
