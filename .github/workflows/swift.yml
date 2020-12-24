@@ -17,8 +17,14 @@ jobs:
     - name: Show Xcode version
       run: xcodebuild -version
       # Run build
-    - name: Keychain
-      run: security unlock-keychain -p "jojoyosu"
+    - name: Ionic - Prepare Cordova iOS & CocoaPods Dependencies
+      run: |
+          ionic cordova prepare ios --confirm --no-build
+          cd platforms/ios/
+          pod dependencies
+          ionic cordova prepare ios --confirm --no-build
+          pod repo update
+          pod install
     - name: Build
       run: xcodebuild 
         -sdk iphonesimulator 
