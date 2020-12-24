@@ -19,9 +19,6 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     private let dispose = DisposeBag()
     private let realm = try! Realm()
-    // セクションタイトル
-    private let settingsSectionTitle = ["タスク", "その他", "タスクリスト削除", "全データ削除"]
-    // 各セクションのメニュー
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
