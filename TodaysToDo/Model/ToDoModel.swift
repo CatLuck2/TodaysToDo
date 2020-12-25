@@ -9,6 +9,16 @@ import RealmSwift
 
 private var realm = try! Realm()
 
+class TestToDoModel: Object {
+    var todoList = List<String>()
+    var taskListData = TaskListData()
+
+    @objc dynamic var id: Int = 1
+    override class func primaryKey() -> String? {
+        "id"
+    }
+}
+
 class ToDoModel: Object {
     // タスクリスト
     var todoList = List<String>()
