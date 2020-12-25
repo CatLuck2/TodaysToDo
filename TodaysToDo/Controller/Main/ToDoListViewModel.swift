@@ -10,10 +10,24 @@ import RxSwift
 import RxCocoa
 
 class ToDoListViewModel {
+    // セルのタイプ
     let itemList = BehaviorRelay<[ToDoListModel]>(value: [])
-
     var itemListObservable: Observable<[ToDoListModel]> {
         itemList.asObservable()
+    }
+
+    // Realmとのやりとり
+    private let todoLogicModel: ToDoLogicModel
+    var todoObservable: Observable<[TestToDoModel]> {
+        todoLogicModel.todoItemsObservable
+    }
+
+    init(todoLogicModel: ToDoLogicModel) {
+        self.todoLogicModel = todoLogicModel
+    }
+
+    func add(todoList: [String]) {
+        todoLogicModel.addTodoList(todoList: todoList)
     }
 }
 

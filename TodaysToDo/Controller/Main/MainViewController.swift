@@ -7,18 +7,23 @@
 
 import UIKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 final class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
     private var request: UNNotificationRequest!
     private let center = UNUserNotificationCenter.current()
+    // 検証用モデルの取得
+    private var viewModel: MainViewModel!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
-        RealmResults.sharedInstance = realm.objects(ToDoModel.self)
+//        RealmResults.sharedInstance = realm.objects(ToDoModel.self)
+        viewModel = MainViewModel(todoLogicModel: SharedModel.todoListLogicModel)
         // UserDefaultから前回のタスク終了日時を取得
         guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
             return

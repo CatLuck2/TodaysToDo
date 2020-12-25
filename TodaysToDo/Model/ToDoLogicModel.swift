@@ -23,8 +23,15 @@ final class ToDoLogicModel {
 
     init() {
         if realm.objects(TestToDoModel.self).isEmpty == false {
-            let array = Array(realm.objects(TestToDoModel.self))
-            todoItems.accept(array)
+            todoItems.accept(Array(realm.objects(TestToDoModel.self)))
+        }
+    }
+
+    func addTodoList(todoList: [String]) {
+        let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: todoList]
+        let model = TestToDoModel(value: newTodoListForRealm)
+        try! realm.write {
+            realm.add(model, update: .all)
         }
     }
 }

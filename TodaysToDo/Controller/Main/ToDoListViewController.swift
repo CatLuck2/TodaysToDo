@@ -19,15 +19,17 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
     @IBOutlet private weak var cancelButton: UIBarButtonItem!
 
     private let dispose = DisposeBag()
-    private let viewModel = ToDoListViewModel()
     private let realm = try! Realm()
     // ToDoItemCellのデリゲート
     private let notification = NotificationCenter.default
     private var limitedNumberOfCell: Int!
     private var frameOfSelectedTextField = CGRect(x: 0, y: 0, width: 0, height: 0)
+    private var viewModel: ToDoListViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel = ToDoListViewModel(todoLogicModel: SharedModel.todoListLogicModel)
 
         completeButton.rx.tap
             .subscribe(onNext: {
@@ -295,12 +297,16 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         // Realmへ保存する
         // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
         if RealmResults.isEmptyOfDataInRealm {
-            // 初回
-            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
-            let model = ToDoModel(value: newTodoListForRealm)
-            try! realm.write {
-                realm.add(model, update: .all)
-            }
+            // 検証用モデルの追加
+            viewModel.add(todoList: textFieldValueArray)
+//            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
+//            let model = TestToDoModel(value: newTodoListForRealm)
+//            // 初回
+//            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
+//            let model = ToDoModel(value: newTodoListForRealm)
+//            try! realm.write {
+//                realm.add(model, update: .all)
+//            }
         } else {
             // 次回
             try! realm.write {

@@ -11,8 +11,9 @@ private var realm = try! Realm()
 
 class TestToDoModel: Object {
     var todoList = List<String>()
-    var taskListData = TaskListData()
-
+    @objc dynamic var date: Date! = nil
+    @objc dynamic var numberOfTask: Int = 0
+    @objc dynamic var numberOfCompletedTask: Int = 0
     @objc dynamic var id: Int = 1
     override class func primaryKey() -> String? {
         "id"
