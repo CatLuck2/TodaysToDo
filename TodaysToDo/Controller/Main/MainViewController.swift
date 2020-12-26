@@ -16,7 +16,7 @@ final class MainViewController: UIViewController {
     private var request: UNNotificationRequest!
     private let center = UNUserNotificationCenter.current()
     // 検証用モデルの取得
-    private var viewModel: MainViewModel!
+    private var viewModel: MainViewModel! = MainViewModel(todoLogicModel: SharedModel.todoListLogicModel)
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -46,18 +46,31 @@ final class MainViewController: UIViewController {
 
         // StackViewにタップジェスチャーを追加
         todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
-        if RealmResults.isEmptyOfDataInRealm {
+
+        if viewModel.getIsEmptyOfDataInRealm() {
             // Realmに1度も保存してない
             setTodoListForAdd()
             return
         }
-        if RealmResults.isEmptyOfTodoList {
+        if viewModel.getIsEmptyOfTodoList() {
             // タスクリストがない
             setTodoListForAdd()
         } else {
             // 既にデータがある
-            setTodoListForEdit(numberOfItems: RealmResults.sharedInstance[0].todoList.count)
+            setTodoListForEdit(numberOfItems: viewModel.getCountOfTodoList())
         }
+//        if RealmResults.isEmptyOfDataInRealm {
+//            // Realmに1度も保存してない
+//            setTodoListForAdd()
+//            return
+//        }
+//        if RealmResults.isEmptyOfTodoList {
+//            // タスクリストがない
+//            setTodoListForAdd()
+//        } else {
+//            // 既にデータがある
+//            setTodoListForEdit(numberOfItems: viewModel.getCountOfTodoList())
+//        }
     }
 
     override func viewDidLoad() {
@@ -140,6 +153,8 @@ final class MainViewController: UIViewController {
         for subview in subviews {
             subview.removeFromSuperview()
         }
+        // RealmのtodoList
+        let todoList = viewModel.getTodoList()
         // 子要素View(>Label)を生成し、AutoLayoutを設定し、todoListViewに組み込む
         for n in 0..<numberOfItems {
             let view = UIView()
@@ -167,7 +182,8 @@ final class MainViewController: UIViewController {
             view.translatesAutoresizingMaskIntoConstraints = false
 
             let label = UILabel()
-            label.text = RealmResults.sharedInstance[0].todoList[n]
+            label.text = todoList[n]
+//            label.text = RealmResults.sharedInstance[0].todoList[n]
             label.textAlignment = .center
             view.addSubview(label)
 

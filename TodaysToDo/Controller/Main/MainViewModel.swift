@@ -12,11 +12,27 @@ import RxCocoa
 class MainViewModel {
     private let todoLogicModel: ToDoLogicModel
 
-    var todoObservable: Observable<[TestToDoModel]> {
-        todoLogicModel.todoItemsObservable
-    }
-
     init(todoLogicModel: ToDoLogicModel) {
         self.todoLogicModel = todoLogicModel
+    }
+
+    func getCountOfTodoList() -> Int {
+        todoLogicModel.getCount()
+    }
+
+    func getTodoList() -> [String] {
+        todoLogicModel.getTodoList()
+    }
+
+    func getIsEmptyOfDataInRealm() -> Bool {
+        todoLogicModel.isEmptyOfDataInRealm
+    }
+
+    func getIsEmptyOfTodoList() -> Bool {
+        todoLogicModel.isEmptyOfTodoList
+    }
+
+    func getIsEmptyOfTaskListData() -> Bool {
+        todoLogicModel.isEmptyOfTaskListData
     }
 }

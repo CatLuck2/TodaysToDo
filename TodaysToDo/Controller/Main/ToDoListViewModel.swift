@@ -18,9 +18,6 @@ class ToDoListViewModel {
 
     // Realmとのやりとり
     private let todoLogicModel: ToDoLogicModel
-    var todoObservable: Observable<[TestToDoModel]> {
-        todoLogicModel.todoItemsObservable
-    }
 
     init(todoLogicModel: ToDoLogicModel) {
         self.todoLogicModel = todoLogicModel
