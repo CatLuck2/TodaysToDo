@@ -14,11 +14,14 @@ final class PopupViewController: UIViewController {
     @IBOutlet private weak var popupStackView: UIStackView!
     @IBOutlet private weak var popupTopAnchor: NSLayoutConstraint!
     @IBOutlet private weak var popupBottomAnchor: NSLayoutConstraint!
+    private var viewModel: PopupViewModel!
     private let realm = try! Realm()
     private var tableViewController = TableViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel = PopupViewModel(todoLogicModel: SharedModel.todoListLogicModel)
 
         // デバイスの高さに応じて、ポップアップの上端の制約を調整
         switch self.view.frame.height {
@@ -165,8 +168,7 @@ final class PopupViewController: UIViewController {
         UserDefaults.standard.set(Date(), forKey: IdentifierType.dateWhenDidEndTask)
 
         // Realmとのやり取り
-        saveTaskListDataAndAverageToRealm()
-        saveSortedTaskListDataByPeriodsToRealm()
+        viewModel.saveTaskListData(date: DateFormatter().getCurrentDate(), numOfTask: tableViewController.getNumOfTask(), numOfCompletedTask: tableViewController.getNumOfCheckedTask())
 
         performSegue(withIdentifier: R.segue.popupViewController.unwindSegueFromPopupToMain, sender: nil)
     }

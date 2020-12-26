@@ -41,7 +41,17 @@ final class ToDoLogicModel {
         let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: todoList]
         let model = TestToDoModel(value: newTodoListForRealm)
         try! realm.write {
-            realm.add(model, update: .all)
+            realm.add(model)
+        }
+    }
+
+    func saveTaskListData(date: Date, numOfTask: Int, numOfCompletedTask: Int) {
+        let latestNum = todoItems.value.count - 1
+        try! realm.write {
+            todoItems.value[latestNum].todoList.removeAll()
+            todoItems.value[latestNum].date = date
+            todoItems.value[latestNum].numberOfTask = numOfTask
+            todoItems.value[latestNum].numberOfCompletedTask = numOfCompletedTask
         }
     }
 
