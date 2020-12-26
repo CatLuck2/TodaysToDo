@@ -18,6 +18,9 @@ class ToDoListViewModel {
 
     // Realmとのやりとり
     private let todoLogicModel: ToDoLogicModel
+    var testToDoModelObservable: Observable<[TestToDoModel]> {
+        todoLogicModel.todoItemsObservable
+    }
 
     init(todoLogicModel: ToDoLogicModel) {
         self.todoLogicModel = todoLogicModel
@@ -25,6 +28,34 @@ class ToDoListViewModel {
 
     func add(todoList: [String]) {
         todoLogicModel.addTodoList(todoList: todoList)
+    }
+
+    func updateTodoList(todoElement: [String]) {
+        todoLogicModel.updateTodoList(todoElement: todoElement)
+    }
+    
+    func delete(row: Int) {
+        todoLogicModel.deleteElementInTodoList(row: row)
+    }
+
+    func getCountOfTodoList() -> Int {
+        todoLogicModel.getCount()
+    }
+
+    func getTodoList() -> [String] {
+        todoLogicModel.getTodoList()
+    }
+
+    func getIsEmptyOfDataInRealm() -> Bool {
+        todoLogicModel.isEmptyOfDataInRealm
+    }
+
+    func getIsEmptyOfTodoList() -> Bool {
+        todoLogicModel.isEmptyOfTodoList
+    }
+
+    func getIsEmptyOfTaskListData() -> Bool {
+        todoLogicModel.isEmptyOfTaskListData
     }
 }
 

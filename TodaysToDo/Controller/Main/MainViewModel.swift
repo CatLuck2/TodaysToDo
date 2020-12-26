@@ -16,6 +16,10 @@ class MainViewModel {
         self.todoLogicModel = todoLogicModel
     }
 
+    func read() {
+        todoLogicModel.readTestToDoModel()
+    }
+
     func getCountOfTodoList() -> Int {
         todoLogicModel.getCount()
     }

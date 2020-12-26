@@ -17,6 +17,9 @@ enum SharedModel {
 final class ToDoLogicModel {
     private let realm = try! Realm()
     private let todoItems = BehaviorRelay<[TestToDoModel]>(value: [])
+    var todoItemsObservable: Observable<[TestToDoModel]> {
+        todoItems.asObservable()
+    }
     var isEmptyOfDataInRealm: Bool {
         // Realmに1つでも値か空の変数が保存されてる？
         todoItems.value.isEmpty
@@ -39,6 +42,25 @@ final class ToDoLogicModel {
         let model = TestToDoModel(value: newTodoListForRealm)
         try! realm.write {
             realm.add(model, update: .all)
+        }
+    }
+
+    func readTestToDoModel() {
+        todoItems.accept(Array(realm.objects(TestToDoModel.self)))
+    }
+
+    func updateTodoList(todoElement: [String]) {
+        let latestNum = todoItems.value.count - 1
+        try! realm.write {
+            todoItems.value[latestNum].todoList.removeAll()
+            todoItems.value[latestNum].todoList.append(objectsIn: todoElement)
+        }
+    }
+
+    func deleteElementInTodoList(row: Int) {
+        let latestNum = todoItems.value.count - 1
+        try! realm.write {
+            todoItems.value[latestNum].todoList.remove(at: row)
         }
     }
 

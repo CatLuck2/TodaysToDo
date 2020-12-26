@@ -59,18 +59,6 @@ final class MainViewController: UIViewController {
             // 既にデータがある
             setTodoListForEdit(numberOfItems: viewModel.getCountOfTodoList())
         }
-//        if RealmResults.isEmptyOfDataInRealm {
-//            // Realmに1度も保存してない
-//            setTodoListForAdd()
-//            return
-//        }
-//        if RealmResults.isEmptyOfTodoList {
-//            // タスクリストがない
-//            setTodoListForAdd()
-//        } else {
-//            // 既にデータがある
-//            setTodoListForEdit(numberOfItems: viewModel.getCountOfTodoList())
-//        }
     }
 
     override func viewDidLoad() {
@@ -183,7 +171,6 @@ final class MainViewController: UIViewController {
 
             let label = UILabel()
             label.text = todoList[n]
-//            label.text = RealmResults.sharedInstance[0].todoList[n]
             label.textAlignment = .center
             view.addSubview(label)
 
@@ -214,9 +201,13 @@ final class MainViewController: UIViewController {
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
         if R.segue.toDoListViewController.unwindToMainVCFromToDoListVC(segue: unwindSegue) != nil {
-
             completeTaskNotification()
-            self.setTodoListForAdd()
+            viewModel.read()
+            if viewModel.getIsEmptyOfDataInRealm() {
+                self.setTodoListForAdd()
+            } else {
+                self.setTodoListForEdit(numberOfItems: viewModel.getCountOfTodoList())
+            }
         }
 
         if R.segue.popupViewController.unwindSegueFromPopupToMain(segue: unwindSegue) != nil {

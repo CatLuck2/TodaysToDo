@@ -107,7 +107,6 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
                 if viewModel.itemList.value.count == limitedNumberOfCell {
                     viewModel.itemList.update(model: ToDoListModel(cellType: .input, title: ""), index: indexPath.row)
                 }
-                todoListTableView.reloadData()
             }).disposed(by: dispose)
 
         todoListTableView.rx.itemDeleted
@@ -121,7 +120,6 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
                 if viewModel.itemList.value.contains(where: { $0.cellType == .add }) == false {
                     viewModel.itemList.add(model: ToDoListModel(cellType: .add, title: nil))
                 }
-                todoListTableView.reloadData()
             }).disposed(by: dispose)
     }
 
@@ -130,7 +128,7 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         let settingsValueOfTask = sv.readSettingsValue()
         limitedNumberOfCell = settingsValueOfTask.numberOfTask
 
-        if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
+        if viewModel.getIsEmptyOfDataInRealm() || viewModel.getIsEmptyOfTodoList() {
             var initialItemList = [ToDoListModel(cellType: .input, title: "")]
             if limitedNumberOfCell != 1 {
                 initialItemList.append(ToDoListModel(cellType: .add, title: nil))
@@ -138,21 +136,22 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
             viewModel.itemList.accept(initialItemList)
         } else {
             var initialItemList = [ToDoListModel]()
-            for _ in 0..<RealmResults.sharedInstance[0].todoList.count {
+            for _ in 0..<viewModel.getCountOfTodoList() {
                 // todoListの要素数だけ、Inputを生成
                 initialItemList.append(ToDoListModel(cellType: .input, title: ""))
             }
-            for i in 0..<RealmResults.sharedInstance[0].todoList.count {
-                initialItemList[i].title = RealmResults.sharedInstance[0].todoList[i]
+            let todoList = viewModel.getTodoList()
+            for i in 0..<viewModel.getCountOfTodoList() {
+                initialItemList[i].title = todoList[i]
             }
             // 最後にAddを追加
-            if RealmResults.sharedInstance[0].todoList.count < limitedNumberOfCell {
+            if viewModel.getCountOfTodoList() < limitedNumberOfCell {
                 initialItemList.append(ToDoListModel(cellType: .add, title: nil))
             }
             viewModel.itemList.accept(initialItemList)
         }
 
-        if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTodoList {
+        if viewModel.getIsEmptyOfDataInRealm() || viewModel.getIsEmptyOfTodoList() {
             self.title = "タスクを追加"
             completeButton.title = "追加"
         } else {
@@ -205,7 +204,7 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         if viewModel.itemList.value.count == 2 {
             return .none
         }
-        return .delete
+        return .none
     }
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
@@ -296,23 +295,12 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
 
         // Realmへ保存する
         // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
-        if RealmResults.isEmptyOfDataInRealm {
+        if viewModel.getIsEmptyOfDataInRealm() {
             // 検証用モデルの追加
             viewModel.add(todoList: textFieldValueArray)
-//            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
-//            let model = TestToDoModel(value: newTodoListForRealm)
-//            // 初回
-//            let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: textFieldValueArray]
-//            let model = ToDoModel(value: newTodoListForRealm)
-//            try! realm.write {
-//                realm.add(model, update: .all)
-//            }
         } else {
             // 次回
-            try! realm.write {
-                RealmResults.sharedInstance[0].todoList.removeAll()
-                RealmResults.sharedInstance[0].todoList.append(objectsIn: textFieldValueArray)
-            }
+            viewModel.updateTodoList(todoElement: textFieldValueArray)
         }
 
         performSegue(withIdentifier: R.segue.toDoListViewController.unwindToMainVCFromToDoListVC, sender: nil)
