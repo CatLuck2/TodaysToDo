@@ -27,10 +27,6 @@ class SettingsViewModel {
         todoLogicModel.isEmptyOfTodoList
     }
 
-    func getIsEmptyOfTaskListData() -> Bool {
-        todoLogicModel.isEmptyOfTaskListData
-    }
-
     func deleteTodoList() {
         todoLogicModel.deleteTodoList()
     }

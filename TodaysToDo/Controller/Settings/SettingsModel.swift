@@ -5,8 +5,6 @@
 //  Created by Nekokichi on 2020/12/23.
 //
 
-import RxSwift
-import RxCocoa
 import RxDataSources
 
 typealias SettingsSectionModel = SectionModel<SettingsSection, SettingsItem>

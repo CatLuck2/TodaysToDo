@@ -18,10 +18,6 @@ class CustomTabBarViewModel {
         todoLogicModel.isEmptyOfDataInRealm
     }
 
-    func getIsEmptyOfTodoList() -> Bool {
-        todoLogicModel.isEmptyOfTodoList
-    }
-
     func getIsEmptyOfTaskListData() -> Bool {
         todoLogicModel.isEmptyOfTaskListData
     }

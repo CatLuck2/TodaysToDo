@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import RxSwift
-import RxCocoa
 
 class MainViewModel {
     private let todoLogicModel: ToDoLogicModel
@@ -34,9 +32,5 @@ class MainViewModel {
 
     func getIsEmptyOfTodoList() -> Bool {
         todoLogicModel.isEmptyOfTodoList
-    }
-
-    func getIsEmptyOfTaskListData() -> Bool {
-        todoLogicModel.isEmptyOfTaskListData
     }
 }

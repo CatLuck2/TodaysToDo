@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RxSwift
 
 class PopupViewModel {
     private let todoLogicModel: ToDoLogicModel

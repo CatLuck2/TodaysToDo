@@ -53,10 +53,6 @@ class ToDoListViewModel {
     func getIsEmptyOfTodoList() -> Bool {
         todoLogicModel.isEmptyOfTodoList
     }
-
-    func getIsEmptyOfTaskListData() -> Bool {
-        todoLogicModel.isEmptyOfTaskListData
-    }
 }
 
 extension BehaviorRelay where Element: RangeReplaceableCollection {
