@@ -22,13 +22,15 @@ final class ToDoLogicModel {
     }
     var isEmptyOfDataInRealm: Bool {
         // Realmに1つでも値か空の変数が保存されてる？
-        todoItems.value.isEmpty
+        return todoItems.value.isEmpty
     }
     var isEmptyOfTodoList: Bool {
-        todoItems.value[0].todoList.isEmpty
+        let latestNum = todoItems.value.count - 1
+        return todoItems.value[latestNum].todoList.isEmpty
     }
     var isEmptyOfTaskListData: Bool {
-        (todoItems.value[0].numberOfTask == 0)
+        let latestNum = todoItems.value.count - 1
+        return (todoItems.value[latestNum].numberOfTask == 0)
     }
 
     init() {
@@ -67,6 +69,13 @@ final class ToDoLogicModel {
         }
     }
 
+    func deleteTodoList() {
+        let latestNum = todoItems.value.count - 1
+        try! realm.write {
+            todoItems.value[latestNum].todoList.removeAll()
+        }
+    }
+
     func deleteElementInTodoList(row: Int) {
         let latestNum = todoItems.value.count - 1
         try! realm.write {
@@ -74,12 +83,23 @@ final class ToDoLogicModel {
         }
     }
 
+    func deleteAllData() {
+        var array = todoItems.value
+        array.removeAll()
+        todoItems.accept(array)
+        try! realm.write {
+            realm.deleteAll()
+        }
+    }
+
     func getCount() -> Int {
-        todoItems.value[0].todoList.count
+        let latestNum = todoItems.value.count - 1
+        return todoItems.value[latestNum].todoList.count
     }
 
     func getTodoList() -> [String] {
-        Array(todoItems.value[0].todoList)
+        let latestNum = todoItems.value.count - 1
+        return Array(todoItems.value[latestNum].todoList)
     }
 
     func getTestToDoModels() -> [TestToDoModel] {

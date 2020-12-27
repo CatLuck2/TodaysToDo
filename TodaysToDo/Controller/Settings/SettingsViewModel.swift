@@ -17,22 +17,44 @@ class SettingsViewModel {
         items.asObservable()
     }
 
+    let todoLogicModel: ToDoLogicModel = SharedModel.todoListLogicModel
+
+    func getIsEmptyOfDataInRealm() -> Bool {
+        todoLogicModel.isEmptyOfDataInRealm
+    }
+
+    func getIsEmptyOfTodoList() -> Bool {
+        todoLogicModel.isEmptyOfTodoList
+    }
+
+    func getIsEmptyOfTaskListData() -> Bool {
+        todoLogicModel.isEmptyOfTaskListData
+    }
+
+    func deleteTodoList() {
+        todoLogicModel.deleteTodoList()
+    }
+
+    func deleteAllData() {
+        todoLogicModel.deleteAllData()
+    }
+
     func setup() {
         setupItems()
     }
 
     private func setupItems() {
-        if RealmResults.isEmptyOfDataInRealm {
+        if todoLogicModel.isEmptyOfDataInRealm {
             setupWithoutDeleteSection()
         } else {
-            if RealmResults.isEmptyOfTaskListDatas {
-                if RealmResults.isEmptyOfTodoList {
+            if todoLogicModel.isEmptyOfTaskListData {
+                if todoLogicModel.isEmptyOfTodoList {
                     setupWithoutDeleteSection()
                 } else {
                     setupWithoutDeleteAllDataSection()
                 }
             } else {
-                if RealmResults.isEmptyOfTodoList {
+                if todoLogicModel.isEmptyOfTodoList {
                     setupWithoutDeleteTaskSection()
                 } else {
                     setupAllSection()

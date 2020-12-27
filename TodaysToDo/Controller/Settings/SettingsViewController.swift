@@ -131,18 +131,14 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
                 case .deleteTask:
                     presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
                         // タスクリストを削除
-                        try! realm.write {
-                            RealmResults.sharedInstance[0].todoList.removeAll()
-                        }
+                        viewModel.todoLogicModel.deleteTodoList()
                         viewModel.setup()
                         self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
                     }
                 case .deleteAll:
                     presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
                         // Realmの全データを削除
-                        try! realm.write {
-                            realm.deleteAll()
-                        }
+                        viewModel.todoLogicModel.deleteAllData()
                         viewModel.setup()
                         self.processAfterDeletedData(alertMessage: "全データを削除しました")
                         // UserDefaultの日付をデフォルト値にリセット
@@ -154,7 +150,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     private func processOfTaskTypeInModelSelected(item: SettingsItem) {
         if item == .endtimeOfTask || item == .numberOfTask || item == .priorityOfTask {
-            if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
+            if viewModel.todoLogicModel.isEmptyOfDataInRealm && viewModel.todoLogicModel.isEmptyOfTodoList {
                 let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 present(alert, animated: true, completion: nil)
