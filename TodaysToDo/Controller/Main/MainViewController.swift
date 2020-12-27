@@ -7,26 +7,22 @@
 
 import UIKit
 import RealmSwift
-import RxSwift
-import RxCocoa
 
 final class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
-    private var request: UNNotificationRequest!
-    private let center = UNUserNotificationCenter.current()
     // 検証用モデルの取得
-    private var viewModel: MainViewModel! = MainViewModel(todoLogicModel: SharedModel.todoListLogicModel)
+    private var viewModel: MainViewModel!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Realmにデータが保存されてるかを確認
-        let realm = try! Realm()
         viewModel = MainViewModel(todoLogicModel: SharedModel.todoListLogicModel)
         // UserDefaultから前回のタスク終了日時を取得
         guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
             return
         }
+
         // 今日のタスクが終了したかの確認
         if Calendar.current.isDate(Date(), inSameDayAs: beforeDate) {
             // 今日は既にタスクが終了している
@@ -60,75 +56,42 @@ final class MainViewController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        todoListStackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setTapGestureInTodoListView(_:))))
+    private func settingStackView(backgounrdColor: UIColor?, boarderWidth: CGFloat, cornerRadius: CGFloat) {
+        if let color = backgounrdColor {
+            todoListStackView.backgroundColor = color
+        }
+        todoListStackView.layer.borderWidth = boarderWidth
+        todoListStackView.layer.cornerRadius = cornerRadius
+    }
+
+    private func deleteAllSubViewInStackView() {
+        let subviews = todoListStackView.subviews
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
     }
 
     // タスク終了後のレイアウトを構築
     private func setEndTaskOfTodayLayout() {
+        deleteAllSubViewInStackView()
         if #available(iOS 14, *) {
-            todoListStackView.backgroundColor = .white
-            todoListStackView.layer.borderWidth = 0
-            todoListStackView.layer.cornerRadius = 0
+            settingStackView(backgounrdColor: .white, boarderWidth: 0, cornerRadius: 0)
         }
         todoListStackView.spacing = 30.0
         // todoListStackViewの子要素を全て削除
-        let subviews = todoListStackView.subviews
-        for subview in subviews {
-            subview.removeFromSuperview()
-        }
-
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "タスク終了画像")
-        imageView.contentMode = .scaleToFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0 / 1.2).isActive = true
-
-        let textView = UITextView()
-        textView.textAlignment = .center
-        textView.font = UIFont.boldSystemFont(ofSize: 15)
-        textView.text = "本日のタスクは終了しました。"
-        textView.isScrollEnabled = false
-
-        todoListStackView.addArrangedSubview(imageView)
-        todoListStackView.addArrangedSubview(textView)
+        todoListStackView.addArrangedSubview(viewModel.getUIsForEndTask().0)
+        todoListStackView.addArrangedSubview(viewModel.getUIsForEndTask().1)
     }
 
     // タスクリストのレイアウトを調整
     private func setTodoListForAdd() {
-        // todoListStackViewの子要素を全て削除l
-        let subviews = todoListStackView.subviews
-        for subview in subviews {
-            subview.removeFromSuperview()
-        }
-        let view = UIView()
+        // todoListStackViewの子要素を全て削除
+        deleteAllSubViewInStackView()
         if #available(iOS 14, *) {
-            todoListStackView.backgroundColor = .lightGray
-            todoListStackView.layer.borderWidth = 1
-            todoListStackView.layer.cornerRadius = 5
-        } else {
-            view.backgroundColor = .lightGray
-            view.layer.borderWidth = 1
-            view.layer.cornerRadius = 5
+            settingStackView(backgounrdColor: .lightGray, boarderWidth: 1, cornerRadius: 5)
         }
         todoListStackView.spacing = 0
-        view.heightAnchor.constraint(equalToConstant: 59).isActive = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        let label = UILabel()
-        label.text = "タスクを追加"
-        label.textAlignment = .center
-        view.addSubview(label)
-
-        // AutoLayout
-        label.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true
-        label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
-        view.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 8).isActive = true
-
-        todoListStackView.addArrangedSubview(view)
+        todoListStackView.addArrangedSubview(viewModel.getUIsForAdd())
     }
 
     private func setTodoListForEdit(numberOfItems: Int) {
@@ -136,51 +99,17 @@ final class MainViewController: UIViewController {
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
         // todoListStackViewの子要素を全て削除
-        let subviews = todoListStackView.subviews
-        for subview in subviews {
-            subview.removeFromSuperview()
-        }
-        // RealmのtodoList
-        let todoList = viewModel.getTodoList()
-        // 子要素View(>Label)を生成し、AutoLayoutを設定し、todoListViewに組み込む
-        for n in 0..<numberOfItems {
-            let view = UIView()
-            // 優先機能はON?
-            if settingsValueOfTask.priorityOfTask {
-                // viewの背景色にヒートマップ的な色を指定
-                let rgbPercentage: CGFloat = ((CGFloat(n) / CGFloat(numberOfItems)))
-                view.backgroundColor = UIColor(red: 1.0, green: rgbPercentage, blue: 0.0, alpha: 1)
-                view.layer.cornerRadius = 5
-            } else {
-                if #available(iOS 14, *) {
-                    todoListStackView.backgroundColor = .lightGray
-                } else {
-                    view.backgroundColor = .lightGray
-                }
-            }
+        deleteAllSubViewInStackView()
+        if settingsValueOfTask.priorityOfTask {} else {
             if #available(iOS 14, *) {
-                todoListStackView.layer.borderWidth = 1
-                todoListStackView.layer.cornerRadius = 5
-            } else {
-                view.layer.borderWidth = 1
-                view.layer.cornerRadius = 5
+                todoListStackView.backgroundColor = .lightGray
             }
-            view.heightAnchor.constraint(equalToConstant: 59).isActive = true
-            view.translatesAutoresizingMaskIntoConstraints = false
-
-            let label = UILabel()
-            label.text = todoList[n]
-            label.textAlignment = .center
-            view.addSubview(label)
-
-            // AutoLayout
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-            label.translatesAutoresizingMaskIntoConstraints = false
-            view.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8).isActive = true
-            view.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 8).isActive = true
-
-            todoListStackView.addArrangedSubview(view)
+        }
+        if #available(iOS 14, *) {
+            settingStackView(backgounrdColor: nil, boarderWidth: 1, cornerRadius: 5)
+        }
+        for n in 0..<numberOfItems {
+            todoListStackView.addArrangedSubview(viewModel.getUIsForEditTask(numberOfItems: numberOfItems, numberOfItem: n))
         }
     }
 
@@ -196,6 +125,32 @@ final class MainViewController: UIViewController {
             return
         }
         UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
+    }
+
+    private func completeTaskNotification() {
+        var request: UNNotificationRequest!
+        let center = UNUserNotificationCenter.current()
+        // UNUserNotificationを登録
+        // UserDefaultから設定項目の値を取得
+        let sv = SettingsValue()
+        let settingsValueOfTask = sv.readSettingsValue()
+        guard let endTimeOfTaskHour = settingsValueOfTask.endTimeOfTask.x, let endTimeOfTaskMinute = settingsValueOfTask.endTimeOfTask.y else {
+            return
+        }
+        let triggerDate = DateComponents(hour: endTimeOfTaskHour, minute: endTimeOfTaskMinute)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
+        content.title = "タスク完了日時になりました"
+        content.body = "達成できたタスクをチェックしましょう"
+        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: trigger)
+        center.add(request) { (error: Error?) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        // Notificationを登録
+        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
@@ -224,48 +179,4 @@ final class MainViewController: UIViewController {
         }
     }
 
-    func completeTaskNotification() {
-        // UNUserNotificationを登録
-        // UserDefaultから設定項目の値を取得
-        let sv = SettingsValue()
-        let settingsValueOfTask = sv.readSettingsValue()
-        guard let endTimeOfTaskHour = settingsValueOfTask.endTimeOfTask.x, let endTimeOfTaskMinute = settingsValueOfTask.endTimeOfTask.y else {
-            return
-        }
-        let triggerDate = DateComponents(hour: endTimeOfTaskHour, minute: endTimeOfTaskMinute)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
-        let content = UNMutableNotificationContent()
-        content.sound = UNNotificationSound.default
-        content.title = "タスク完了日時になりました"
-        content.body = "達成できたタスクをチェックしましょう"
-        request = UNNotificationRequest(identifier: "CalendarNotification", content: content, trigger: trigger)
-        center.add(request) { (error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-        // Notificationを登録
-        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
-    }
-}
-
-extension UIApplication {
-    // RootViewController -> CustomTabBarController
-    // -> tab.selectedViewController -> MainViewController
-    // -> base?.presentedViewController -> UINavigationController
-    // -> UINavigationController.visibleViewController -> ToDoListEditViewController
-    class func topViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return topViewController(base: nav.visibleViewController)
-        }
-        if let tab = base as? UITabBarController {
-            if let selected = tab.selectedViewController {
-                return topViewController(base: selected)
-            }
-        }
-        if let presented = base?.presentedViewController {
-            return topViewController(base: presented)
-        }
-        return base
-    }
 }

@@ -150,11 +150,13 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     private func processOfTaskTypeInModelSelected(item: SettingsItem) {
         if item == .endtimeOfTask || item == .numberOfTask || item == .priorityOfTask {
-            if viewModel.todoLogicModel.isEmptyOfDataInRealm && viewModel.todoLogicModel.isEmptyOfTodoList {
-                let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
-                return
+            if !viewModel.todoLogicModel.isEmptyOfDataInRealm {
+                if !viewModel.todoLogicModel.isEmptyOfTodoList {
+                    let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    present(alert, animated: true, completion: nil)
+                    return
+                }
             }
         }
         guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
