@@ -7,12 +7,15 @@
 
 import UIKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 final class MainViewController: UIViewController {
 
     @IBOutlet private weak var todoListStackView: UIStackView!
     // 検証用モデルの取得
     private var viewModel: MainViewModel!
+    private let dispose = DisposeBag()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -118,15 +121,6 @@ final class MainViewController: UIViewController {
         performSegue(withIdentifier: R.segue.mainViewController.toToDoList, sender: nil)
     }
 
-    @objc
-    private func displayPopup(_ notification: Notification) {
-        //ポップアップを表示
-        guard let popupVC = R.storyboard.popup.instantiateInitialViewController() else {
-            return
-        }
-        UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
-    }
-
     private func completeTaskNotification() {
         var request: UNNotificationRequest!
         let center = UNUserNotificationCenter.current()
@@ -150,7 +144,14 @@ final class MainViewController: UIViewController {
             }
         }
         // Notificationを登録
-        NotificationCenter.default.addObserver(self, selector: #selector(displayPopup), name: Notification.Name(rawValue: "notification"), object: nil)
+        NotificationCenter.default.rx.notification(Notification.Name(rawValue: "notification"))
+            .subscribe { _ in
+                //ポップアップを表示
+                guard let popupVC = R.storyboard.popup.instantiateInitialViewController() else {
+                    return
+                }
+                UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
+            }.disposed(by: dispose)
     }
 
     @IBAction private func unwindToMainVC(_ unwindSegue: UIStoryboardSegue) {
