@@ -11,7 +11,8 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-final class ToDoListViewController: UIViewController, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate, customCellDelagete {
+final class ToDoListViewController: UIViewController, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate {
+
 
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!
@@ -20,8 +21,6 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
 
     private let dispose = DisposeBag()
     private let realm = try! Realm()
-    // ToDoItemCellのデリゲート
-    private let notification = NotificationCenter.default
     private var limitedNumberOfCell: Int!
     private var frameOfSelectedTextField = CGRect(x: 0, y: 0, width: 0, height: 0)
     private var viewModel: ToDoListViewModel!
@@ -30,15 +29,6 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         super.viewDidLoad()
 
         viewModel = ToDoListViewModel(todoLogicModel: SharedModel.todoListLogicModel)
-
-        completeButton.rx.tap
-            .subscribe(onNext: {
-                self.completeButtonAction()
-            }).disposed(by: dispose)
-        cancelButton.rx.tap
-            .subscribe(onNext: {
-                self.dismiss(animated: true, completion: nil)
-            }).disposed(by: dispose)
 
         // tableView関連
         todoListTableView.isScrollEnabled = false
@@ -53,13 +43,35 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         scrollView.delegate = self
         scrollView.isScrollEnabled = false
         // キーボードが出現
-        notification.addObserver(self, selector: #selector(keyboardWillAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        // キーボードが非表示
-        notification.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+            .subscribe(onNext: { [self] notification in
+                let overlap = viewModel.getOverlapOfKeyboard(notification: notification, frame: frameOfSelectedTextField)
+                if overlap >= 0 {
+                    scrollView.contentOffset.y = overlap + 50
+                }
+            }).disposed(by: dispose)
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .subscribe(onNext: { [self] _ in
+                // 画面の位置を元に戻す
+                scrollView.contentOffset.y = 0
+            }).disposed(by: dispose)
 
         setupToDoListVC()
+        setupBarButton()
         setupTableView()
         setupViewModel()
+    }
+
+    func setupBarButton() {
+        completeButton.rx.tap
+            .subscribe(onNext: {
+                self.completeButtonAction()
+            }).disposed(by: dispose)
+
+        cancelButton.rx.tap
+            .subscribe(onNext: {
+                self.dismiss(animated: true, completion: nil)
+            }).disposed(by: dispose)
     }
 
     private func setupViewModel() {
@@ -67,18 +79,32 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
             .bind(to: todoListTableView.rx.items) { [self] tableView, row, _ in
                 switch viewModel.itemList.value[row].cellType {
                 case .input:
-                    guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell.identifier) as? ToDoItemCell else {
-                        return UITableViewCell()
-                    }
-                    // textFieldの値が変更されるたびに呼ばれる
-                    inputCell.textFieldValueSender = { sender in
-                        // as! String以外でWarningを消す方法がわからなかった
-                        viewModel.itemList.value[row].title = (sender as! String)
-                    }
-                    guard let itemName = viewModel.itemList.value[row].title else {
-                        return inputCell
-                    }
-                    inputCell.todoItemTextField.text = itemName
+                    guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell.identifier) as? ToDoItemCell else {               return UITableViewCell() }
+                    // textFieldの座標を計算
+                    inputCell.todoItemTextField.rx.controlEvent(.editingDidBegin).asDriver()
+                        .drive(onNext: { _ in
+                            frameOfSelectedTextField = inputCell.todoItemTextField.convert(inputCell.todoItemTextField.frame, to: self.view)
+                        }).disposed(by: dispose)
+                    // viewModelのitemListへ代入
+                    inputCell.todoItemTextField.rx.controlEvent(.editingChanged).asDriver()
+                        .drive(onNext: { _ in
+                            guard let text = inputCell.todoItemTextField.text else { return }
+                            viewModel.itemList.value[row].title = text
+                        }).disposed(by: dispose)
+                    // フォーカス中のtextFieldを監視
+                    inputCell.todoItemTextField.rx.text.asObservable()
+                        .subscribe(onNext: { text in
+                            guard let text = text else { return }
+                            if text.isEmpty { completeButton.isEnabled = false }
+                        }).disposed(by: dispose)
+                    // 空のtextFieldを監視
+                    inputCell.todoItemTextField.rx.controlEvent(.editingDidEnd).asDriver()
+                        .drive(onNext: { _ in
+                            if viewModel.isThereEmptyTitle() { completeButton.isEnabled = false } else {
+                                completeButton.isEnabled = true
+                            }
+                        }).disposed(by: dispose)
+                    inputCell.todoItemTextField.text = viewModel.itemList.value[row].title
                     return inputCell
                 case .add:
                     guard let addCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.newAddItemCell.identifier) as? NewToDoItemCell else {
@@ -111,6 +137,13 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
 
         todoListTableView.rx.itemDeleted
             .subscribe(onNext: { [self] indexPath in
+                if viewModel.itemList.value[indexPath.row].cellType == .add {
+                    return
+                }
+                // 要素が[.input, .add]のとき
+                if viewModel.itemList.value.count == 2 {
+                    return
+                }
                 let cell = self.todoListTableView.cellForRow(at: indexPath) as! ToDoItemCell
                 // textFieldの初期化
                 // セルの再利用でtextFieldの値が残るのを防ぐため
@@ -127,29 +160,7 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         let sv = SettingsValue()
         let settingsValueOfTask = sv.readSettingsValue()
         limitedNumberOfCell = settingsValueOfTask.numberOfTask
-
-        if viewModel.getIsEmptyOfDataInRealm() || viewModel.getIsEmptyOfTodoList() {
-            var initialItemList = [ToDoListModel(cellType: .input, title: "")]
-            if limitedNumberOfCell != 1 {
-                initialItemList.append(ToDoListModel(cellType: .add, title: nil))
-            }
-            viewModel.itemList.accept(initialItemList)
-        } else {
-            var initialItemList = [ToDoListModel]()
-            for _ in 0..<viewModel.getCountOfTodoList() {
-                // todoListの要素数だけ、Inputを生成
-                initialItemList.append(ToDoListModel(cellType: .input, title: ""))
-            }
-            let todoList = viewModel.getTodoList()
-            for i in 0..<viewModel.getCountOfTodoList() {
-                initialItemList[i].title = todoList[i]
-            }
-            // 最後にAddを追加
-            if viewModel.getCountOfTodoList() < limitedNumberOfCell {
-                initialItemList.append(ToDoListModel(cellType: .add, title: nil))
-            }
-            viewModel.itemList.accept(initialItemList)
-        }
+        viewModel.setupItemList(limitedNumberOfCell: limitedNumberOfCell)
 
         if viewModel.getIsEmptyOfDataInRealm() || viewModel.getIsEmptyOfTodoList() {
             self.title = "タスクを追加"
@@ -160,53 +171,30 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         }
     }
 
-    /// キーボード関連
-    @objc
-    func keyboardWillAppear(_ notification: Notification) {
-        // キーボードの情報を取得
-        guard let keyboardInfo = notification.userInfo else {
-            return
+    private func completeButtonAction() {
+        // newItemListからテキストを取り出す
+        var textFieldValueArray: [String] = []
+        for num in 0..<viewModel.itemList.value.count {
+            // String?をiflet文でアンラップ
+            if let todoItemText = viewModel.itemList.value[num].title {
+                textFieldValueArray.append(todoItemText)
+            }
         }
-        // キーボードのFrameを取得
-        let keyboardFrame = (keyboardInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        // textFieldの上端のy
-        let screenHeight = UIScreen.main.bounds.height
-        let textFieldTopY = screenHeight - keyboardFrame.size.height
-        // textFieldの下端のy
-        let originY = frameOfSelectedTextField.origin.y
-        let height = frameOfSelectedTextField.height
-        let textFieldBottomY = originY + height
-        // textFieldとキーボードが重なる領域
-        let overlap = textFieldBottomY - textFieldTopY
-        // 重なってなければ、スクロール
-        if overlap >= 0 {
-            scrollView.contentOffset.y = overlap + 50
+
+        // Realmへ保存する
+        // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
+        if viewModel.getIsEmptyOfDataInRealm() {
+            // 検証用モデルの追加
+            viewModel.add(todoList: textFieldValueArray)
+        } else {
+            // 次回
+            viewModel.updateTodoList(todoElement: textFieldValueArray)
         }
+
+        performSegue(withIdentifier: R.segue.toDoListViewController.unwindToMainVCFromToDoListVC, sender: nil)
     }
 
-    @objc
-    func keyboardWillHide(_ notification: Notification) {
-        // 画面の位置を元に戻す
-        scrollView.contentOffset.y = 0
-    }
-
-    /// デリゲートメソッド
-    func textFieldDidSelected(_ textField: UITextField) {
-        frameOfSelectedTextField = textField.convert(textField.frame, to: self.view)
-    }
-
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        // 対象の要素が.addのとき
-        if viewModel.itemList.value[indexPath.row].cellType == .add {
-            return .none
-        }
-        // 要素が[.input, .add]のとき
-        if viewModel.itemList.value.count == 2 {
-            return .none
-        }
-        return .none
-    }
-
+    // tableViewのデリゲートメソッド
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         // 追加用セルのドラッグを禁止
         if viewModel.itemList.value[indexPath.row].cellType == .add {
@@ -266,44 +254,6 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         // ドラッグ先にアイテムを挿入
         array.insert(element, at: destinationPath)
         viewModel.itemList.accept(array)
-    }
-
-    private func completeButtonAction() {
-        // タスク未入力の項目があったらアラート
-        for num in 0..<viewModel.itemList.value.count {
-            let indexPath = IndexPath(row: num, section: 0)
-            // inputのセルだけをチェック
-            if let inputCell = self.todoListTableView.cellForRow(at: indexPath) as? ToDoItemCell, let inputCellText = inputCell.todoItemTextField.text {
-                if inputCellText.isEmpty {
-                    let alert = UIAlertController(title: "エラー", message: "タスク名が未入力の項目があります", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                    present(alert, animated: true, completion: nil)
-                    return
-                }
-            }
-        }
-
-        // newItemListからテキストを取り出す
-        var textFieldValueArray: [String] = []
-        let numberOfCell = todoListTableView.numberOfRows(inSection: 0)
-        for num in 0..<numberOfCell {
-            // String?をiflet文でアンラップ
-            if let todoItemText = viewModel.itemList.value[num].title {
-                textFieldValueArray.append(todoItemText)
-            }
-        }
-
-        // Realmへ保存する
-        // updateを.allや.modifiedと指定しても、他データが消えてしまうので、他データがある時とない時で処理を分けた
-        if viewModel.getIsEmptyOfDataInRealm() {
-            // 検証用モデルの追加
-            viewModel.add(todoList: textFieldValueArray)
-        } else {
-            // 次回
-            viewModel.updateTodoList(todoElement: textFieldValueArray)
-        }
-
-        performSegue(withIdentifier: R.segue.toDoListViewController.unwindToMainVCFromToDoListVC, sender: nil)
     }
 
 }
