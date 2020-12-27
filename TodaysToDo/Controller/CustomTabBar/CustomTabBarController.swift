@@ -38,8 +38,9 @@ final class CustomTabBarController: UITabBarController, UITabBarControllerDelega
     }
 
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        var viewModel = CustomTabBarViewModel(todoLogicModel: SharedModel.todoListLogicModel)
         if viewController is AnalyticsViewController {
-            if RealmResults.isEmptyOfDataInRealm || RealmResults.isEmptyOfTaskListDatas {
+            if viewModel.getIsEmptyOfDataInRealm() || viewModel.getIsEmptyOfTaskListData() {
                 let alert = UIAlertController(title: "エラー", message: "統計に必要なデータがありません", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                 present(alert, animated: true, completion: nil)

@@ -18,6 +18,7 @@ final class AnalyticsViewController: UIViewController {
     @IBOutlet private weak var rateCompletedTaskLabel: UILabel!
     @IBOutlet private weak var graphContentViewWidth: NSLayoutConstraint!
 
+    private var viewModel = AnalyticsViewModel(todoLogicModel: SharedModel.todoListLogicModel)
     private let dispose = DisposeBag()
     private let df = DateFormatter()
     private var calendar = Calendar.current
@@ -34,7 +35,6 @@ final class AnalyticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         graphSegment.rx.selectedSegmentIndex.asObservable()
             .subscribe(onNext: { index in
                 self.processOfSegmentControl(index: index)
@@ -61,8 +61,8 @@ final class AnalyticsViewController: UIViewController {
         }
 
         for day1 in calendar.getAllDaysOfWeek {
-            for day2 in RealmResults.sharedInstance[0].weekList {
-                if !calendar.isDate(day1, inSameDayAs: day2.date!) {
+            for graphData in viewModel.createWeekGraphData() {
+                if !calendar.isDate(day1, inSameDayAs: graphData[0] as! Date) {
                     continue
                 }
                 // dataの各要素をそれぞれ取り出す
@@ -70,7 +70,7 @@ final class AnalyticsViewController: UIViewController {
                     // day1の曜日と合致するか確認
                     if data[i].keys.first == df.getDayOfWeekByStr(date: day1) {
                         // 合致した曜日の値を更新
-                        data[i][df.getDayOfWeekByStr(date: day1)] = day2.numberOfCompletedTask
+                        data[i][df.getDayOfWeekByStr(date: day1)] = graphData[1] as! Int
                     }
                 }
             }
@@ -84,8 +84,8 @@ final class AnalyticsViewController: UIViewController {
             data.append([df.getDayOfMonthByStr(date: day): 0])
         }
         for day1 in calendar.getAllDaysOfMonth(date: Date()) {
-            for day2 in RealmResults.sharedInstance[0].monthList {
-                if !calendar.isDate(day1, inSameDayAs: day2.date!) {
+            for graphData in viewModel.createMonthGraphData() {
+                if !calendar.isDate(day1, inSameDayAs: graphData[0] as! Date) {
                     continue
                 }
                 // dataの各要素をそれぞれ取り出す
@@ -93,7 +93,7 @@ final class AnalyticsViewController: UIViewController {
                     if data[i].keys.first == df.getDayOfMonthByStr(date: day1) {
                         // 合致した日の値を更新
                         data[i][df.getDayOfMonthByStr(date: day1)]
-                            = day2.numberOfCompletedTask
+                            = graphData[1] as! Int
                     }
                 }
             }
@@ -108,13 +108,13 @@ final class AnalyticsViewController: UIViewController {
             data.append(["\(month)": 0])
         }
 
-        for monthDate in RealmResults.sharedInstance[0].yearList {
+        for graphData in viewModel.createYearGraphData() {
             // dataの各要素をそれぞれ取り出す
             for i in 0..<data.count {
-                if data[i].keys.first == df.getMonthOfYearByStr(date: monthDate.monthOfYear) {
+                if data[i].keys.first == df.getMonthOfYearByStr(date: graphData[0] as! Date) {
                     // 合致した日の値を更新
-                    data[i][df.getMonthOfYearByStr(date: monthDate.monthOfYear)]
-                        = monthDate.total
+                    data[i][df.getMonthOfYearByStr(date: graphData[0] as! Date)]
+                        = graphData[1] as! Int
                 }
             }
         }
@@ -123,14 +123,21 @@ final class AnalyticsViewController: UIViewController {
 
     private func setTotalCompletedTaskLabel() {
         var total: Int = 0
-        for task in RealmResults.sharedInstance[0].taskListDatas {
+        for task in viewModel.getTestToDoModels() {
             total += task.numberOfCompletedTask
         }
         totalCompletedTaskLabel.text = "\(total)個"
     }
 
     private func setRateCompletedTaskLabel() {
-        rateCompletedTaskLabel.text = "\(RealmResults.sharedInstance[0].percentOfComplete)%"
+        var totalOfTask: Int = 0
+        var totalOfCompletedTask: Int = 0
+        for task in viewModel.getTestToDoModels() {
+            totalOfTask += task.numberOfTask
+            totalOfCompletedTask += task.numberOfCompletedTask
+        }
+        let avergePerOfCompletedTask = Int((Double(totalOfCompletedTask) / Double(totalOfTask)) * 100)
+        rateCompletedTaskLabel.text = "\(avergePerOfCompletedTask)%"
     }
 
     private func processOfSegmentControl(index: Int) {
@@ -139,11 +146,11 @@ final class AnalyticsViewController: UIViewController {
             view.removeFromSuperview()
         }
         switch index {
-        case 0: //今週
+        case 0: // 今週
             graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .week, data: createWeekDatas())
-        case 1: //今月
+        case 1: // 今月
             graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .month, data: createMonthDatas())
-        case 2: //今年
+        case 2: // 今年
             graphView = GraphView(frame: CGRect(x: 0, y: 0, width: width, height: height), graphtype: .year, data: createYearDatas())
         default:
             break

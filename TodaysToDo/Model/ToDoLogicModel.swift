@@ -81,4 +81,8 @@ final class ToDoLogicModel {
     func getTodoList() -> [String] {
         Array(todoItems.value[0].todoList)
     }
+
+    func getTestToDoModels() -> [TestToDoModel] {
+        todoItems.value
+    }
 }

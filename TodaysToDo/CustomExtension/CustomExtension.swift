@@ -11,7 +11,7 @@ import RealmSwift
 extension DateFormatter {
     func getCurrentDate() -> Date {
         dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdkHms", options: 0, locale: Locale(identifier: "ja_JP"))
-        timeZone = TimeZone(identifier: "UTC")!
+        timeZone = TimeZone.current
         if let currentDate = date(from: string(from: Date())) {
             return currentDate
         } else {
