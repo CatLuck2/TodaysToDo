@@ -16,8 +16,8 @@ enum SharedModel {
 
 final class ToDoLogicModel {
     private let realm = try! Realm()
-    private let todoItems = BehaviorRelay<[TestToDoModel]>(value: [])
-    var todoItemsObservable: Observable<[TestToDoModel]> {
+    private let todoItems = BehaviorRelay<[ToDoModel]>(value: [])
+    var todoItemsObservable: Observable<[ToDoModel]> {
         todoItems.asObservable()
     }
     var isEmptyOfDataInRealm: Bool {
@@ -34,14 +34,14 @@ final class ToDoLogicModel {
     }
 
     init() {
-        if realm.objects(TestToDoModel.self).isEmpty == false {
-            todoItems.accept(Array(realm.objects(TestToDoModel.self)))
+        if realm.objects(ToDoModel.self).isEmpty == false {
+            todoItems.accept(Array(realm.objects(ToDoModel.self)))
         }
     }
 
     func addTodoList(todoList: [String]) {
         let newTodoListForRealm: [String: Any] = [IdentifierType.realmModelID: todoList]
-        let model = TestToDoModel(value: newTodoListForRealm)
+        let model = ToDoModel(value: newTodoListForRealm)
         try! realm.write {
             realm.add(model)
         }
@@ -58,7 +58,7 @@ final class ToDoLogicModel {
     }
 
     func readTestToDoModel() {
-        todoItems.accept(Array(realm.objects(TestToDoModel.self)))
+        todoItems.accept(Array(realm.objects(ToDoModel.self)))
     }
 
     func updateTodoList(todoElement: [String]) {
@@ -102,7 +102,7 @@ final class ToDoLogicModel {
         return Array(todoItems.value[latestNum].todoList)
     }
 
-    func getTestToDoModels() -> [TestToDoModel] {
+    func getTestToDoModels() -> [ToDoModel] {
         todoItems.value
     }
 }

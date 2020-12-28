@@ -9,7 +9,7 @@ import RealmSwift
 
 private var realm = try! Realm()
 
-class TestToDoModel: Object {
+class ToDoModel: Object {
     var todoList = List<String>()
     @objc dynamic var date: Date! = nil
     @objc dynamic var numberOfTask: Int = 0

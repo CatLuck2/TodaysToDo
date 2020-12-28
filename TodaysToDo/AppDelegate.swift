@@ -51,7 +51,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: nil)
         completionHandler()
     }
 }

@@ -22,7 +22,7 @@ class AnalyticsViewModel {
         self.todoLogicModel = todoLogicModel
     }
 
-    func getTestToDoModels() -> [TestToDoModel] {
+    func getTestToDoModels() -> [ToDoModel] {
         todoLogicModel.getTestToDoModels()
     }
 
