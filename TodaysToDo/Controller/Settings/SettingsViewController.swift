@@ -19,6 +19,8 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     private let dispose = DisposeBag()
     private let realm = try! Realm()
+    private var viewModel = SettingsViewModel(todoLogicModel: SharedModel.todoListLogicModel)
+    private var viewModelForRealm = SettingsViewModelForRealmModel(todoLogicModel: SharedModel.todoListLogicModel)
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
@@ -29,7 +31,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
         cell.textLabel?.text = item.title
         switch item {
         case .endtimeOfTask:
-            cell.detailTextLabel?.text = "\(self.endtimeValueOfTask.0):" + self.getStringOfMinutes(number: self.endtimeValueOfTask.1)
+            cell.detailTextLabel?.text = "\(self.endtimeValueOfTask.0):" + self.viewModelForRealm.getStringOfMinutes(number: self.endtimeValueOfTask.1)
             return cell
         case .numberOfTask:
             if let num = self.numberValueOfTask {
@@ -68,36 +70,11 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
         viewModel.setup()
     }
 
-    private var viewModel: SettingsViewModel!
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupViewModel()
         settingsTableView.tableFooterView = UIView()
-    }
-
-    private func getStringOfMinutes(number: Int) -> String {
-        var i = 0
-        var num = number
-        // num == 0
-        if num == 0 {
-            return "00"
-        }
-        // num > =
-        while num > 0 {
-            num /= 10
-            i += 1
-        }
-
-        switch i {
-        case 1:
-            return "0\(number)"
-        case 2:
-            return "\(number)"
-        default:
-            return ""
-        }
     }
 
     @objc
@@ -109,7 +86,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
     }
 
     private func setupViewModel() {
-        viewModel = SettingsViewModel()
+        viewModel = SettingsViewModel(todoLogicModel: SharedModel.todoListLogicModel)
         viewModel.items
             .bind(to: settingsTableView.rx.items(dataSource: dataSource))
             .disposed(by: dispose)
@@ -159,6 +136,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
                 }
             }
         }
+
         guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
             return
         }

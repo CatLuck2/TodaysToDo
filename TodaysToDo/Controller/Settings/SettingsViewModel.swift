@@ -12,27 +12,13 @@ import RxDataSources
 
 class SettingsViewModel {
     let items = BehaviorRelay<[SettingsSectionModel]>(value: [])
-
+    var todoLogicModel: ToDoLogicModel = SharedModel.todoListLogicModel
     var itemsObservable: Observable<[SettingsSectionModel]> {
         items.asObservable()
     }
 
-    let todoLogicModel: ToDoLogicModel = SharedModel.todoListLogicModel
-
-    func getIsEmptyOfDataInRealm() -> Bool {
-        todoLogicModel.isEmptyOfDataInRealm
-    }
-
-    func getIsEmptyOfTodoList() -> Bool {
-        todoLogicModel.isEmptyOfTodoList
-    }
-
-    func deleteTodoList() {
-        todoLogicModel.deleteTodoList()
-    }
-
-    func deleteAllData() {
-        todoLogicModel.deleteAllData()
+    init(todoLogicModel: ToDoLogicModel) {
+        self.todoLogicModel = todoLogicModel
     }
 
     func setup() {
