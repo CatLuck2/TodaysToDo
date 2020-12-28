@@ -24,22 +24,10 @@ final class PopupViewController: UIViewController {
         viewModel = PopupViewModel(todoLogicModel: SharedModel.todoListLogicModel)
 
         // デバイスの高さに応じて、ポップアップの上端の制約を調整
-        switch self.view.frame.height {
-        case 400.0..<500.0:
-            setAnchorConstraintDependOnDevaice(per: 100)
-        case 500.0..<600.0:
-            setAnchorConstraintDependOnDevaice(per: 120)
-        case 600.0..<700.0:
-            setAnchorConstraintDependOnDevaice(per: 140)
-        case 700.0..<800.0:
-            setAnchorConstraintDependOnDevaice(per: 160)
-        case 800.0..<850.0:
-            setAnchorConstraintDependOnDevaice(per: 180)
-        case 850.0..<899.0:
-            setAnchorConstraintDependOnDevaice(per: 200)
-        default:
-            break
-        }
+        // 上端制約のデフォルト値：85
+        popupTopAnchor.constant *= viewModel.getPerByDevice(viewHeight: self.view.frame.height)
+        // 下端制約のデフォルト値：80
+        popupBottomAnchor.constant *= viewModel.getPerByDevice(viewHeight: self.view.frame.height)
 
         // popupStackViewにtableViewを追加
         setAutoLayoutAndUIInStackView()
@@ -62,18 +50,7 @@ final class PopupViewController: UIViewController {
         popupStackView.addArrangedSubview(doneButton)
 
         // popupStackViewにAutoLaytoutを施す
-        popupStackView.translatesAutoresizingMaskIntoConstraints = false
-        popupStackView.leadingAnchor.constraint(equalTo: popupParentView.leadingAnchor, constant: 20.0).isActive = true
-        popupStackView.trailingAnchor.constraint(equalTo: popupParentView.trailingAnchor, constant: -20.0).isActive = true
-        popupStackView.topAnchor.constraint(equalTo: popupParentView.topAnchor, constant: 20.0).isActive = true
-        popupStackView.bottomAnchor.constraint(equalTo: popupParentView.bottomAnchor, constant: -20.0).isActive = true
-    }
-
-    private func setAnchorConstraintDependOnDevaice(per: CGFloat) {
-        // 上端制約のデフォルト値：85
-        popupTopAnchor.constant *= (per / 100)
-        // 下端制約のデフォルト値：80
-        popupBottomAnchor.constant *= (per / 100)
+        viewModel.setConstraintForStackView(stackView: popupStackView, parentView: popupParentView)
     }
 
     @objc
