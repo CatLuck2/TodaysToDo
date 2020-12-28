@@ -19,40 +19,13 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     private let dispose = DisposeBag()
     private let realm = try! Realm()
+    private var viewModel = SettingsViewModel(todoLogicModel: SharedModel.todoListLogicModel)
+    private var viewModelForRealm = SettingsViewModelForRealmModel(todoLogicModel: SharedModel.todoListLogicModel)
     private(set) var endtimeValueOfTask: (Int, Int)!
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
     private lazy var dataSource = RxTableViewSectionedReloadDataSource<SettingsSectionModel>(configureCell: configureCell)
-    private lazy var configureCell:RxTableViewSectionedReloadDataSource<SettingsSectionModel>.ConfigureCell = { [self] (dataSource, tableView, indexPath, _) in
-        let item = dataSource[indexPath]
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
-        cell.textLabel?.text = item.title
-        switch item {
-        case .endtimeOfTask:
-            cell.detailTextLabel?.text = "\(self.endtimeValueOfTask.0):" + self.getStringOfMinutes(number: self.endtimeValueOfTask.1)
-            return cell
-        case .numberOfTask:
-            if let num = self.numberValueOfTask {
-                cell.detailTextLabel?.text = "\(num)"
-            }
-            return cell
-        case .priorityOfTask:
-            let switchView = UISwitch()
-            switchView.addTarget(self, action: #selector(self.toggleSwitchInCell(_:)), for: .valueChanged)
-            // switchViewの初期値
-            switchView.isOn = self.isExecutedPriorityOfTask
-            cell.accessoryView = switchView
-            return cell
-        case .help, .share, .developerAccount, .contact:
-            return cell
-        case .deleteTask:
-            cell.textLabel?.textColor = .red
-            return cell
-        case .deleteAll:
-            cell.textLabel?.textColor = .red
-            return cell
-        }
-    }
+    private var configureCell: RxTableViewSectionedReloadDataSource<SettingsSectionModel>.ConfigureCell!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -68,36 +41,43 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
         viewModel.setup()
     }
 
-    private var viewModel: SettingsViewModel!
-
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configureCell = { [self] (_, _, indexPath, _) in
+            let item = dataSource[indexPath]
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
+            cell.textLabel?.text = item.title
+            switch item {
+            case .endtimeOfTask:
+                cell.detailTextLabel?.text = "\(self.endtimeValueOfTask.0):" + self.viewModelForRealm.getStringOfMinutes(number: self.endtimeValueOfTask.1)
+                return cell
+            case .numberOfTask:
+                if let num = self.numberValueOfTask {
+                    cell.detailTextLabel?.text = "\(num)"
+                }
+                return cell
+            case .priorityOfTask:
+                let switchView = UISwitch()
+                switchView.addTarget(self, action: #selector(self.toggleSwitchInCell(_:)), for: .valueChanged)
+                // switchViewの初期値
+                switchView.isOn = self.isExecutedPriorityOfTask
+                cell.accessoryView = switchView
+                return cell
+            case .help, .share, .developerAccount, .contact:
+                return cell
+            case .deleteTask:
+                cell.textLabel?.textColor = .red
+                return cell
+            case .deleteAll:
+                cell.textLabel?.textColor = .red
+                return cell
+            }
+        }
+
         setupTableView()
         setupViewModel()
         settingsTableView.tableFooterView = UIView()
-    }
-
-    private func getStringOfMinutes(number: Int) -> String {
-        var i = 0
-        var num = number
-        // num == 0
-        if num == 0 {
-            return "00"
-        }
-        // num > =
-        while num > 0 {
-            num /= 10
-            i += 1
-        }
-
-        switch i {
-        case 1:
-            return "0\(number)"
-        case 2:
-            return "\(number)"
-        default:
-            return ""
-        }
     }
 
     @objc
@@ -109,7 +89,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
     }
 
     private func setupViewModel() {
-        viewModel = SettingsViewModel()
+        viewModel = SettingsViewModel(todoLogicModel: SharedModel.todoListLogicModel)
         viewModel.items
             .bind(to: settingsTableView.rx.items(dataSource: dataSource))
             .disposed(by: dispose)
@@ -131,18 +111,14 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
                 case .deleteTask:
                     presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "作成済みのタスクリストを削除してもよろしいですか？") { [self] in
                         // タスクリストを削除
-                        try! realm.write {
-                            RealmResults.sharedInstance[0].todoList.removeAll()
-                        }
+                        viewModel.todoLogicModel.deleteTodoList()
                         viewModel.setup()
                         self.processAfterDeletedData(alertMessage: "タスクリストを削除しました")
                     }
                 case .deleteAll:
                     presentAlertRelatedDeleteTypeInDidSelectRowAt(title: "警告", message: "本アプリの全データを削除しますが、よろしいですか？") { [self] in
                         // Realmの全データを削除
-                        try! realm.write {
-                            realm.deleteAll()
-                        }
+                        viewModel.todoLogicModel.deleteAllData()
                         viewModel.setup()
                         self.processAfterDeletedData(alertMessage: "全データを削除しました")
                         // UserDefaultの日付をデフォルト値にリセット
@@ -154,13 +130,16 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     private func processOfTaskTypeInModelSelected(item: SettingsItem) {
         if item == .endtimeOfTask || item == .numberOfTask || item == .priorityOfTask {
-            if !RealmResults.isEmptyOfDataInRealm && !RealmResults.isEmptyOfTodoList {
-                let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
-                return
+            if !viewModel.todoLogicModel.isEmptyOfDataInRealm {
+                if !viewModel.todoLogicModel.isEmptyOfTodoList {
+                    let alert = UIAlertController(title: "エラー", message: "タスクリストを削除してから再設定してください", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    present(alert, animated: true, completion: nil)
+                    return
+                }
             }
         }
+
         guard let customAlertVC = R.storyboard.customAlert.instantiateInitialViewController() else {
             return
         }

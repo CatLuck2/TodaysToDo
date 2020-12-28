@@ -7,22 +7,14 @@
 
 import UIKit
 
-protocol customCellDelagete: AnyObject {
-    func textFieldDidSelected(_ textField: UITextField)
-}
-
 class ToDoItemCell: UITableViewCell, UITextFieldDelegate, UITextDropDelegate {
 
     // ToDoListAddVCから参照されるため、privateはなし-> Void)!
     @IBOutlet weak var todoItemTextField: UITextField!
-    var textFieldValueSender: ((Any) -> Void)!
     private var nowFrame: CGRect!
-    weak var customCellDelegate: customCellDelagete?
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        todoItemTextField.addTarget(self, action: #selector(textFieldDidChange(sender:)), for: .editingChanged)
-        todoItemTextField.addTarget(self, action: #selector(textFieldChange(_:)), for: .editingDidBegin)
         todoItemTextField.delegate = self
         todoItemTextField.textDropDelegate = self
     }
@@ -40,22 +32,12 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate, UITextDropDelegate {
         todoItemTextField.text = name
     }
 
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        true
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-
-    @objc
-    func textFieldChange(_ textField: UITextField) {
-        guard let delegate = self.customCellDelegate else {
-            return
-        }
-        delegate.textFieldDidSelected(textField)
-    }
-
-    @objc
-    private func textFieldDidChange(sender: UITextField) {
-        // textFieldに入力するたびにToDoListAddVCへ送られる
-        self.textFieldValueSender(sender.text ?? "")
     }
 }

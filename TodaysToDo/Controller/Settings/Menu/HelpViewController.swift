@@ -45,7 +45,7 @@ final class HelpViewController: UIViewController {
         helpTableView.tableFooterView = UIView()
 
         helpTypes.asObservable()
-            .bind(to: helpTableView.rx.items(cellIdentifier: R.reuseIdentifier.cellForHelp.identifier)) { [self] row, element, cell in
+            .bind(to: helpTableView.rx.items(cellIdentifier: R.reuseIdentifier.cellForHelp.identifier)) { [self] row, _, cell in
                 cell.textLabel?.text = helpTitles[row]
             }.disposed(by: dispose)
 

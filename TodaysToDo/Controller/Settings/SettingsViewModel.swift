@@ -12,9 +12,13 @@ import RxDataSources
 
 class SettingsViewModel {
     let items = BehaviorRelay<[SettingsSectionModel]>(value: [])
-
+    var todoLogicModel: ToDoLogicModel = SharedModel.todoListLogicModel
     var itemsObservable: Observable<[SettingsSectionModel]> {
         items.asObservable()
+    }
+
+    init(todoLogicModel: ToDoLogicModel) {
+        self.todoLogicModel = todoLogicModel
     }
 
     func setup() {
@@ -22,17 +26,17 @@ class SettingsViewModel {
     }
 
     private func setupItems() {
-        if RealmResults.isEmptyOfDataInRealm {
+        if todoLogicModel.isEmptyOfDataInRealm {
             setupWithoutDeleteSection()
         } else {
-            if RealmResults.isEmptyOfTaskListDatas {
-                if RealmResults.isEmptyOfTodoList {
+            if todoLogicModel.isEmptyOfTaskListData {
+                if todoLogicModel.isEmptyOfTodoList {
                     setupWithoutDeleteSection()
                 } else {
                     setupWithoutDeleteAllDataSection()
                 }
             } else {
-                if RealmResults.isEmptyOfTodoList {
+                if todoLogicModel.isEmptyOfTodoList {
                     setupWithoutDeleteTaskSection()
                 } else {
                     setupAllSection()

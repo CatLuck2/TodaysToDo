@@ -21,7 +21,7 @@ PODS:
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
-  - SwiftLint (0.41.0)
+  - SwiftLint (0.42.0)
 
 DEPENDENCIES:
   - R.swift (~> 5.3.1)
@@ -57,7 +57,7 @@ SPEC CHECKSUMS:
   RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
-  SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
+  SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
 
 PODFILE CHECKSUM: 47050f2e790055105d89ad647f1aa0f11f953d65
 

@@ -13,6 +13,7 @@ final class TableViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var todoListTableViewHeightConstraint: NSLayoutConstraint!
+    private var viewModel: TableViewModel!
     private let dispose = DisposeBag()
     // チェックマーク状態の配列
     private var isChecked: [Bool] = []
@@ -23,6 +24,9 @@ final class TableViewController: UIViewController, UITableViewDelegate, UITableV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel = TableViewModel(todoLogicModel: SharedModel.todoListLogicModel)
+
         todoListTableView.register(UITableViewCell.self, forCellReuseIdentifier: IdentifierType.cellForPopup)
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
@@ -74,7 +78,7 @@ final class TableViewController: UIViewController, UITableViewDelegate, UITableV
         isExecutedPriorityOfTask = settingsValueOfTask.priorityOfTask
 
         // isCheckedにタスクの数だけfalseを追加
-        for _ in 0..<RealmResults.sharedInstance[0].todoList.count {
+        for _ in 0..<viewModel.getCountOfTodoList() {
             isChecked.append(false)
             statesOfTasks.append(false)
         }
@@ -91,7 +95,7 @@ final class TableViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func getNumOfTask() -> Int {
-        RealmResults.sharedInstance[0].todoList.count
+        viewModel.getCountOfTodoList()
     }
 
     // チェックされたセルの数を返す
@@ -104,12 +108,12 @@ final class TableViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        RealmResults.sharedInstance[0].todoList.count
+        viewModel.getCountOfTodoList()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: IdentifierType.cellForPopup, for: indexPath)
-        cell.textLabel?.text = RealmResults.sharedInstance[0].todoList[indexPath.row]
+        cell.textLabel?.text = viewModel.getTodoList()[indexPath.row]
         cell.textLabel?.font = UIFont.systemFont(ofSize: 13)
 
         // チェックマーク状態を読み込む

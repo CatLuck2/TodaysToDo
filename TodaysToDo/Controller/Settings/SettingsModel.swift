@@ -5,8 +5,6 @@
 //  Created by Nekokichi on 2020/12/23.
 //
 
-import RxSwift
-import RxCocoa
 import RxDataSources
 
 typealias SettingsSectionModel = SectionModel<SettingsSection, SettingsItem>
@@ -18,7 +16,7 @@ enum SettingsSection {
     case deleteAll
 
     var headerHeight: CGFloat {
-        return 40.0
+        40.0
     }
 
     var title: String? {

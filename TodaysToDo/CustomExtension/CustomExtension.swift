@@ -8,10 +8,31 @@
 import Foundation
 import RealmSwift
 
+extension UIApplication {
+    // RootViewController -> CustomTabBarController
+    // -> tab.selectedViewController -> MainViewController
+    // -> base?.presentedViewController -> UINavigationController
+    // -> UINavigationController.visibleViewController -> ToDoListEditViewController
+    class func topViewController(base: UIViewController? = UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
+    }
+}
+
 extension DateFormatter {
     func getCurrentDate() -> Date {
         dateFormat = DateFormatter.dateFormat(fromTemplate: "yMdkHms", options: 0, locale: Locale(identifier: "ja_JP"))
-        timeZone = TimeZone(identifier: "UTC")!
+        timeZone = TimeZone.current
         if let currentDate = date(from: string(from: Date())) {
             return currentDate
         } else {
@@ -82,7 +103,7 @@ extension Calendar {
         }
         return days
     }
-    //年を取得
+    // 年を取得
     func getAllMonthsOfYear(date: Date) -> [Date] {
         var months: [Date] = []
         for month in 1...12 {

@@ -56,13 +56,13 @@ final class CustomAlertViewController: UIViewController, UIPickerViewDelegate, U
         pickerView.dataSource = self
 
         okButton.rx.tap
-            .subscribe(onNext: {
+            .subscribe { _ in
                 self.performSegue(withIdentifier: R.segue.customAlertViewController.unwindToSettingsVCFromCustomAlert, sender: nil)
-            }).disposed(by: dispose)
+            }.disposed(by: dispose)
         cancelButton.rx.tap
-            .subscribe(onNext: {
+            .subscribe { _ in
                 self.dismiss(animated: true, completion: nil)
-            }).disposed(by: dispose)
+            }.disposed(by: dispose)
     }
 
     func setInitializeFromAnotherVC(pickerMode: PickerMode, selectedEndTime: (Int, Int), selectedNumber: Int) {
