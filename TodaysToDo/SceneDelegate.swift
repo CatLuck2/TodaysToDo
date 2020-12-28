@@ -42,8 +42,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        UNUserNotificationCenter.current().getDeliveredNotifications { (notification) in
+            if !notification.isEmpty {
+                DispatchQueue.main.async {
+                    // ポップアップを表示
+                    guard let popupVC = R.storyboard.popup.instantiateInitialViewController() else {
+                        return
+                    }
+                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                    UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
+                }
+            }
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
