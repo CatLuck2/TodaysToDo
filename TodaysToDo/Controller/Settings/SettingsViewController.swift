@@ -25,36 +25,7 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
     private(set) var numberValueOfTask: Int!
     private(set) var isExecutedPriorityOfTask: Bool!
     private lazy var dataSource = RxTableViewSectionedReloadDataSource<SettingsSectionModel>(configureCell: configureCell)
-    private lazy var configureCell:RxTableViewSectionedReloadDataSource<SettingsSectionModel>.ConfigureCell = { [self] (dataSource, tableView, indexPath, _) in
-        let item = dataSource[indexPath]
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
-        cell.textLabel?.text = item.title
-        switch item {
-        case .endtimeOfTask:
-            cell.detailTextLabel?.text = "\(self.endtimeValueOfTask.0):" + self.viewModelForRealm.getStringOfMinutes(number: self.endtimeValueOfTask.1)
-            return cell
-        case .numberOfTask:
-            if let num = self.numberValueOfTask {
-                cell.detailTextLabel?.text = "\(num)"
-            }
-            return cell
-        case .priorityOfTask:
-            let switchView = UISwitch()
-            switchView.addTarget(self, action: #selector(self.toggleSwitchInCell(_:)), for: .valueChanged)
-            // switchViewの初期値
-            switchView.isOn = self.isExecutedPriorityOfTask
-            cell.accessoryView = switchView
-            return cell
-        case .help, .share, .developerAccount, .contact:
-            return cell
-        case .deleteTask:
-            cell.textLabel?.textColor = .red
-            return cell
-        case .deleteAll:
-            cell.textLabel?.textColor = .red
-            return cell
-        }
-    }
+    private var configureCell: RxTableViewSectionedReloadDataSource<SettingsSectionModel>.ConfigureCell!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -72,6 +43,38 @@ final class SettingsViewController: UIViewController, UITableViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configureCell = { [self] (_, _, indexPath, _) in
+            let item = dataSource[indexPath]
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: R.reuseIdentifier.cellForSettings.identifier)
+            cell.textLabel?.text = item.title
+            switch item {
+            case .endtimeOfTask:
+                cell.detailTextLabel?.text = "\(self.endtimeValueOfTask.0):" + self.viewModelForRealm.getStringOfMinutes(number: self.endtimeValueOfTask.1)
+                return cell
+            case .numberOfTask:
+                if let num = self.numberValueOfTask {
+                    cell.detailTextLabel?.text = "\(num)"
+                }
+                return cell
+            case .priorityOfTask:
+                let switchView = UISwitch()
+                switchView.addTarget(self, action: #selector(self.toggleSwitchInCell(_:)), for: .valueChanged)
+                // switchViewの初期値
+                switchView.isOn = self.isExecutedPriorityOfTask
+                cell.accessoryView = switchView
+                return cell
+            case .help, .share, .developerAccount, .contact:
+                return cell
+            case .deleteTask:
+                cell.textLabel?.textColor = .red
+                return cell
+            case .deleteAll:
+                cell.textLabel?.textColor = .red
+                return cell
+            }
+        }
+
         setupTableView()
         setupViewModel()
         settingsTableView.tableFooterView = UIView()

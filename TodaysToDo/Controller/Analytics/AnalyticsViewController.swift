@@ -34,9 +34,9 @@ final class AnalyticsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         graphSegment.rx.selectedSegmentIndex.asObservable()
-            .subscribe(onNext: { index in
+            .subscribe { index in
                 self.processOfSegmentControl(index: index)
-            }).disposed(by: dispose)
+            }.disposed(by: dispose)
 
         var calendar = Calendar.current
         calendar.timeZone = TimeZone(identifier: "UTC")!

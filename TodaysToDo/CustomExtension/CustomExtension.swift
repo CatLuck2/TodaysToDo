@@ -103,7 +103,7 @@ extension Calendar {
         }
         return days
     }
-    //年を取得
+    // 年を取得
     func getAllMonthsOfYear(date: Date) -> [Date] {
         var months: [Date] = []
         for month in 1...12 {

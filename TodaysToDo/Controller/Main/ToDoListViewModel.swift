@@ -88,7 +88,7 @@ class ToDoListViewModel {
     func updateTodoList(todoElement: [String]) {
         todoLogicModel.updateTodoList(todoElement: todoElement)
     }
-    
+
     func delete(row: Int) {
         todoLogicModel.deleteElementInTodoList(row: row)
     }

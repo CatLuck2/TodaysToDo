@@ -16,7 +16,7 @@ enum SettingsSection {
     case deleteAll
 
     var headerHeight: CGFloat {
-        return 40.0
+        40.0
     }
 
     var title: String? {

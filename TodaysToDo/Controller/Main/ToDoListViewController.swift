@@ -13,7 +13,6 @@ import RxDataSources
 
 final class ToDoListViewController: UIViewController, UITableViewDragDelegate, UITableViewDropDelegate, UIScrollViewDelegate {
 
-
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var todoListTableView: UITableView!
     @IBOutlet private weak var completeButton: UIBarButtonItem!
@@ -51,10 +50,10 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
                 }
             }).disposed(by: dispose)
         NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-            .subscribe(onNext: { [self] _ in
+            .subscribe { [self] _ in
                 // 画面の位置を元に戻す
                 scrollView.contentOffset.y = 0
-            }).disposed(by: dispose)
+            }.disposed(by: dispose)
 
         setupToDoListVC()
         setupBarButton()
@@ -64,14 +63,14 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
 
     func setupBarButton() {
         completeButton.rx.tap
-            .subscribe(onNext: {
+            .subscribe { _ in
                 self.completeButtonAction()
-            }).disposed(by: dispose)
+            }.disposed(by: dispose)
 
         cancelButton.rx.tap
-            .subscribe(onNext: {
+            .subscribe { _ in
                 self.dismiss(animated: true, completion: nil)
-            }).disposed(by: dispose)
+            }.disposed(by: dispose)
     }
 
     private func setupViewModel() {
@@ -79,7 +78,9 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
             .bind(to: todoListTableView.rx.items) { [self] tableView, row, _ in
                 switch viewModel.itemList.value[row].cellType {
                 case .input:
-                    guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell.identifier) as? ToDoItemCell else {               return UITableViewCell() }
+                    guard let inputCell = tableView.dequeueReusableCell(withIdentifier: R.reuseIdentifier.todoItemCell.identifier) as? ToDoItemCell else {
+                        return UITableViewCell()
+                    }
                     // textFieldの座標を計算
                     inputCell.todoItemTextField.rx.controlEvent(.editingDidBegin).asDriver()
                         .drive(onNext: { _ in
@@ -88,13 +89,17 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
                     // viewModelのitemListへ代入
                     inputCell.todoItemTextField.rx.controlEvent(.editingChanged).asDriver()
                         .drive(onNext: { _ in
-                            guard let text = inputCell.todoItemTextField.text else { return }
+                            guard let text = inputCell.todoItemTextField.text else {
+                                return
+                            }
                             viewModel.itemList.value[row].title = text
                         }).disposed(by: dispose)
                     // フォーカス中のtextFieldを監視
                     inputCell.todoItemTextField.rx.text.asObservable()
                         .subscribe(onNext: { text in
-                            guard let text = text else { return }
+                            guard let text = text else {
+                                return
+                            }
                             if text.isEmpty { completeButton.isEnabled = false }
                         }).disposed(by: dispose)
                     // 空のtextFieldを監視
@@ -213,7 +218,7 @@ final class ToDoListViewController: UIViewController, UITableViewDragDelegate, U
         }
     }
 
-    //: ドラッグしたアイテムを返す
+    // ドラッグしたアイテムを返す
     func dragItem(for indexPath: IndexPath) -> UIDragItem {
         let text = viewModel.itemList.value[indexPath.row].title
         guard let nsItemProviderWriting = text as NSItemProviderWriting? else {

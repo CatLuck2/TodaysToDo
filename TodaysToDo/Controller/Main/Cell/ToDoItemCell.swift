@@ -33,7 +33,7 @@ class ToDoItemCell: UITableViewCell, UITextFieldDelegate, UITextDropDelegate {
     }
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
+        true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

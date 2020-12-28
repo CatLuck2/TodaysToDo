@@ -118,4 +118,3 @@ class MainViewModel {
         return (imageView, textView)
     }
 }
-

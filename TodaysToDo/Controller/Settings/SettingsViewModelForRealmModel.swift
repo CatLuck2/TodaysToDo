@@ -13,7 +13,7 @@ class SettingsViewModelForRealmModel {
     init(todoLogicModel: ToDoLogicModel) {
         self.todoLogicModel = todoLogicModel
     }
-    
+
     func getIsEmptyOfDataInRealm() -> Bool {
         todoLogicModel.isEmptyOfDataInRealm
     }

@@ -45,7 +45,7 @@ class AnalyticsViewModel {
     }
 
     var weekGraphData: [[Any]] {
-        var graphData:[[Any]] = []
+        var graphData: [[Any]] = []
         // 今週の各日付、タスクの日付を比較していく
         for day in calendar.getAllDaysOfWeek {
             for taskData in getTestToDoModels() {
@@ -60,7 +60,7 @@ class AnalyticsViewModel {
     }
 
     var monthGraphData: [[Any]] {
-        var graphData:[[Any]] = []
+        var graphData: [[Any]] = []
         for day in calendar.getAllDaysOfMonth(date: Date()) {
             for taskData in getTestToDoModels() {
                 // 今週の中の日付が存在する？
@@ -74,7 +74,7 @@ class AnalyticsViewModel {
     }
 
     var yearGraphData: [[Any]] {
-        var graphData:[[Any]] = []
+        var graphData: [[Any]] = []
         for month in calendar.getAllMonthsOfYear(date: Date()) {
             var totalOfInMonth: Int! = 0
             for taskData in getTestToDoModels() {
@@ -85,7 +85,7 @@ class AnalyticsViewModel {
                 // 合致する月のタスクデータのチェック数を足していく
                 totalOfInMonth += taskData.numberOfCompletedTask
             }
-            graphData.append([month, totalOfInMonth])
+            graphData.append([month, totalOfInMonth!])
         }
         return graphData
     }
@@ -107,7 +107,10 @@ class AnalyticsViewModel {
                     // day1の曜日と合致するか確認
                     if data[i].keys.first == df.getDayOfWeekByStr(date: day1) {
                         // 合致した曜日の値を更新
-                        data[i][df.getDayOfWeekByStr(date: day1)] = graphData[1] as! Int
+                        guard let num = graphData[1] as? Int else {
+                            return [["": 0]]
+                        }
+                        data[i][df.getDayOfWeekByStr(date: day1)] = num
                     }
                 }
             }
@@ -129,8 +132,11 @@ class AnalyticsViewModel {
                 for i in 0..<data.count {
                     if data[i].keys.first == df.getDayOfMonthByStr(date: day1) {
                         // 合致した日の値を更新
+                        guard let num = graphData[1] as? Int else {
+                            return [["": 0]]
+                        }
                         data[i][df.getDayOfMonthByStr(date: day1)]
-                            = graphData[1] as! Int
+                            = num
                     }
                 }
             }
@@ -150,8 +156,11 @@ class AnalyticsViewModel {
             for i in 0..<data.count {
                 if data[i].keys.first == df.getMonthOfYearByStr(date: graphData[0] as! Date) {
                     // 合致した日の値を更新
+                    guard let num = graphData[1] as? Int else {
+                        return [["": 0]]
+                    }
                     data[i][df.getMonthOfYearByStr(date: graphData[0] as! Date)]
-                        = graphData[1] as! Int
+                        = num
                 }
             }
         }

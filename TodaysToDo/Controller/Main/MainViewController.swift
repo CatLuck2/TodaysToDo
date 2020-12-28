@@ -146,7 +146,7 @@ final class MainViewController: UIViewController {
         // Notificationを登録
         NotificationCenter.default.rx.notification(Notification.Name(rawValue: "notification"))
             .subscribe { _ in
-                //ポップアップを表示
+                // ポップアップを表示
                 guard let popupVC = R.storyboard.popup.instantiateInitialViewController() else {
                     return
                 }
