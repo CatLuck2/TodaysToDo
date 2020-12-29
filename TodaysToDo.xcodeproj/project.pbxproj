@@ -48,6 +48,11 @@
 		61C9C92D252D45CF00CA32A4 /* TodaysToDoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9C92C252D45CF00CA32A4 /* TodaysToDoUITests.swift */; };
 		61CCA5A9259825B30007ECD9 /* CustomTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CCA5A8259825B30007ECD9 /* CustomTabBarViewModel.swift */; };
 		61CCA5AE25982C0A0007ECD9 /* SettingsViewModelForRealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CCA5AD25982C0A0007ECD9 /* SettingsViewModelForRealmModel.swift */; };
+		61D85BAC259AD01700E59CAB /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D85BA7259AD01700E59CAB /* RxCocoa.framework */; };
+		61D85BAE259AD01700E59CAB /* RxDataSources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D85BA8259AD01700E59CAB /* RxDataSources.framework */; };
+		61D85BB0259AD01700E59CAB /* RxOptional.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D85BA9259AD01700E59CAB /* RxOptional.framework */; };
+		61D85BB2259AD01700E59CAB /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D85BAA259AD01700E59CAB /* RxRelay.framework */; };
+		61D85BB4259AD01700E59CAB /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D85BAB259AD01700E59CAB /* RxSwift.framework */; };
 		61D934D125943B2600DBEB1C /* ToDoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D934D025943B2600DBEB1C /* ToDoListModel.swift */; };
 		61D934D625943B3000DBEB1C /* ToDoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D934D525943B3000DBEB1C /* ToDoListViewModel.swift */; };
 		61E3A2912553F6F200258DC5 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E3A2902553F6F200258DC5 /* HelpViewController.swift */; };
@@ -125,6 +130,11 @@
 		61C9C92E252D45CF00CA32A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		61CCA5A8259825B30007ECD9 /* CustomTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewModel.swift; sourceTree = "<group>"; };
 		61CCA5AD25982C0A0007ECD9 /* SettingsViewModelForRealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelForRealmModel.swift; sourceTree = "<group>"; };
+		61D85BA7259AD01700E59CAB /* RxCocoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxCocoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		61D85BA8259AD01700E59CAB /* RxDataSources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxDataSources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		61D85BA9259AD01700E59CAB /* RxOptional.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxOptional.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		61D85BAA259AD01700E59CAB /* RxRelay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxRelay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		61D85BAB259AD01700E59CAB /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61D934D025943B2600DBEB1C /* ToDoListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListModel.swift; sourceTree = "<group>"; };
 		61D934D525943B3000DBEB1C /* ToDoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewModel.swift; sourceTree = "<group>"; };
 		61E3A2902553F6F200258DC5 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
@@ -142,7 +152,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61D85BB0259AD01700E59CAB /* RxOptional.framework in Frameworks */,
+				61D85BAE259AD01700E59CAB /* RxDataSources.framework in Frameworks */,
+				61D85BB4259AD01700E59CAB /* RxSwift.framework in Frameworks */,
+				61D85BAC259AD01700E59CAB /* RxCocoa.framework in Frameworks */,
 				CE9F207A9DAFD1877F5BC691 /* Pods_TodaysToDo.framework in Frameworks */,
+				61D85BB2259AD01700E59CAB /* RxRelay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +405,11 @@
 		9B1170DE63CA80EBD60120C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				61D85BA7259AD01700E59CAB /* RxCocoa.framework */,
+				61D85BA8259AD01700E59CAB /* RxDataSources.framework */,
+				61D85BA9259AD01700E59CAB /* RxOptional.framework */,
+				61D85BAA259AD01700E59CAB /* RxRelay.framework */,
+				61D85BAB259AD01700E59CAB /* RxSwift.framework */,
 				74DA0A811A92E5DF236FC7DD /* Pods_TodaysToDo.framework */,
 			);
 			name = Frameworks;
