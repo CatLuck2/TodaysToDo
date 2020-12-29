@@ -19,6 +19,7 @@ final class MainViewController: UIViewController {
         // Realmにデータが保存されてるかを確認
         let realm = try! Realm()
         RealmResults.sharedInstance = realm.objects(ToDoModel.self)
+//        print(RealmResults.sharedInstance[0].weekList)
         // UserDefaultから前回のタスク終了日時を取得
         guard let beforeDate = UserDefaults.standard.object(forKey: IdentifierType.dateWhenDidEndTask) as? Date else {
             return
