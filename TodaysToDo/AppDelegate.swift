@@ -51,7 +51,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "notification"), object: nil)
+        DispatchQueue.main.async {
+            // ポップアップを表示
+            guard let popupVC = R.storyboard.popup.instantiateInitialViewController() else {
+                return
+            }
+            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            UIApplication.topViewController()?.present(popupVC, animated: true, completion: nil)
+        }
         completionHandler()
     }
 }
